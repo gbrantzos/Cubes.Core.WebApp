@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainNavComponent } from './main-nav/main-nav.component';
 
+// Material stuff
 import {
   MatButtonModule,
   MatToolbarModule,
@@ -11,6 +12,7 @@ import {
 } from '@angular/material';
 
 import { LayoutModule } from '@angular/cdk/layout';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   imports: [
@@ -23,7 +25,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatButtonModule
   ],
   declarations: [
-    MainNavComponent
+    MainNavComponent,
+    AboutComponent
   ],
   exports: [
     // Material stuff

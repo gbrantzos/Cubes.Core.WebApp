@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoreModule } from './core/core.module';
+import { SchedulerModule } from './scheduler/scheduler.module';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { CoreModule } from './core/core.module';
     AppRoutingModule,
     BrowserAnimationsModule,
 
-    CoreModule
+    CoreModule,
+    SchedulerModule
   ],
   declarations: [
     AppComponent
