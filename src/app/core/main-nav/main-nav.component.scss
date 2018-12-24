@@ -2,6 +2,9 @@
   height: 100%;
 }
 
+.elevated {
+  box-shadow:0 3px 5px -1px rgba(0,0,0,.2),0 6px 10px 0 rgba(0,0,0,.14),0 1px 18px 0 rgba(0,0,0,.12);
+}
 .sidenav {
   width: 200px;
 }
@@ -14,4 +17,19 @@
   position: sticky;
   top: 0;
   z-index: 1;
+}
+
+.hidden {
+  display: none;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.mat-toolbar{
+  a {
+    font-size: 0.8em;
+    font-weight: 300;
+  }
 }
