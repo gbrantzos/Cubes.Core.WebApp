@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AboutComponent } from './core/about/about.component';
+import { AppComponent } from './app.component';
 
 const routes: Routes = [
   // Core
-  { path: 'about', component: AboutComponent },
-
-  // Scheduler
-  { path: 'schedulerModule', loadChildren: './scheduler/scheduler.module#SchedulerModule'}
+  { path: 'about', component: AboutComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes)
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 export class AppRoutingModule { }

@@ -13,11 +13,15 @@ import {
 
 import { LayoutModule } from '@angular/cdk/layout';
 import { AboutComponent } from './about/about.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     LayoutModule,
+    RouterModule,
+
+    // Material modules
     MatToolbarModule,
     MatSidenavModule,
     MatIconModule,
