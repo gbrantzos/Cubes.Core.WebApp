@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-job-list',
+  selector: 'cubes-job-list',
   templateUrl: './job-list.component.html',
   styleUrls: ['./job-list.component.scss']
 })
