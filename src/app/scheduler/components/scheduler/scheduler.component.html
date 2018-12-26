@@ -1,7 +1,11 @@
-<p>
-  scheduler works!
-
-
-</p>
-<hr/>
-<cubes-job-list></cubes-job-list>
+<section class="mat-typography">
+  <h2>Scheduler</h2>
+  <hr />
+  <p>
+    Cubes scheduler is <strong>not running</strong>!
+    <br>
+    Current time on server is 23:59:00
+  </p>
+  <cubes-job-list></cubes-job-list>
+  <pre>{{(settings$ | async) | json}}</pre>
+</section>

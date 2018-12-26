@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { JobListComponent } from './components/job-list/job-list.component';
 import { SchedulerComponent } from './components/scheduler/scheduler.component';
 import { SchedulerRoutingModule } from './scheduler-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { SchedulerRoutingModule } from './scheduler-routing.module';
   ],
   imports: [
     CommonModule,
+    SharedModule,
     SchedulerRoutingModule
   ]
 })
