@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppSettingsService } from 'src/app/shared/app-settings.service';
+import { catchError, delay } from 'rxjs/operators';
+import { empty, of } from 'rxjs';
 
 @Component({
   selector: 'cubes-scheduler',
@@ -11,7 +13,17 @@ export class SchedulerComponent implements OnInit {
 
   constructor(private appSettings: AppSettingsService) { }
   ngOnInit() {
-    this.settings$ = this.appSettings.getSettings();
+    this.settings$ = this
+      .appSettings
+      .getSettings()
+      .pipe(
+        delay(4000),
+        catchError((err, caught) => {
+          alert(err.message);
+          console.error(err);
+          return of({ id: -1});
+        })
+      );
   }
 
 

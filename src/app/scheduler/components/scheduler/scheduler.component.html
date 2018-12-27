@@ -7,5 +7,6 @@
     Current time on server is 23:59:00
   </p>
   <cubes-job-list></cubes-job-list>
-  <pre>{{(settings$ | async) | json}}</pre>
+  <pre *ngIf="settings$ | async; else loading; let settings">{{settings | json}}</pre>
+  <ng-template #loading>Loading ...</ng-template>
 </section>
