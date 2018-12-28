@@ -6,8 +6,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoreModule } from './core/core.module';
-import { SchedulerModule } from './scheduler/scheduler.module';
 import { SharedModule } from './shared/shared.module';
+import { SchedulerModule } from './scheduler/scheduler.module';
 
 @NgModule({
   imports: [
