@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppSettingsService } from 'src/app/shared/app-settings.service';
+import { AppSettingsService } from 'src/app/core/services/app-settings.service';
 import { catchError, delay } from 'rxjs/operators';
 import { empty, of } from 'rxjs';
 

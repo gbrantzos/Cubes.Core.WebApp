@@ -1,16 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppSettingsService } from './app-settings.service';
-import { HttpClientModule } from '@angular/common/http';
+import { WipComponent } from './components/wip/wip.component';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    HttpClientModule
+  declarations: [
+    WipComponent
   ],
-  providers: [
-    AppSettingsService
+  imports: [
+    CommonModule
   ]
 })
 export class SharedModule { }

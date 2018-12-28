@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CoreModule } from './core/core.module';
 import { SchedulerModule } from './scheduler/scheduler.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { SchedulerModule } from './scheduler/scheduler.module';
     BrowserAnimationsModule,
 
     CoreModule,
+    SharedModule,
     SchedulerModule
   ],
   declarations: [
