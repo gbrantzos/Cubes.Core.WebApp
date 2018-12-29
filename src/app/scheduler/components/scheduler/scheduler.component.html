@@ -1,10 +1,14 @@
 <h2>Scheduler</h2>
-<hr />
-<p>
-  Cubes scheduler is <strong>not running</strong>!
+<mat-divider></mat-divider>
+<br>
+<div *ngIf="schedulerStatus$ | async as schedulerStatus; else loading">
+  <p>
+    Cubes scheduler is <strong>{{schedulerStatus.state}}</strong>!&nbsp;
+    Current time on server is {{schedulerStatus.serverTime | date:'medium'}}
+  </p>
   <br>
-  Current time on server is 23:59:00
-</p>
-<cubes-job-list></cubes-job-list>
-<pre *ngIf="settings$ | async as settings; else loading">{{settings | json}}</pre>
+  <cubes-job-list [jobs]='schedulerStatus.jobs' [started]="schedulerStatus.state=='Started'" (menuClick)="onJobListEvent($event)"></cubes-job-list>
+  <!-- <pre>{{schedulerStatus | json}}></pre> -->
+</div>
 <ng-template #loading>Loading ...</ng-template>
+<!-- TODO: Loading css styles-->

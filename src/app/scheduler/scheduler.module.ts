@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { JobListComponent } from './components/job-list/job-list.component';
 import { SchedulerComponent } from './components/scheduler/scheduler.component';
 import { SchedulerRoutingModule } from './scheduler-routing.module';
+import { MaterialModule } from '../shared/material.module';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { SchedulerRoutingModule } from './scheduler-routing.module';
   ],
   imports: [
     CommonModule,
-    SchedulerRoutingModule
+    SchedulerRoutingModule,
+    MaterialModule
   ]
 })
 export class SchedulerModule { }

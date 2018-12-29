@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AppSettingsService } from 'src/app/core/services/app-settings.service';
 import { catchError, delay } from 'rxjs/operators';
-import { empty, of } from 'rxjs';
+import { empty } from 'rxjs';
+import { SchedulerService } from 'src/app/core/services/scheduler.service';
 
 @Component({
   selector: 'cubes-scheduler',
@@ -9,22 +9,31 @@ import { empty, of } from 'rxjs';
   styleUrls: ['./scheduler.component.scss']
 })
 export class SchedulerComponent implements OnInit {
-  public settings$;
+  public schedulerStatus$;
 
-  constructor(private appSettings: AppSettingsService) { }
+  constructor(private schedulerService: SchedulerService) { }
   ngOnInit() {
-    this.settings$ = this
-      .appSettings
-      .getSettings()
+    this.refresh();
+  }
+
+  refresh() {
+    this.schedulerStatus$ = this
+      .schedulerService
+      .getSchedulerStatus()
       .pipe(
-        delay(4000),
+        delay(1000), // Emulate some traffic...
         catchError((err, caught) => {
+          // TODO: Add proper error handling and display!
           alert(err.message);
           console.error(err);
-          return of({ id: -1});
+          return empty();
         })
       );
   }
 
-
+  onJobListEvent(event: string) {
+    if (event === 'refresh') {
+      this.refresh();
+    }
+  }
 }

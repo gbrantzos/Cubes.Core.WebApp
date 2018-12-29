@@ -1,0 +1,35 @@
+.description {
+  font-size: 105%;
+}
+
+.disabled {
+  font-weight: bold;
+  font-size: 85%;
+  color: #444;
+}
+
+.execution-info {
+  font-weight: 300 !important;
+  color: #555;
+}
+
+.not-defined {
+  color: red;
+}
+
+.icon-link {
+  cursor: pointer;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 110%;
+}
+
+.mat-card-actions {
+  display: flex;
+}
