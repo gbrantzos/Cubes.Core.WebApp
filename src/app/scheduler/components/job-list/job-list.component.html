@@ -33,8 +33,7 @@
           <span class="description"> {{job.description}}</span>
           <span *ngIf="!job.isActive"><span class="disabled"> [Disabled]</span></span>
         </p>
-        <p matLine class="execution-info">
-          Will be executed at
+        <p matLine class="execution-info">Will be executed at
           <span [class.not-defined]="!job.nextExecutionAt">
             {{(job.nextExecutionAt | date:'medium') || 'Not defined'}}
           </span>.
