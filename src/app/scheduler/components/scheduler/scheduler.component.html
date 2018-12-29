@@ -1,14 +1,19 @@
 <h2>Scheduler</h2>
 <mat-divider></mat-divider>
-<br>
 <div *ngIf="schedulerStatus$ | async as schedulerStatus; else loading">
-  <p>
-    Cubes scheduler is <strong>{{schedulerStatus.state}}</strong>!&nbsp;
-    Current time on server is {{schedulerStatus.serverTime | date:'medium'}}
-  </p>
-  <br>
+  <mat-card class="status"
+    [class.status-started]="schedulerStatus.state==='Started'"
+    [class.status-stopped]="schedulerStatus.state==='Stopped'">
+    <p>
+      Cubes scheduler is <strong>{{schedulerStatus.state}}</strong>.&nbsp;
+      Current time on server is {{schedulerStatus.serverTime | date:'medium'}}.
+    </p>
+  </mat-card>
   <cubes-job-list [jobs]='schedulerStatus.jobs' [started]="schedulerStatus.state=='Started'" (menuClick)="onJobListEvent($event)"></cubes-job-list>
-  <!-- <pre>{{schedulerStatus | json}}></pre> -->
 </div>
-<ng-template #loading>Loading ...</ng-template>
+
 <!-- TODO: Loading css styles-->
+<ng-template #loading>Loading ...</ng-template>
+
+<!-- Debug -->
+<!-- <pre>{{schedulerStatus | json}}></pre> -->
