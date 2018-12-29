@@ -12,16 +12,14 @@ export class SchedulerComponent implements OnInit {
   public schedulerStatus$;
 
   constructor(private schedulerService: SchedulerService) { }
-  ngOnInit() {
-    this.refresh();
-  }
+  ngOnInit() { this.refresh(); }
 
   refresh() {
     this.schedulerStatus$ = this
       .schedulerService
       .getSchedulerStatus()
       .pipe(
-        delay(1000), // Emulate some traffic...
+        delay(2000), // Emulate some traffic...
         catchError((err, caught) => {
           // TODO: Add proper error handling and display!
           alert(err.message);

@@ -80,6 +80,12 @@ export class SchedulerService {
       ]
     };
 
+
+    const empty: SchedulerStatus = {
+      state: SchedulerStateEnum.Stopped,
+      serverTime: new Date(),
+      jobs: []
+    };
     return of(details);
   }
 }

@@ -9,7 +9,7 @@
         <mat-icon>play_arrow</mat-icon>
         <span>Start</span>
       </button>
-      <button mat-menu-item [disabled]='!started'(click)="menuClicked('stop')">
+      <button mat-menu-item [disabled]='!started' (click)="menuClicked('stop')">
         <mat-icon>stop</mat-icon>
         <span>Stop</span>
       </button>
@@ -27,7 +27,6 @@
       <mat-divider></mat-divider>
       <br>
       <mat-list-item *ngFor="let job of jobs">
-        <!-- TODO: What if no jobs? Add a nice graph... -->
         <mat-icon matListIcon>{{job.isActive ? 'alarm_on' : 'alarm_off'}}</mat-icon>
         <p matLine>
           <span class="description"> {{job.description}}</span>
@@ -46,6 +45,10 @@
         <mat-icon class="icon-link" matTooltip="Execute now">play_circle_outline</mat-icon>&nbsp;&nbsp;
         <mat-icon class="icon-link" matTooltip="Edit or delete job">create</mat-icon>
       </mat-list-item>
+      <div class="no-jobs-found" *ngIf="jobs.length==0">
+        <p>No jobs found!</p>
+        <mat-icon>report_problem</mat-icon>
+      </div>
     </mat-list>
   </mat-card-content>
   <mat-divider></mat-divider>

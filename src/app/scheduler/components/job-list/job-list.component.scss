@@ -27,10 +27,24 @@
 }
 
 h3 {
-  font-weight: bold;
-  font-size: 110%;
+  font-size: 120%;
+  padding-left: 8px;
 }
 
 .mat-card-actions {
   display: flex;
+}
+
+.no-jobs-found {
+  text-align: center;
+  font-size: 2em;
+  color: #555555;
+  margin: 24px 0;
+  .mat-icon {
+    margin-top:36px;
+    color: #bbbbbb;
+    height: 48px;
+    width: 48px;
+    font-size: 48px;
+  }
 }

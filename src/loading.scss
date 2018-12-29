@@ -1,0 +1,63 @@
+.loading {
+  text-align: center;
+  font-size: 2.1em;
+  margin-top: 60px;
+}
+
+$color: #777;
+$size: 40px;
+$animation-seconds: 1.8s;
+
+#loader {
+  animation: loader $animation-seconds cubic-bezier(.8,0,.2,1) infinite;
+  height: 2 * $size;
+  width: 2 * $size + 1px;
+  position: absolute;
+  top:calc(50% - 220px);
+  left:calc(50% - 40px);
+}
+@keyframes loader {
+  90% { transform: rotate(0deg); }
+  100% { transform: rotate(180deg); }
+}
+#top {
+  animation: top $animation-seconds linear infinite;
+  border-top: $size solid $color;
+  border-right: $size solid transparent;
+  border-left: $size solid transparent;
+  height: 0px;
+  width: 1px;
+  transform-origin: 50% 100%;
+}
+@keyframes top {
+  90% { transform: scale(0); }
+  100% { transform: scale(0);}
+}
+#bottom {
+  animation: bottom $animation-seconds linear infinite;
+  border-right: $size solid transparent;
+  border-bottom: $size solid $color;
+  border-left: $size solid transparent;
+  height: 0px;
+  width: 1px;
+  transform: scale(0);
+  transform-origin: 50% 100%;
+}
+@keyframes bottom {
+  10% { transform: scale(0); }
+  90% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+#line {
+  animation: line $animation-seconds linear infinite;
+  border-left: 1px dotted $color;
+  height: 0px;
+  width: 0px;
+  position: absolute;
+  top: $size;
+  left: $size;
+}
+@keyframes line {
+  10% { height: $size; }
+  100% { height: $size; }
+}
