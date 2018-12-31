@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Edit Job</h2>
+<mat-dialog-content>
+  <pre>{{job | json}}</pre>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button color="warn" (click)="onDelete(job)">Delete</button>
+  <div class="spacer"></div>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button color="primary" mat-primary (click)="onClose(job)">Save</button>
+</mat-dialog-actions>

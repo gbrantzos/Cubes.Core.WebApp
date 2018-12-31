@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { SchedulerJob } from 'src/app/core/services/sceduler.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { SchedulerJob, isSchedulerJob } from 'src/app/core/services/scheduler.service';
+import { MatDialog } from '@angular/material';
+import { JobEditorComponent } from '../job-editor/job-editor.component';
 
 @Component({
   selector: 'cubes-job-row',
@@ -8,9 +10,31 @@ import { SchedulerJob } from 'src/app/core/services/sceduler.service';
 })
 export class JobRowComponent implements OnInit {
   @Input() job: SchedulerJob | null;
-  constructor() { }
 
-  ngOnInit() {
+  @Output() saveJob: EventEmitter<SchedulerJob> = new EventEmitter();
+  @Output() deleteJob: EventEmitter<string> = new EventEmitter();
+  @Output() runJob: EventEmitter<SchedulerJob> = new EventEmitter();
+
+  constructor(private dialog: MatDialog) { }
+  ngOnInit() { }
+
+  onRunJob(job: SchedulerJob) {
+    this.runJob.emit(job);
+  }
+  onSaveJob(job: SchedulerJob) {
+    this.dialog.open(JobEditorComponent, {
+      data: {
+        job: job
+      },
+      minWidth: 400
+    }).afterClosed()
+      .subscribe(resJob => {
+        if (isSchedulerJob(resJob)) {
+          this.saveJob.emit(resJob);
+        } else if (typeof resJob === 'string' && resJob.startsWith('DELETE:')) {
+          this.deleteJob.emit(resJob.substr(7));
+        }
+      });
   }
 
 }

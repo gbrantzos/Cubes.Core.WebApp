@@ -6,17 +6,22 @@ import { SchedulerComponent } from './components/scheduler/scheduler.component';
 import { SchedulerRoutingModule } from './scheduler-routing.module';
 import { MaterialModule } from '../shared/material.module';
 import { JobRowComponent } from './components/job-row/job-row.component';
+import { JobEditorComponent } from './components/job-editor/job-editor.component';
 
 @NgModule({
   declarations: [
     SchedulerComponent,
     JobListComponent,
-    JobRowComponent
+    JobRowComponent,
+    JobEditorComponent
   ],
   imports: [
     CommonModule,
     SchedulerRoutingModule,
     MaterialModule
+  ],
+  entryComponents: [
+    JobEditorComponent
   ]
 })
 export class SchedulerModule { }

@@ -12,9 +12,14 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build. Also use `--base-href /cubes/` for hosting app in cubes subfolder.
 
 Note: since Roboto font and Material Icons are serverd locally (added either on styles.scss or angular.json styles array), we must add `--extract-css=false` on the build command. Poassibly related to [this](https://github.com/angular/angular-cli/issues/8577) issue.
+
+The final commands should look like:
+```
+ng build --prod --extract-css=false --base-href /cubes/
+```
 
 
 ## Nginx configuration

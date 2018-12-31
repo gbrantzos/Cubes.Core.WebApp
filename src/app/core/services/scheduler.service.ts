@@ -25,6 +25,10 @@ export interface SchedulerJob {
   nextExecutionAt?: Date;
 }
 
+export function isSchedulerJob(job: any): job is SchedulerJob {
+  return <SchedulerJob>job.id !== undefined;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,7 +42,7 @@ export class SchedulerService {
       serverTime: new Date(),
       jobs: [
         {
-          id: 'empty',
+          id: '1348c916-0f37-4bbe-8092-69fd1429c9b9',
           description: 'A scheduler job',
           cronExpression: '* 3 * * * *',
           isActive: true,

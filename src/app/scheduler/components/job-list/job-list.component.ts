@@ -15,7 +15,16 @@ export class JobListComponent implements OnInit {
   constructor() { }
   ngOnInit() { }
 
-  menuClicked(menuItem: string) {
+  onMenuClicked(menuItem: string) {
     this.menuClick.emit(menuItem);
+  }
+  onRunJob(job: SchedulerJob) {
+    alert('Run ' + job.description);
+  }
+  onSaveJob(job: SchedulerJob) {
+    alert('Save ' + job.description);
+  }
+  onDeleteJob(jobId: string) {
+    alert('Delete ' + jobId);
   }
 }

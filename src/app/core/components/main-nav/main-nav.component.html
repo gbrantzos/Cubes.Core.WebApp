@@ -1,7 +1,7 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport="false" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="'over'">
-    <mat-toolbar>Cubes :: Core Configuration</mat-toolbar>
+    <mat-toolbar>Cubes Configuration</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/scheduler">Scheduler</a>
       <a mat-list-item routerLink="/data">Data Access</a>
@@ -15,7 +15,7 @@
         <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-        <span>Cubes :: Core Configuration</span>
+        <span>Cubes Configuration</span>
         <span class="spacer"></span>
         <div *ngIf="!(isHandset$ | async)">
           <a mat-button routerLink="/scheduler">Scheduler</a>

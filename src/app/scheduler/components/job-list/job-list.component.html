@@ -5,20 +5,20 @@
     <mat-icon class="icon-link" matTooltip="Scheduler Control" [matMenuTriggerFor]="schedulerControl">menu</mat-icon>
 
     <mat-menu #schedulerControl="matMenu">
-      <button mat-menu-item [disabled]='started' (click)="menuClicked('start')">
+      <button mat-menu-item [disabled]='started' (click)="onMenuClicked('start')">
         <mat-icon>play_arrow</mat-icon>
         <span>Start</span>
       </button>
-      <button mat-menu-item [disabled]='!started' (click)="menuClicked('stop')">
+      <button mat-menu-item [disabled]='!started' (click)="onMenuClicked('stop')">
         <mat-icon>stop</mat-icon>
         <span>Stop</span>
       </button>
-      <button mat-menu-item (click)="menuClicked('reload')">
+      <button mat-menu-item (click)="onMenuClicked('reload')">
         <mat-icon>cached</mat-icon>
         <span>Reload</span>
       </button>
       <mat-divider></mat-divider>
-      <button mat-menu-item (click)="menuClicked('refresh')">Refresh List</button>
+      <button mat-menu-item (click)="onMenuClicked('refresh')">Refresh List</button>
     </mat-menu>
 
   </div>
@@ -27,7 +27,7 @@
       <mat-divider></mat-divider>
       <br>
       <ng-template ngFor let-job [ngForOf]="jobs">
-        <cubes-job-row [job]="job"></cubes-job-row>
+        <cubes-job-row [job]="job" (runJob)="onRunJob($event)" (saveJob)="onSaveJob($event)" (deleteJob)="onDeleteJob($event)"></cubes-job-row>
       </ng-template>
       <div class="no-jobs-found" *ngIf="jobs.length==0">
         <p>No jobs found!</p>
