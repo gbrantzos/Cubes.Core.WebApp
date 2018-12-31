@@ -1,38 +1,11 @@
-.description {
-  font-size: 105%;
-}
-
-.disabled {
-  font-weight: bold;
-  font-size: 85%;
-  color: #444;
-}
-
-.execution-info {
-  font-weight: 300 !important;
-  color: #555;
-  white-space: pre-wrap !important;
-}
-
-.not-defined {
-  color: red;
-}
-
-.icon-link {
-  cursor: pointer;
-}
-
-.spacer {
-  flex: 1 1 auto;
-}
 
 h3 {
   font-size: 120%;
   padding-left: 8px;
 }
 
-.mat-card-actions {
-  display: flex;
+.spacer {
+  flex: 1 1 auto;
 }
 
 .no-jobs-found {
@@ -47,4 +20,13 @@ h3 {
     width: 48px;
     font-size: 48px;
   }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+
+.mat-card-actions {
+  display: flex;
 }

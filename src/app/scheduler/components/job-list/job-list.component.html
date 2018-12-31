@@ -26,25 +26,9 @@
     <mat-list>
       <mat-divider></mat-divider>
       <br>
-      <mat-list-item *ngFor="let job of jobs">
-        <mat-icon matListIcon>{{job.isActive ? 'alarm_on' : 'alarm_off'}}</mat-icon>
-        <p matLine>
-          <span class="description"> {{job.description}}</span>
-          <span *ngIf="!job.isActive"><span class="disabled"> [Disabled]</span></span>
-        </p>
-        <p matLine class="execution-info">Will be executed at
-          <span [class.not-defined]="!job.nextExecutionAt">
-            {{(job.nextExecutionAt | date:'medium') || 'Not defined'}}
-          </span>.
-          Last execution was at
-          <span [class.not-defined]="!job.lastExecutionAt">
-            {{(job.lastExecutionAt | date:'medium') || 'Not defined'}}
-          </span>
-          <span *ngIf="job.lastExecutionResult">, with results <strong>{{job.lastExecutionResult}}</strong></span>
-        </p>
-        <mat-icon class="icon-link" matTooltip="Execute now">play_circle_outline</mat-icon>&nbsp;&nbsp;
-        <mat-icon class="icon-link" matTooltip="Edit or delete job">create</mat-icon>
-      </mat-list-item>
+      <ng-template ngFor let-job [ngForOf]="jobs">
+        <cubes-job-row [job]="job"></cubes-job-row>
+      </ng-template>
       <div class="no-jobs-found" *ngIf="jobs.length==0">
         <p>No jobs found!</p>
         <mat-icon>report_problem</mat-icon>
