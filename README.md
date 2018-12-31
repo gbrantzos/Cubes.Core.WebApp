@@ -14,14 +14,24 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Running unit tests
+Note: since Roboto font and Material Icons are serverd locally (added either on styles.scss or angular.json styles array), we must add `--extract-css=false` on the build command. Poassibly related to [this](https://github.com/angular/angular-cli/issues/8577) issue.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+## Nginx configuration
+To serve the app on Nginx under the path `/cubes`, add the following configuration on Nginx config files:
+```
+  server {
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
+    gzip on;
+    listen 8001;
+    server_name _;
+    
+    location /cubes {
+      alias /path_to_project_folder/Cubes.UI/dist/cubes-ui;
+      try_files $uri /index.html =404;
+      index index.html;
+    }
+  }
+```
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
