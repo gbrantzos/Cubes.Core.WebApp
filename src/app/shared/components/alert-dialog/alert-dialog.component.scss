@@ -1,0 +1,18 @@
+.dialog-body {
+  min-width: 220px;
+  max-width: 450px;
+  min-height: 140px;
+  white-space: pre-line;
+}
+
+.dialog-body h3 {
+  border-bottom: lightgrey 1px solid;
+  padding-bottom: 6px;
+}
+
+.dialog-footer {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

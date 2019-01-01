@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SchedulerJob } from 'src/app/core/services/scheduler.service';
+import { DialogService } from 'src/app/shared/services/dialog.service';
 
 @Component({
   selector: 'cubes-job-list',
@@ -12,19 +13,19 @@ export class JobListComponent implements OnInit {
 
   @Output() menuClick = new EventEmitter();
 
-  constructor() { }
+  constructor(private dialogService: DialogService) { }
   ngOnInit() { }
 
   onMenuClicked(menuItem: string) {
     this.menuClick.emit(menuItem);
   }
   onRunJob(job: SchedulerJob) {
-    alert('Run ' + job.description);
+    this.dialogService.alert('Run ' + job.description);
   }
   onSaveJob(job: SchedulerJob) {
-    alert('Save ' + job.description);
+    this.dialogService.alert('Save ' + job.description);
   }
   onDeleteJob(jobId: string) {
-    alert('Delete ' + jobId);
+    this.dialogService.alert('Delete ' + jobId);
   }
 }
