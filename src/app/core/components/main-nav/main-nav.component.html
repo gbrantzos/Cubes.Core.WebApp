@@ -18,10 +18,10 @@
         <span>Cubes Configuration</span>
         <span class="spacer"></span>
         <div *ngIf="!(isHandset$ | async)">
-          <a mat-button routerLink="/scheduler">Scheduler</a>
-          <a mat-button routerLink="/data">Data Access</a>
-          <a mat-button routerLink="/settings">Settings</a>
-          <a mat-button routerLink="/about">About</a>
+          <a mat-button routerLinkActive="active-menu" routerLink="/scheduler">Scheduler</a>
+          <a mat-button routerLinkActive="active-menu" routerLink="/data">Data Access</a>
+          <a mat-button routerLinkActive="active-menu" routerLink="/settings">Settings</a>
+          <a mat-button routerLinkActive="active-menu" routerLink="/about">About</a>
        </div>
       </mat-toolbar-row>
     </mat-toolbar>

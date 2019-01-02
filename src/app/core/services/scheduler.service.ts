@@ -26,7 +26,7 @@ export interface SchedulerJob {
 }
 
 export function isSchedulerJob(job: any): job is SchedulerJob {
-  return <SchedulerJob>job.id !== undefined;
+  return job && <SchedulerJob>job.id !== undefined;
 }
 
 @Injectable({

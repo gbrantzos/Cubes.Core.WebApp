@@ -45,7 +45,7 @@ To serve the app on Nginx under the path `/cubes`, add the following configurati
 
 # TODO
 
-- [ ]	Active class on main toolbar
+- [x]	Active class on main toolbar
 - [ ] Job editor
-- [ ] About page
+- [x] About page
 - [ ] Actual calls
