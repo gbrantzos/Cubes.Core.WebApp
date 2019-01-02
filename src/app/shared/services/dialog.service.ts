@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { AlertDialogComponent, DialogData } from '../components/alert-dialog/alert-dialog.component';
+import { AlertDialogComponent, AlertDialogData } from '../components/alert-dialog/alert-dialog.component';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { ConfirmDialogComponent, ConfirmDialogData } from '../components/confirm-dialog/confirm-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +12,28 @@ export class DialogService {
 
   constructor(private dialog: MatDialog) { }
 
-  alert(message: string) {
+  public alert(message: string, title: string = 'Attention') {
     return this.dialog.open(AlertDialogComponent, {
-      panelClass: 'dialogs-container',
       data: {
-        title: 'Attention',
+        title: title,
         body: message
-      } as DialogData
+      } as AlertDialogData
     });
+  }
+
+  public confirm(message: string, title: string = 'Confirm'): Observable<boolean> {
+    return this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          title: title,
+          body: message,
+          okText: 'OK',
+          cancelText: 'Cancel'
+        } as ConfirmDialogData
+      })
+      .afterClosed()
+      .pipe(
+        map(res => res === 'OK')
+      );
   }
 }

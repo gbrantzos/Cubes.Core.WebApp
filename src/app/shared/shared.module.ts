@@ -4,18 +4,21 @@ import { WipComponent } from './components/wip/wip.component';
 import { MaterialModule } from './material.module';
 import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.component';
 import { DialogService } from './services/dialog.service';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
     WipComponent,
-    AlertDialogComponent
+    AlertDialogComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,
     MaterialModule
   ],
   entryComponents: [
-    AlertDialogComponent
+    AlertDialogComponent,
+    ConfirmDialogComponent
   ],
   providers: [
     DialogService

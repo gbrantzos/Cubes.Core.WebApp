@@ -1,10 +1,10 @@
-<div class="dialog-body">
-  <h3>{{data.title}}</h3>
-  <p>{{data.body}}</p>
-</div>
+<h2 mat-dialog-title>{{data.title}}</h2>
+<mat-dialog-content class="dialog-content">
+  <p [innerHTML]="data.body"></p>
+</mat-dialog-content>
 
-<div class="dialog-footer">
-  <button mat-raised-button color="warn" (click)="closeDialog()">
+<mat-dialog-actions>
+  <button mat-flat-button mat-dialog-close color="primary">
     <i class="material-icons">done</i>&nbsp;&nbsp;&nbsp;OK&nbsp;&nbsp;&nbsp;
   </button>
-</div>
+</mat-dialog-actions>
