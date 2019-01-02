@@ -27,7 +27,7 @@
       <mat-divider></mat-divider>
       <br>
       <ng-template ngFor let-job [ngForOf]="jobs">
-        <cubes-job-row [job]="job" (runJob)="onRunJob($event)" (saveJob)="onSaveJob($event)" (deleteJob)="onDeleteJob($event)"></cubes-job-row>
+        <cubes-job-row [job]="job" (runJob)="onRunJob($event)" (editJob)="onEditJob($event)"></cubes-job-row>
       </ng-template>
       <div class="no-jobs-found" *ngIf="jobs.length==0">
         <p>No jobs found!</p>
@@ -38,6 +38,6 @@
   <mat-divider></mat-divider>
   <mat-card-actions>
     <div class="spacer"></div>
-    <button mat-flat-button color="primary">Add Job</button>
+    <button mat-flat-button color="primary" (click)="onEditJob(null)">Add Job</button>
   </mat-card-actions>
 </mat-card>
