@@ -8,6 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { SchedulerModule } from './scheduler/scheduler.module';
+import { DataAccessModule } from './data-access/data-access.module';
+import { SettingsModule } from './settings/settings.module';
 
 @NgModule({
   imports: [
@@ -17,7 +19,9 @@ import { SchedulerModule } from './scheduler/scheduler.module';
 
     CoreModule,
     SharedModule,
-    SchedulerModule
+    DataAccessModule,
+    SchedulerModule,
+    SettingsModule
   ],
   declarations: [
     AppComponent
