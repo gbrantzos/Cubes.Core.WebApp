@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SchedulerJob } from 'src/app/core/services/scheduler.service';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Lookup } from 'src/app/core/services/lookup.service';
 
 @Component({
   selector: 'cubes-job-editor',
@@ -12,12 +13,16 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class JobEditorComponent implements OnInit {
   public job: SchedulerJob;
   public jobForm: FormGroup;
+  public jobTypeLookup: Lookup;
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<JobEditorComponent>,
     private dialogService: DialogService,
-    @Inject(MAT_DIALOG_DATA) data) { this.job = data.job; }
+    @Inject(MAT_DIALOG_DATA) data) {
+    this.job = data.job;
+    this.jobTypeLookup = data.jobTypeLookup;
+  }
   ngOnInit() {
     this.jobForm = this.createJobForm();
     this.jobForm.patchValue(this.job);

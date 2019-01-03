@@ -3,6 +3,7 @@ import { SchedulerJob, isSchedulerJob } from 'src/app/core/services/scheduler.se
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { MatDialog } from '@angular/material';
 import { JobEditorComponent } from '../job-editor/job-editor.component';
+import { Lookup } from 'src/app/core/services/lookup.service';
 
 @Component({
   selector: 'cubes-job-list',
@@ -12,6 +13,7 @@ import { JobEditorComponent } from '../job-editor/job-editor.component';
 export class JobListComponent implements OnInit {
   @Input() jobs: SchedulerJob[] | null;
   @Input() started: boolean;
+  @Input() jobTypeLookup: Lookup;
 
   @Output() menuClick = new EventEmitter();
 
@@ -42,7 +44,8 @@ export class JobListComponent implements OnInit {
 
     this.dialog.open(JobEditorComponent, {
       data: {
-        job: job
+        job: job,
+        jobTypeLookup: this.jobTypeLookup
       },
       minWidth: 400
     }).afterClosed()

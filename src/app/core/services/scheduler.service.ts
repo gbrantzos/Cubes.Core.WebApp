@@ -47,7 +47,7 @@ export class SchedulerService {
           cronExpression: '* 3 * * * *',
           isActive: true,
           fireIfMissed: false,
-          jobType: '',
+          jobType: 'Cubes.Core.Jobs.ExecuteCommand',
           executionParameters: null
         },
         {
@@ -56,7 +56,7 @@ export class SchedulerService {
           cronExpression: '* 3 * * * *',
           isActive: false,
           fireIfMissed: false,
-          jobType: '',
+          jobType: 'Cubes.Core.Jobs.ExecuteCommand',
           executionParameters: null
         },
         {
@@ -67,7 +67,7 @@ export class SchedulerService {
           fireIfMissed: false,
           lastExecutionAt: new Date(2018, 12, 26, 23, 45, 23),
           lastExecutionResult: 'OK...',
-          jobType: '',
+          jobType: 'Cubes.Core.Jobs.ExecuteCommand',
           executionParameters: null
         },
         {
@@ -77,7 +77,7 @@ export class SchedulerService {
           isActive: false,
           fireIfMissed: false,
           nextExecutionAt: new Date(2019, 1, 1, 3, 45, 0),
-          jobType: '',
+          jobType: 'Cubes.Core.Jobs.ExecuteCommand',
           executionParameters: null
         }
 
