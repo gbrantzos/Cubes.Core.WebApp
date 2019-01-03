@@ -1,24 +1,50 @@
-<h2 mat-dialog-title>Edit Job</h2>
-<mat-dialog-content class="editor-content">
+<form [formGroup]="jobForm" (ngSubmit)="onJobFormSubmit(jobForm)">
+  <h2 mat-dialog-title>Edit Job</h2>
+  <mat-dialog-content class="editor-content">
 
-  <mat-tab-group>
-    <mat-tab label="Basic Information">
-      <h2>Some tab content</h2>
-      <p>...</p>
-    </mat-tab>
-    <mat-tab label="Execution Parameters">
-      <p>Job as JSON (debugging)</p>
-      <pre>{{job | json}}</pre>
-    </mat-tab>
-    <mat-tab label="History">
-      <p>...</p>
-    </mat-tab>
-  </mat-tab-group>
+    <mat-tab-group>
+      <mat-tab label="Basic Information">
+        <div class="basic">
 
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button color="warn" (click)="onDelete(job)">Delete</button>
-  <div class="spacer"></div>
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button color="primary" mat-primary (click)="onClose(job)">Save</button>
-</mat-dialog-actions>
+          <mat-form-field class="full">
+            <input matInput formControlName="description" placeholder="Job description">
+          </mat-form-field>
+
+          <mat-form-field class="full">
+            <input matInput formControlName="cronExpression" placeholder="Cron Expression">
+          </mat-form-field>
+
+          <mat-form-field class="full">
+            <mat-select formControlName="jobType" placeholder="Job type">
+              <mat-option value="volvo">Volvo</mat-option>
+              <mat-option value="saab">Saab</mat-option>
+              <mat-option value="mercedes">Mercedes</mat-option>
+              <mat-option value="audi">Audi</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="check-boxes">
+            <mat-checkbox color="primary" formControlName="isActive">Active</mat-checkbox>
+            <mat-checkbox color="primary" formControlName="fireIfMissed">Fire if missed</mat-checkbox>
+          </div>
+
+        </div>
+
+      </mat-tab>
+      <mat-tab label="Execution Parameters">
+        <p>Job as JSON (debugging)</p>
+        <pre>{{job | json}}</pre>
+      </mat-tab>
+      <mat-tab label="History">
+        <p>...</p>
+      </mat-tab>
+    </mat-tab-group>
+
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button color="warn" (click)="onDelete(job)">Delete</button>
+    <div class="spacer"></div>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button color="primary" mat-primary (ngSubmit)="onJobFormSubmit(jobForm)">Save</button>
+  </mat-dialog-actions>
+</form>

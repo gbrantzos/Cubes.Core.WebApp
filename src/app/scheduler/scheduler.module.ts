@@ -7,6 +7,7 @@ import { SchedulerRoutingModule } from './scheduler-routing.module';
 import { MaterialModule } from '../shared/material.module';
 import { JobRowComponent } from './components/job-row/job-row.component';
 import { JobEditorComponent } from './components/job-editor/job-editor.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { JobEditorComponent } from './components/job-editor/job-editor.component
   imports: [
     CommonModule,
     SchedulerRoutingModule,
+    SharedModule,
     MaterialModule
   ],
   entryComponents: [

@@ -50,6 +50,7 @@ export class JobListComponent implements OnInit {
         if (isSchedulerJob(resJob)) {
           // Edit job...
           this.dialogService.alert('Edited job and now save ' + (<SchedulerJob>job).description);
+          console.log(resJob);
         } else if (typeof resJob === 'string' && resJob.startsWith('DELETE:')) {
           // Delete job...
           const jobId = resJob.substr(7);

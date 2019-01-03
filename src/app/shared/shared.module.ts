@@ -5,6 +5,7 @@ import { MaterialModule } from './material.module';
 import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.component';
 import { DialogService } from './services/dialog.service';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,13 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     MaterialModule
+  ],
+  exports: [
+    FormsModule,
+    ReactiveFormsModule
   ],
   entryComponents: [
     AlertDialogComponent,

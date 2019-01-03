@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SchedulerJob } from 'src/app/core/services/scheduler.service';
 import { DialogService } from 'src/app/shared/services/dialog.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'cubes-job-editor',
@@ -10,19 +11,45 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 })
 export class JobEditorComponent implements OnInit {
   public job: SchedulerJob;
+  public jobForm: FormGroup;
 
   constructor(
-    private dialogref: MatDialogRef<JobEditorComponent>,
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<JobEditorComponent>,
     private dialogService: DialogService,
     @Inject(MAT_DIALOG_DATA) data) { this.job = data.job; }
-  ngOnInit() { }
+  ngOnInit() {
+    this.jobForm = this.createJobForm();
+    this.jobForm.patchValue(this.job);
+  }
 
-  onClose(job: SchedulerJob) { this.dialogref.close(job); }
+  private createJobForm(): FormGroup {
+    const form = this.fb.group({
+      description: '',
+      cronExpression: '',
+      isActive: false,
+      fireIfMissed: false,
+      jobType: ''
+    });
+
+    return form;
+  }
+  onClose(job: SchedulerJob) {
+    this.dialogRef.close(job);
+  }
+
   onDelete(job: SchedulerJob) {
     this.dialogService
       .confirm('You are about to delete job <strong>' + job.description + '</strong>!<br>Continue?')
       .subscribe(resultOk => {
-        if (resultOk) { this.dialogref.close('DELETE:' + job.id); }
+        if (resultOk) { this.dialogRef.close('DELETE:' + job.id); }
       });
+  }
+
+  onJobFormSubmit(form: FormGroup) {
+    Object.assign(this.job, form.value);
+    console.log(this.job);
+
+    this.dialogRef.close(this.job);
   }
 }
