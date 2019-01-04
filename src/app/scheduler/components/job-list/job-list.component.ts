@@ -47,13 +47,13 @@ export class JobListComponent implements OnInit {
         job: job,
         lookups: this.lookups
       },
-      minWidth: 400
+      minWidth: 640
     }).afterClosed()
       .subscribe(resJob => {
         if (isSchedulerJob(resJob)) {
           // Edit job...
-          this.dialogService.alert('Edited job and now save ' + (<SchedulerJob>job).description);
           console.log(resJob);
+          this.dialogService.alert('Edited job and now save ' + (<SchedulerJob>job).description);
         } else if (typeof resJob === 'string' && resJob.startsWith('DELETE:')) {
           // Delete job...
           const jobId = resJob.substr(7);

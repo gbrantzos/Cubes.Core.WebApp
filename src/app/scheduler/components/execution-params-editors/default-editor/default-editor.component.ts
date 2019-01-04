@@ -12,7 +12,5 @@ export class DefaultEditorComponent implements OnInit, ParametersEditor {
   constructor() { }
   ngOnInit() { }
 
-  getParameters(): string {
-    return this.parameters;
-  }
+  getParameters(): string { return this.parameters; }
 }

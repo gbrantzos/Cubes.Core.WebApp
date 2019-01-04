@@ -2,9 +2,10 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SchedulerJob } from 'src/app/core/services/scheduler.service';
 import { DialogService } from 'src/app/shared/services/dialog.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Lookup } from 'src/app/core/services/lookup.service';
 import { ParametersEditor } from '../execution-params-editors/execution-params-editors';
+import { ValidateJSON, ValidateCronExpression } from '../../custom-validators';
 
 @Component({
   selector: 'cubes-job-editor',
@@ -15,6 +16,7 @@ export class JobEditorComponent implements OnInit {
   public job: SchedulerJob;
   public jobForm: FormGroup;
   public jobTypeForSwitch: string;
+  public formValid = false;
 
   public lookups: Lookup;
   @ViewChild('executionParameters') executionParameters: ParametersEditor;
@@ -33,20 +35,37 @@ export class JobEditorComponent implements OnInit {
       .get('jobType')
       .valueChanges
       .subscribe(value => this.jobTypeForSwitch = value);
+    this.jobForm
+      .statusChanges
+      .subscribe(res => this.formValid = this.jobForm.valid);
 
     this.jobForm.patchValue(this.job);
   }
 
   private createJobForm(): FormGroup {
     const form = this.fb.group({
-      description   : '',
-      cronExpression: '',
+      id            : '',
+      description   : ['', Validators.required],
+      cronExpression: ['', [Validators.required, ValidateCronExpression]],
       isActive      : false,
-      fireIfMissed   : false,
-      jobType       : ''
+      fireIfMissed  : false,
+      jobType       : ['', Validators.required]
     });
 
     return form;
+  }
+
+  get description()    { return this.jobForm.get('description'); }
+  get cronExpression() { return this.jobForm.get('cronExpression'); }
+  get jobType()        { return this.jobForm.get('jobType'); }
+
+  get cronExpressionErrorMessage() {
+    if (this.cronExpression.getError('required')) {
+      return 'CronExpression is required';
+    } else if (this.cronExpression.getError('invalidCronExpression')) {
+      return 'Field is not valid Cron expression';
+    }
+    return 'Field failed validation, but why?';
   }
 
   onClose(job: SchedulerJob) {
@@ -62,11 +81,17 @@ export class JobEditorComponent implements OnInit {
   }
 
   onJobFormSubmit(form: FormGroup) {
-    Object.assign(this.job, form.value);
+    const toSave = <Partial<SchedulerJob>>{};
+    Object.assign(toSave, form.value);
 
     const parametersEditor = <ParametersEditor>this.executionParameters;
-    console.log(parametersEditor.getParameters());
+    toSave.executionParameters = parametersEditor.getParameters();
 
-    this.dialogRef.close(this.job);
+    Object.assign(this.job, toSave); // TO be removed!
+    this.dialogRef.close(toSave);
+  }
+
+  onParametersEditorValidChanged(editorValid: boolean) {
+    this.formValid = this.jobForm.valid && editorValid;
   }
 }

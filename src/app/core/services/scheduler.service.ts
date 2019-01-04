@@ -38,7 +38,7 @@ export class SchedulerService {
 
   getSchedulerStatus(): Observable<SchedulerStatus> {
     const details: SchedulerStatus = {
-      state: SchedulerStateEnum.Stopped,
+      state: SchedulerStateEnum.Started,
       serverTime: new Date(),
       jobs: [
         {
@@ -48,7 +48,24 @@ export class SchedulerService {
           isActive: true,
           fireIfMissed: false,
           jobType: 'Cubes.Core.Jobs.ExecuteCommand',
-          executionParameters: null
+          executionParameters: `{
+            "commandType": "Cubes.Core.Commands.SqlResultsAsEmail",
+            "commandInst": {
+              "FileName": "PickingResults",
+              "DbConnection": "Pharmex.SEn",
+              "SqlQueries": {
+                "Results": "picking-results",
+                "Statistics": "picking-statistics"
+              },
+              "Subject": "Picking Results",
+              "Body": "Picking results for the previous working day.",
+              "ToAddresses": [
+                "ap@pharmex.gr",
+                "g.brantzos@gmail.com"
+              ],
+              "SendIfDataExists": true
+            }
+          }`
         },
         {
           id: 'empty',
@@ -57,16 +74,7 @@ export class SchedulerService {
           isActive: false,
           fireIfMissed: false,
           jobType: 'Cubes.Core.Jobs.ExecuteCommand',
-          executionParameters: `<h2 mat-dialog-title>{{data.title}}</h2>
-          <mat-dialog-content class="dialog-content">
-            <p>{{data.body}}</p>
-          </mat-dialog-content>
-
-          <mat-dialog-actions>
-            <button mat-raised-button mat-dialog-close color="warn">
-              <i class="material-icons">done</i>&nbsp;&nbsp;&nbsp;OK&nbsp;&nbsp;&nbsp;
-            </button>
-          </mat-dialog-actions>`
+          executionParameters: null
         },
         {
           id: 'empty',

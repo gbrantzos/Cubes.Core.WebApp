@@ -7,8 +7,7 @@
 }
 
 .editor-content {
-  min-width: 340px;
-  min-height: 300px;
+  min-height: 320px;
 }
 
 .basic {
@@ -18,7 +17,8 @@
 }
 
 .full {
-  display: block;
+  width: 100%;
+  margin-bottom: 4px;
 }
 
 .check-boxes {

@@ -7,19 +7,22 @@
         <div class="basic">
 
           <mat-form-field class="full">
-            <input matInput formControlName="description" placeholder="Job description">
+            <input matInput formControlName="description" placeholder="Job description" required>
+            <mat-error *ngIf="description.invalid && description.touched">Description is required</mat-error>
           </mat-form-field>
 
           <mat-form-field class="full">
-            <input matInput formControlName="cronExpression" placeholder="Cron Expression">
+            <input matInput formControlName="cronExpression" placeholder="Cron Expression" required>
+            <mat-error *ngIf="cronExpression.invalid && cronExpression.touched">{{cronExpressionErrorMessage}}</mat-error>
           </mat-form-field>
 
           <mat-form-field class="full">
-            <mat-select formControlName="jobType" placeholder="Job Type">
+            <mat-select formControlName="jobType" placeholder="Job Type" required>
               <mat-option *ngFor="let type of lookups['jobTypes'].items" [value]="type.id">
                 {{type.display}}
               </mat-option>
             </mat-select>
+            <mat-error *ngIf="jobType.invalid">Job type is required</mat-error>
           </mat-form-field>
 
           <div class="check-boxes">
@@ -37,7 +40,8 @@
                 *ngSwitchCase="'Cubes.Core.Jobs.ExecuteCommand'"
                 #executionParameters
                 [commandsLookup]="lookups['commandTypes']"
-                [parameters]="job.executionParameters">
+                [parameters]="job.executionParameters"
+                (validChanged)="onParametersEditorValidChanged($event)">
             </cubes-execute-command-editor>
             <cubes-default-editor
                 *ngSwitchDefault
@@ -59,6 +63,6 @@
     <button mat-button color="warn" (click)="onDelete(job)">Delete</button>
     <div class="spacer"></div>
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button color="primary" mat-primary (ngSubmit)="onJobFormSubmit(jobForm)">Save</button>
+    <button mat-button color="primary" [disabled]="!formValid" mat-primary (ngSubmit)="onJobFormSubmit(jobForm)">Save</button>
   </mat-dialog-actions>
 </form>
