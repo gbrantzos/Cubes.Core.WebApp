@@ -5,7 +5,9 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Lookup } from 'src/app/core/services/lookup.service';
 import { ParametersEditor } from '../execution-params-editors/execution-params-editors';
-import { ValidateJSON, ValidateCronExpression } from '../../custom-validators';
+import { ValidateCronExpression } from '../../custom-validators';
+import cronstrue from 'cronstrue';
+
 
 @Component({
   selector: 'cubes-job-editor',
@@ -58,7 +60,6 @@ export class JobEditorComponent implements OnInit {
   get description()    { return this.jobForm.get('description'); }
   get cronExpression() { return this.jobForm.get('cronExpression'); }
   get jobType()        { return this.jobForm.get('jobType'); }
-
   get cronExpressionErrorMessage() {
     if (this.cronExpression.getError('required')) {
       return 'CronExpression is required';
@@ -66,6 +67,13 @@ export class JobEditorComponent implements OnInit {
       return 'Field is not valid Cron expression';
     }
     return 'Field failed validation, but why?';
+  }
+  get cronExpressionHint() {
+    try {
+      return cronstrue.toString(this.cronExpression.value);
+    } catch (error) {
+      return '';
+    }
   }
 
   onClose(job: SchedulerJob) {

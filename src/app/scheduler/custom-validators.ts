@@ -1,4 +1,5 @@
 import { AbstractControl } from '@angular/forms';
+import cronstrue from 'cronstrue';
 
 export function ValidateJSON(control: AbstractControl) {
   const value = control.value;
@@ -11,6 +12,12 @@ export function ValidateJSON(control: AbstractControl) {
 }
 
 export function ValidateCronExpression(control: AbstractControl) {
-  // TODO: Add validation
+  const value = control.value;
+  try {
+    const tmp = cronstrue.toString(value);
+    if (!tmp) { return { invalidCronExpression: true }; }
+  } catch (e) {
+    return { invalidCronExpression: true };
+  }
   return null;
 }

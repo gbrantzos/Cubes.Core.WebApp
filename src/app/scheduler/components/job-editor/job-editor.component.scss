@@ -23,7 +23,8 @@
 
 .check-boxes {
   display: flex;
-  padding: 0.4375em p;
+  margin-top: 8px;
+  padding: 0.4375em 0;
   .mat-checkbox {
     flex-grow: 1;
   }
