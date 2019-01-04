@@ -57,7 +57,16 @@ export class SchedulerService {
           isActive: false,
           fireIfMissed: false,
           jobType: 'Cubes.Core.Jobs.ExecuteCommand',
-          executionParameters: null
+          executionParameters: `<h2 mat-dialog-title>{{data.title}}</h2>
+          <mat-dialog-content class="dialog-content">
+            <p>{{data.body}}</p>
+          </mat-dialog-content>
+
+          <mat-dialog-actions>
+            <button mat-raised-button mat-dialog-close color="warn">
+              <i class="material-icons">done</i>&nbsp;&nbsp;&nbsp;OK&nbsp;&nbsp;&nbsp;
+            </button>
+          </mat-dialog-actions>`
         },
         {
           id: 'empty',

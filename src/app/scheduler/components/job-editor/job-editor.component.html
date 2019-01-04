@@ -28,14 +28,29 @@
           </div>
 
         </div>
-
       </mat-tab>
+
       <mat-tab label="Execution Parameters">
+        <div class="basic">
+          <div class="full parameters" [ngSwitch]="job.jobType">
+            <cubes-execute-command-editor
+                *ngSwitchCase="'Cubes.Core.Jobs.ExecuteCommand'"
+                #executionParameters
+                [commandsLookup]="jobTypeLookup"
+                [parameters]="job.executionParameters">
+            </cubes-execute-command-editor>
+            <cubes-default-editor
+                *ngSwitchDefault
+                #executionParameters
+                [parameters]="job.executionParameters">
+            </cubes-default-editor>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="History">
         <p>Job as JSON (debugging)</p>
         <pre>{{job | json}}</pre>
-      </mat-tab>
-      <mat-tab label="History">
-        <p>...</p>
       </mat-tab>
     </mat-tab-group>
 

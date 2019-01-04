@@ -1,9 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { SchedulerJob } from 'src/app/core/services/scheduler.service';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Lookup } from 'src/app/core/services/lookup.service';
+import { ParametersEditor } from '../execution-params-editors/execution-params-editors';
 
 @Component({
   selector: 'cubes-job-editor',
@@ -14,6 +15,7 @@ export class JobEditorComponent implements OnInit {
   public job: SchedulerJob;
   public jobForm: FormGroup;
   public jobTypeLookup: Lookup;
+  @ViewChild('executionParameters') executionParameters;
 
   constructor(
     private fb: FormBuilder,
@@ -53,7 +55,9 @@ export class JobEditorComponent implements OnInit {
 
   onJobFormSubmit(form: FormGroup) {
     Object.assign(this.job, form.value);
-    console.log(this.job);
+
+    const parametersEditor = <ParametersEditor>this.executionParameters;
+    console.log(parametersEditor.getParameters());
 
     this.dialogRef.close(this.job);
   }
