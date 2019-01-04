@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Lookup } from 'src/app/core/services/lookup.service';
 import { ParametersEditor } from '../execution-params-editors';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ValidateJSON } from 'src/app/scheduler/custom-validators';
+import { CustomValidators } from 'src/app/scheduler/custom-validators';
 
 @Component({
   selector: 'cubes-execute-command-editor',
@@ -20,7 +20,7 @@ export class ExecuteCommandEditorComponent implements OnInit, ParametersEditor {
   ngOnInit() {
     this.form = this.fb.group({
       commandType: ['', Validators.required],
-      commandInst: ['', [Validators.required, ValidateJSON]]
+      commandInst: ['', [Validators.required, CustomValidators.isJSON]]
     });
     this.form
       .statusChanges

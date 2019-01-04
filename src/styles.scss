@@ -10,3 +10,13 @@ body {
 
 // Laoding animation, while waiting for data
 @import 'loading.scss';
+
+// Fix yellow background on autofills on Chrome
+// https://stackoverflow.com/a/29350537/3410871
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}

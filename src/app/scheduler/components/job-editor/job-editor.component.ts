@@ -5,7 +5,7 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Lookup } from 'src/app/core/services/lookup.service';
 import { ParametersEditor } from '../execution-params-editors/execution-params-editors';
-import { ValidateCronExpression } from '../../custom-validators';
+import { CustomValidators } from '../../custom-validators';
 import cronstrue from 'cronstrue';
 
 
@@ -48,7 +48,7 @@ export class JobEditorComponent implements OnInit {
     const form = this.fb.group({
       id            : '',
       description   : ['', Validators.required],
-      cronExpression: ['', [Validators.required, ValidateCronExpression]],
+      cronExpression: ['', [Validators.required, CustomValidators.isCronExpression]],
       isActive      : false,
       fireIfMissed  : false,
       jobType       : ['', Validators.required]
@@ -89,6 +89,7 @@ export class JobEditorComponent implements OnInit {
   }
 
   onJobFormSubmit(form: FormGroup) {
+    console.log(this.formValid);
     const toSave = <Partial<SchedulerJob>>{};
     Object.assign(toSave, form.value);
 
