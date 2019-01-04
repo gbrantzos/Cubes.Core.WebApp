@@ -13,7 +13,7 @@ import { Lookup } from 'src/app/core/services/lookup.service';
 export class JobListComponent implements OnInit {
   @Input() jobs: SchedulerJob[] | null;
   @Input() started: boolean;
-  @Input() jobTypeLookup: Lookup;
+  @Input() lookups: Lookup[];
 
   @Output() menuClick = new EventEmitter();
 
@@ -45,7 +45,7 @@ export class JobListComponent implements OnInit {
     this.dialog.open(JobEditorComponent, {
       data: {
         job: job,
-        jobTypeLookup: this.jobTypeLookup
+        lookups: this.lookups
       },
       minWidth: 400
     }).afterClosed()

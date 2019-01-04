@@ -10,7 +10,7 @@
   <cubes-job-list
     [jobs]='data.schedulerStatus.jobs'
     [started]="data.schedulerStatus.state=='Started'"
-    [jobTypeLookup]="data.lookups.jobTypeLookup"
+    [lookups]="data.lookups"
     (menuClick)="onJobListEvent($event)"></cubes-job-list>
 </div>
 

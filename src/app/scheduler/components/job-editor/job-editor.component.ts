@@ -14,8 +14,10 @@ import { ParametersEditor } from '../execution-params-editors/execution-params-e
 export class JobEditorComponent implements OnInit {
   public job: SchedulerJob;
   public jobForm: FormGroup;
-  public jobTypeLookup: Lookup;
-  @ViewChild('executionParameters') executionParameters;
+  public jobTypeForSwitch: string;
+
+  public lookups: Lookup;
+  @ViewChild('executionParameters') executionParameters: ParametersEditor;
 
   constructor(
     private fb: FormBuilder,
@@ -23,24 +25,30 @@ export class JobEditorComponent implements OnInit {
     private dialogService: DialogService,
     @Inject(MAT_DIALOG_DATA) data) {
     this.job = data.job;
-    this.jobTypeLookup = data.jobTypeLookup;
+    this.lookups = data.lookups;
   }
   ngOnInit() {
     this.jobForm = this.createJobForm();
+    this.jobForm
+      .get('jobType')
+      .valueChanges
+      .subscribe(value => this.jobTypeForSwitch = value);
+
     this.jobForm.patchValue(this.job);
   }
 
   private createJobForm(): FormGroup {
     const form = this.fb.group({
-      description: '',
+      description   : '',
       cronExpression: '',
-      isActive: false,
-      fireIfMissed: false,
-      jobType: ''
+      isActive      : false,
+      fireIfMissed   : false,
+      jobType       : ''
     });
 
     return form;
   }
+
   onClose(job: SchedulerJob) {
     this.dialogRef.close(job);
   }

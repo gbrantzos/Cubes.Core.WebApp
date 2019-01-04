@@ -45,7 +45,8 @@ To serve the app on Nginx under the path `/cubes`, add the following configurati
 
 # TODO
 
-- [ ] Job editor
+- [ ] Job editor validation
+- [ ] ExecuteCommand parameters editors
 - [ ] Actual calls
 
 Check forkJoin for multiple calls to backend

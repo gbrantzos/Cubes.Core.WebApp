@@ -10,7 +10,7 @@ import { LookupService } from 'src/app/core/services/lookup.service';
   styleUrls: ['./scheduler.component.scss']
 })
 export class SchedulerComponent implements OnInit {
-  public data$;
+  public data$: any;
 
   constructor(
     private schedulerService: SchedulerService,
@@ -20,7 +20,8 @@ export class SchedulerComponent implements OnInit {
   refresh() {
     this.data$ = forkJoin(
       this.schedulerService.getSchedulerStatus(),
-      this.lookupService.getJobTypeLookup()
+      this.lookupService.getLookup('jobTypes'),
+      this.lookupService.getLookup('commandTypes')
     ).pipe(
       delay(2000),
       catchError((err, caught) => {
@@ -29,11 +30,12 @@ export class SchedulerComponent implements OnInit {
         console.error(err);
         return empty();
       }),
-      map(([schedulerStatus, jobTypeLookup]) => {
+      map(([schedulerStatus, jobTypes, commandTypes]) => {
         return {
           schedulerStatus,
           lookups: {
-            jobTypeLookup
+            jobTypes,
+            commandTypes
           }
         };
       })
