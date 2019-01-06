@@ -6,11 +6,15 @@
       Cubes scheduler is <strong>{{data.schedulerStatus.state}}</strong>.&nbsp;
       Current time on server is {{data.schedulerStatus.serverTime | date:'medium'}}.
     </p>
+    <p style="margin-top: -6px;" *ngIf="unloadedModifications">Scheduler jobs are modified. <a href="" (click)="!!reload()">Reload</a> to apply!</p>
   </mat-card>
   <cubes-job-list
     [jobs]='data.schedulerStatus.jobs'
     [started]="data.schedulerStatus.state=='Started'"
     [lookups]="data.lookups"
+    [autoReload]="autoReload"
+    (modifyJob)="onJobModify($event)"
+    (runJob)="onJobRun($event)"
     (menuClick)="onJobListEvent($event)"></cubes-job-list>
 </div>
 

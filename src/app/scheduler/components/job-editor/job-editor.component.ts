@@ -89,7 +89,6 @@ export class JobEditorComponent implements OnInit {
   }
 
   onJobFormSubmit(form: FormGroup) {
-    console.log(this.formValid);
     const toSave = <Partial<SchedulerJob>>{};
     Object.assign(toSave, form.value);
 

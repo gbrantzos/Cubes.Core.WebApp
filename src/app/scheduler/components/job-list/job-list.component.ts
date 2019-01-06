@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SchedulerJob, isSchedulerJob } from 'src/app/core/services/scheduler.service';
-import { DialogService } from 'src/app/shared/services/dialog.service';
 import { MatDialog } from '@angular/material';
 import { JobEditorComponent } from '../job-editor/job-editor.component';
 import { Lookup } from 'src/app/core/services/lookup.service';
@@ -13,35 +12,23 @@ import { Lookup } from 'src/app/core/services/lookup.service';
 export class JobListComponent implements OnInit {
   @Input() jobs: SchedulerJob[] | null;
   @Input() started: boolean;
+  @Input() autoReload: boolean;
   @Input() lookups: Lookup[];
 
   @Output() menuClick = new EventEmitter();
+  @Output() modifyJob = new EventEmitter<JobModifyEvent>();
+  @Output() runJob = new EventEmitter<SchedulerJob>();
 
-  constructor(
-    private dialog: MatDialog,
-    private dialogService: DialogService) { }
+  constructor(private dialog: MatDialog) { }
   ngOnInit() { }
 
-  onMenuClicked(menuItem: string) {
-    this.menuClick.emit(menuItem);
-  }
-  onRunJob(job: SchedulerJob) {
-    this.dialogService.alert('Running ' + job.description);
-  }
+  onMenuClicked(menuItem: string) { this.menuClick.emit(menuItem); }
+  onRunJob(job: SchedulerJob) { this.runJob.emit(job); }
   onEditJob(job: SchedulerJob | string) {
-    if (!job) {
-      // New asked, prepare en empty job
-      job = <SchedulerJob> {
-        id: '00000000-0000-0000-0000-000000000000',
-        description: 'New scheduler job',
-        cronExpression: '0 0 0 ? * *',
-        isActive: false,
-        fireIfMissed: false,
-        jobType: '',
-        executionParameters: null
-      };
-    }
+    // New asked, prepare en empty job
+    if (!job) { job = this.newJob(); }
 
+    // Open editor
     this.dialog.open(JobEditorComponent, {
       data: {
         job: job,
@@ -50,14 +37,33 @@ export class JobListComponent implements OnInit {
       minWidth: 640
     }).afterClosed()
       .subscribe(resJob => {
+        const event: JobModifyEvent = { autoReload: this.autoReload || false };
         if (isSchedulerJob(resJob)) {
-          // Edit job...
-          console.log(resJob);
-          this.dialogService.alert('Edited job and now save ' + (<SchedulerJob>job).description);
+          event.job = resJob;
         } else if (typeof resJob === 'string' && resJob.startsWith('DELETE:')) {
-          // Delete job...
-          const jobId = resJob.substr(7);
-          this.dialogService.alert('Delete job with id ' + jobId);
+          event.jobId = resJob.substr(7);
+        } else { // Nothing to do...
+          return;
         }
+        this.modifyJob.emit(event);
       });
-  }}
+  }
+
+  private newJob() {
+    return <SchedulerJob>{
+      id: '00000000-0000-0000-0000-000000000000',
+      description: 'New scheduler job',
+      cronExpression: '0 0 0 ? * *',
+      isActive: false,
+      fireIfMissed: false,
+      jobType: '',
+      executionParameters: null
+    };
+  }
+}
+
+export interface JobModifyEvent {
+  job?: SchedulerJob;
+  jobId?: string;
+  autoReload: boolean;
+}

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { catchError, delay, map } from 'rxjs/operators';
 import { empty, forkJoin } from 'rxjs';
-import { SchedulerService } from 'src/app/core/services/scheduler.service';
+import { SchedulerService, SchedulerJob } from 'src/app/core/services/scheduler.service';
 import { LookupService } from 'src/app/core/services/lookup.service';
+import { JobModifyEvent } from '../job-list/job-list.component';
 
 @Component({
   selector: 'cubes-scheduler',
@@ -11,13 +12,15 @@ import { LookupService } from 'src/app/core/services/lookup.service';
 })
 export class SchedulerComponent implements OnInit {
   public data$: any;
+  public unloadedModifications: boolean;
+  public autoReload = false;
 
   constructor(
     private schedulerService: SchedulerService,
     private lookupService: LookupService) { }
-  ngOnInit() { this.refresh(); }
+  ngOnInit() { this.loadData(); }
 
-  refresh() {
+  loadData() {
     this.data$ = forkJoin(
       this.schedulerService.getSchedulerStatus(),
       this.lookupService.getLookup('jobTypes'),
@@ -31,6 +34,7 @@ export class SchedulerComponent implements OnInit {
         return empty();
       }),
       map(([schedulerStatus, jobTypes, commandTypes]) => {
+        this.unloadedModifications = false;
         return {
           schedulerStatus,
           lookups: {
@@ -42,9 +46,26 @@ export class SchedulerComponent implements OnInit {
     );
   }
 
+  reload() {
+    console.log('About to reload scheduler...');
+    this.loadData();
+  }
+
   onJobListEvent(event: string) {
     if (event === 'refresh') {
-      this.refresh();
+      this.loadData();
     }
+  }
+
+  onJobModify(event: JobModifyEvent) {
+    console.log(event);
+    this.unloadedModifications = true;
+    this.autoReload = event.autoReload;
+    if (event.autoReload) {
+      this.loadData();
+    }
+  }
+  onJobRun(event: SchedulerJob) {
+    console.log(event);
   }
 }
