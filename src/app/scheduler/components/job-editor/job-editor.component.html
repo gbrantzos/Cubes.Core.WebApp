@@ -34,7 +34,7 @@
         </div>
       </mat-tab>
 
-      <mat-tab label="Execution Parameters">
+      <mat-tab label="Execution Parameters" [disabled]="!jobTypeForSwitch">
         <div class="basic">
           <div class="full parameters" [ngSwitch]="jobTypeForSwitch">
             <cubes-execute-command-editor

@@ -1,8 +1,10 @@
 <mat-list-item>
   <mat-icon matListIcon>{{job.isActive ? 'alarm_on' : 'alarm_off'}}</mat-icon>
   <p matLine>
-    <span class="description"> {{job.description}}</span>
-    <span *ngIf="!job.isActive"><span class="disabled"> [Disabled]</span></span>
+    <span *ngIf="!job.isActive" class="disabled">[Disabled] </span>
+    <span class="description">{{job.description}}</span>
+    <span>, runs at </span>
+    <span class="runs-at">{{runsAt(job.cronExpression)}}</span>
   </p>
   <p matLine class="execution-info">Will be executed at
     <span [class.not-defined]="!job.nextExecutionAt">

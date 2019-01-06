@@ -44,7 +44,7 @@ export class SchedulerService {
         {
           id: '1348c916-0f37-4bbe-8092-69fd1429c9b9',
           description: 'A scheduler job',
-          cronExpression: '* 3 * * * *',
+          cronExpression: '0/5 14,18,3-39,52 * ? JAN,MAR,SEP MON-FRI',
           isActive: true,
           fireIfMissed: false,
           jobType: 'Cubes.Core.Jobs.ExecuteCommand',

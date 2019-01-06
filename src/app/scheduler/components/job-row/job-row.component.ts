@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SchedulerJob } from 'src/app/core/services/scheduler.service';
+import cronstrue from 'cronstrue';
 
 @Component({
   selector: 'cubes-job-row',
@@ -20,6 +21,12 @@ export class JobRowComponent implements OnInit {
   }
   onEditJob(job: SchedulerJob | string) {
     this.editJob.emit(job);
+  }
+
+  runsAt(cronExpression: string) {
+    let toReturn = cronstrue.toString(cronExpression);
+    toReturn = toReturn.charAt(0).toLowerCase() + toReturn.slice(1);
+    return toReturn;
   }
 
 }
