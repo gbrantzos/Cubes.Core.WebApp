@@ -3,7 +3,7 @@
   <p matLine>
     <span *ngIf="!job.isActive" class="disabled">[Disabled] </span>
     <span class="description">{{job.description}}</span>
-    <span>, runs at </span>
+    <span>, runs </span>
     <span class="runs-at">{{runsAt(job.cronExpression)}}</span>
   </p>
   <p matLine class="execution-info">Will be executed at

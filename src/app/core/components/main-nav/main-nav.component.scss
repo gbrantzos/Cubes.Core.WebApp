@@ -5,8 +5,9 @@
 .elevated {
   box-shadow:0 3px 5px -1px rgba(0,0,0,.2),0 6px 10px 0 rgba(0,0,0,.14),0 1px 18px 0 rgba(0,0,0,.12);
 }
+
 .sidenav {
-  width: 200px;
+  width: 300px;
 }
 
 .sidenav .mat-toolbar {
@@ -36,4 +37,22 @@
 
 a.active-menu {
   font-weight: bold !important;
+}
+
+.sticky {
+  top: 0;
+  position: fixed;
+  z-index: 9999 !important;
+}
+
+.cubes-logo {
+  margin-left: 14px;
+  padding-left: 42px;
+  background-image: url('./../../../../assets/cubes.logo.white.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.cubes-logo:focus {
+  outline: none;
 }

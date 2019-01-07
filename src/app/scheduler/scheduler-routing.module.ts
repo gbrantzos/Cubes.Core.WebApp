@@ -5,7 +5,7 @@ import { SchedulerComponent } from './components/scheduler/scheduler.component';
 
 
 const routes: Routes = [
-  { path: 'scheduler', component: SchedulerComponent }
+  { path: 'scheduler', component: SchedulerComponent, data: { Title: 'Scheduler'} }
 ];
 
 @NgModule({
@@ -16,5 +16,4 @@ const routes: Routes = [
     RouterModule
   ]
 })
-export class SchedulerRoutingModule {
-}
+export class SchedulerRoutingModule { }

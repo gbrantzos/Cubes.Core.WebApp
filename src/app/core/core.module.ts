@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { AboutComponent } from './components/about/about.component';
 import { MaterialModule } from '../shared/material.module';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { MaterialModule } from '../shared/material.module';
   ],
   declarations: [
     MainNavComponent,
-    AboutComponent
+    AboutComponent,
+    HomeComponent
   ],
   exports: [
     // Module components

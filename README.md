@@ -1,8 +1,6 @@
-# CoreUI
+# Core.WebApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.4.
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+This project will provide basic configuartion functionallity for Cubes.Core appliaction.
 
 ## Development server
 
@@ -22,7 +20,6 @@ The final commands should look like:
 ```
 ng build --prod --extract-css=false --base-href /cubes/
 ```
-
 
 ## Nginx configuration
 To serve the app on Nginx under the path `/cubes`, add the following configuration on Nginx config files:
@@ -45,8 +42,4 @@ To serve the app on Nginx under the path `/cubes`, add the following configurati
 
 # TODO
 
-- [ ] Job editor validation
-- [ ] ExecuteCommand parameters editors
 - [ ] Actual calls
-
-Check forkJoin for multiple calls to backend
