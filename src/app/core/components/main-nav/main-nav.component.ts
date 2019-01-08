@@ -28,7 +28,7 @@ export class MainNavComponent {
       )
       .subscribe(event => {
         this.title = event.Title || 'No route data defined!';
-        setTimeout(() => this.sidenav.close(), 120);
+        // setTimeout(() => this.sidenav.close(), 120);
       });
   }
 }
