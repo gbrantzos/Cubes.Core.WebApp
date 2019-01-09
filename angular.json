@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "cubes-ui": {
+    "core-webapp": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -36,7 +36,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/cubes-ui",
+            "outputPath": "dist/core-webapp",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -85,18 +85,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "cubes-ui:build"
+            "browserTarget": "core-webapp:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "cubes-ui:build:production"
+              "browserTarget": "core-webapp:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "cubes-ui:build"
+            "browserTarget": "core-webapp:build"
           }
         },
         "test": {
@@ -131,7 +131,7 @@
         }
       }
     },
-    "cubes-ui-e2e": {
+    "core-webapp-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -140,11 +140,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "cubes-ui:serve"
+            "devServerTarget": "core-webapp:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "cubes-ui:serve:production"
+              "devServerTarget": "core-webapp:serve:production"
             }
           }
         },
@@ -160,7 +160,7 @@
       }
     }
   },
-  "defaultProject": "cubes-ui",
+  "defaultProject": "core-webapp",
   "schematics": {
     "@schematics/angular:component": {
       "styleext": "scss"

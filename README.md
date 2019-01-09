@@ -31,7 +31,7 @@ To serve the app on Nginx under the path `/cubes`, add the following configurati
     server_name _;
     
     location /cubes {
-      alias /path_to_project_folder/Cubes.UI/dist/cubes-ui;
+      alias /path_to_project_folder/Cubes.UI/dist/core-webapp;
       try_files $uri /index.html =404;
       index index.html;
     }
