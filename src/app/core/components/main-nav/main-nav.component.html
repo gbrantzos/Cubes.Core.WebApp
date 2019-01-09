@@ -22,10 +22,22 @@
     [attr.role]="'navigation'"
     [mode]="'side'">
     <mat-nav-list>
-      <a mat-list-item routerLinkActive="active-menu" routerLink="/scheduler"><i class="fa fa-calendar"></i>Scheduler</a>
-      <a mat-list-item routerLinkActive="active-menu" routerLink="/data"><i class="fa fa-database"></i>Data Access</a>
-      <a mat-list-item routerLinkActive="active-menu" routerLink="/settings"><i class="fa fa-cogs"></i>Settings</a>
-      <a mat-list-item routerLinkActive="active-menu" routerLink="/about"><i class="fa fa-question-circle"></i>About</a>
+      <a mat-list-item routerLinkActive="active-menu" routerLink="/scheduler">
+        <i class="fa fa-fw fa-calendar"></i>
+        <span>Scheduler</span>
+      </a>
+      <a mat-list-item routerLinkActive="active-menu" routerLink="/data">
+        <i class="fa fa-fw fa-database"></i>
+        <span>Data Access</span>
+      </a>
+      <a mat-list-item routerLinkActive="active-menu" routerLink="/settings">
+        <i class="fa fa-fw fa-cogs"></i>
+        <span>Settings</span>
+      </a>
+      <a mat-list-item routerLinkActive="active-menu" routerLink="/about">
+        <i class="fa fa-fw fa-question-circle"></i>
+        <span>About</span>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

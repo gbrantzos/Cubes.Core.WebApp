@@ -25,3 +25,7 @@ input:-webkit-autofill:active {
   max-width: 100vw !important;
   border-radius: 0 !important;
 }
+
+.mat-drawer-inner-container {
+  overflow-x: hidden !important;
+}

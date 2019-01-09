@@ -8,7 +8,15 @@
 
 .sidenav {
   width: 260px;
+  padding-top: 8px;
 }
+
+// Must be put on global style.scss!!
+/*
+.mat-drawer-inner-container {
+  overflow-x: hidden !important;
+}
+*/
 
 .sidenav .mat-toolbar {
   background: inherit;
@@ -41,7 +49,7 @@
 a.mat-list-item { border-left: 3px solid transparent; }
 a.active-menu {
   font-weight: bold !important;
-  border-left: 3px solid blueviolet;
+  border-left: 3px solid #673ab7;
 }
 
 .sticky {
@@ -63,7 +71,7 @@ a.active-menu {
 }
 
 a .fa {
-  margin-right:14px;
+  padding-right:14px;
 }
 
 
