@@ -20,6 +20,9 @@
   z-index: 1;
 }
 
+.separator{
+  margin: 0 8px;
+}
 .hidden {
   display: none;
 }
@@ -35,8 +38,10 @@
   }
 }
 
+a.mat-list-item { border-left: 3px solid transparent; }
 a.active-menu {
   font-weight: bold !important;
+  border-left: 3px solid blueviolet;
 }
 
 .sticky {
@@ -57,9 +62,10 @@ a.active-menu {
   outline: none;
 }
 
-a .mat-icon {
+a .fa {
   margin-right:14px;
 }
+
 
 .container {
   display: inline-block;

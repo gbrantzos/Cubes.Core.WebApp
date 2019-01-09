@@ -1,38 +1,31 @@
 <mat-toolbar class="elevated sticky" color="primary">
   <mat-toolbar-row>
-    <div class="container" [ngClass]="{chang1e: drawer.opened}" (click)="drawer.toggle()">
+    <!-- Use this to show animated humberger icon-->
+    <!-- [ngClass]="{change: drawer.opened}"-->
+    <div class="container" (click)="drawer.toggle()">
       <div class="bar1"></div>
       <div class="bar2"></div>
       <div class="bar3"></div>
     </div>
     <span class="cubes-logo" routerLink="/">Cubes Configuration</span>
-    <mat-icon *ngIf="title.trim()">chevron_right</mat-icon>
+    <i class="fa fa-angle-double-right separator" *ngIf="title.trim()"></i>
     <span>{{title}}</span>
     <span class="spacer"></span>
-    <mat-icon>account_circle</mat-icon>
-
-    <!--
-    <button mat-icon-button [matMenuTriggerFor]="appMenu">
-      <mat-icon>account_circle</mat-icon>
-    </button>
-
-    <mat-menu #appMenu="matMenu">
-      <button mat-menu-item>Settings</button>
-      <button mat-menu-item>Help</button>
-    </mat-menu>
-    -->
+    <i class="fa fa-user-circle"></i>
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport="false" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+  <mat-sidenav #drawer
+    class="sidenav"
+    fixedInViewport="false"
+    [opened]="true"
+    [attr.role]="'navigation'"
     [mode]="'side'">
-    <mat-toolbar>Configuration Menu</mat-toolbar>
-    <mat-divider></mat-divider>
     <mat-nav-list>
-      <a mat-list-item routerLinkActive="active-menu" routerLink="/scheduler"><mat-icon>event</mat-icon>&nbsp;Scheduler</a>
-      <a mat-list-item routerLinkActive="active-menu" routerLink="/data"><mat-icon>storage</mat-icon>&nbsp;Data Access</a>
-      <a mat-list-item routerLinkActive="active-menu" routerLink="/settings"><mat-icon>settings</mat-icon>&nbsp;Settings</a>
-      <a mat-list-item routerLinkActive="active-menu" routerLink="/about"><mat-icon>help</mat-icon>&nbsp;About</a>
+      <a mat-list-item routerLinkActive="active-menu" routerLink="/scheduler"><i class="fa fa-calendar"></i>Scheduler</a>
+      <a mat-list-item routerLinkActive="active-menu" routerLink="/data"><i class="fa fa-database"></i>Data Access</a>
+      <a mat-list-item routerLinkActive="active-menu" routerLink="/settings"><i class="fa fa-cogs"></i>Settings</a>
+      <a mat-list-item routerLinkActive="active-menu" routerLink="/about"><i class="fa fa-question-circle"></i>About</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
