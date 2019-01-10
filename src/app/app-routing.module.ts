@@ -6,17 +6,19 @@ import { LoginComponent } from './core/components/login/login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent, data: { Title: ' ' } },
+  { path: 'home',  component: HomeComponent, data: { Title: ' ' } },
   { path: 'about', component: AboutComponent, data: { Title: 'About' } },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+
+  // Lazy loading
+  { path: 'scheduler', loadChildren: './scheduler/scheduler.module#SchedulerModule' },
+  { path: 'data',      loadChildren: './data-access/data-access.module#DataAccessModule' },
+  { path: 'scheduler', loadChildren: './scheduler/scheduler.module#SchedulerModule' },
+  { path: 'settings',  loadChildren: './settings/settings.module#SettingsModule' }
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes)
-  ],
-  exports: [
-    RouterModule
-  ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

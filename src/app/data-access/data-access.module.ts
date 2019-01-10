@@ -7,7 +7,7 @@ import {
   DialogOverviewExampleDialogComponent,
   FilePreviewOverlayComponent
 } from './components/data-access/data-access.component';
-import { MaterialModule } from '../shared/material.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,7 @@ import { MaterialModule } from '../shared/material.module';
   imports: [
     CommonModule,
     DataAccessRoutingModule,
-    MaterialModule
+    SharedModule
   ],
   entryComponents: [
     DialogOverviewExampleDialogComponent,

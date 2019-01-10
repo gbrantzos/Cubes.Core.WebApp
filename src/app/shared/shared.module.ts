@@ -19,7 +19,8 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
   ],
   exports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule
   ],
   entryComponents: [
     AlertDialogComponent,
