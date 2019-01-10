@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import {
   MatToolbarModule,
   MatSidenavModule,
-  MatIconModule,
   MatListModule,
   MatButtonModule,
   MatTooltipModule,
@@ -28,7 +27,6 @@ import {
     // Material modules
     MatToolbarModule,
     MatSidenavModule,
-    MatIconModule,
     MatListModule,
     MatButtonModule,
     MatTooltipModule,
@@ -45,7 +43,6 @@ import {
   exports: [
     MatToolbarModule,
     MatSidenavModule,
-    MatIconModule,
     MatListModule,
     MatButtonModule,
     MatTooltipModule,

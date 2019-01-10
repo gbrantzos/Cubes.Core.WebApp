@@ -1,10 +1,10 @@
 <mat-list-item>
-  <mat-icon matListIcon>{{job.isActive ? 'alarm_on' : 'alarm_off'}}</mat-icon>
   <p matLine>
-    <span *ngIf="!job.isActive" class="disabled">[Disabled] </span>
-    <span class="description">{{job.description}}</span>
-    <span>, runs </span>
-    <span class="runs-at">{{runsAt(job.cronExpression)}}</span>
+    <i *ngIf="job.isActive" class="fa fa-fw fa-calendar-check-o"></i>
+    <i *ngIf="!job.isActive" class="fa fa-fw fa-calendar-o"></i>
+    <span class="description">{{job.description}}, </span>
+    <span *ngIf="job.isActive" class="runs-at">runs {{runsAt(job.cronExpression)}}</span>
+    <span *ngIf="!job.isActive" class="disabled">disabled</span>
   </p>
   <p matLine class="execution-info">Will be executed at
     <span [class.not-defined]="!job.nextExecutionAt">
@@ -16,6 +16,8 @@
     </span>
     <span *ngIf="job.lastExecutionResult">, with results <strong>{{job.lastExecutionResult}}</strong></span>
   </p>
-  <mat-icon class="icon-link" matTooltip="Execute now" (click)="onRunJob(job)">play_circle_outline</mat-icon>&nbsp;&nbsp;
-  <mat-icon class="icon-link" matTooltip="Edit or delete job" (click)="onEditJob(job)">create</mat-icon>
+  <div class="actions">
+    <i class="icon-link fa fa-fw fa-caret-square-o-right" matTooltip="Execute now" (click)="onRunJob(job)"></i>
+    <i class="icon-link fa fa-fw fa-edit" matTooltip="Edit or delete job" (click)="onEditJob(job)"></i>
+  </div>
 </mat-list-item>

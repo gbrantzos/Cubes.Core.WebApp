@@ -46,7 +46,12 @@
   }
 }
 
-a.mat-list-item { border-left: 3px solid transparent; }
+a.mat-list-item {
+  border-left: 3px solid transparent;
+  i {
+    color: #555555;
+  }
+}
 a.active-menu {
   font-weight: bold !important;
   border-left: 3px solid #673ab7;

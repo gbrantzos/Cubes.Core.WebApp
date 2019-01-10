@@ -1,11 +1,13 @@
-
 h3 {
   font-size: 120%;
-  padding-left: 8px;
 }
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.mat-menu-item span {
+  padding-left: 12px;
 }
 
 .no-jobs-found {
@@ -13,19 +15,15 @@ h3 {
   font-size: 2em;
   color: #555555;
   margin: 24px 0;
-  .mat-icon {
-    margin-top:36px;
+  i {
+    margin-top:16px;
     color: #bbbbbb;
-    height: 48px;
-    width: 48px;
-    font-size: 48px;
   }
 }
 
 .spacer {
   flex: 1 1 auto;
 }
-
 
 .mat-card-actions {
   display: flex;

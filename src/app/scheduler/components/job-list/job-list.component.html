@@ -2,19 +2,19 @@
   <div style="display: flex;">
     <h3>Job list</h3>
     <div class="spacer"></div>
-    <mat-icon class="icon-link" matTooltip="Scheduler Control" [matMenuTriggerFor]="schedulerControl">menu</mat-icon>
+    <i class="icon-link fa fa-bars fa-2x" matTooltip="Scheduler Control" [matMenuTriggerFor]="schedulerControl"></i>
 
     <mat-menu #schedulerControl="matMenu">
       <button mat-menu-item [disabled]='started' (click)="onMenuClicked('start')">
-        <mat-icon>play_arrow</mat-icon>
+        <i class="fa fa-fw fa-play"></i>
         <span>Start</span>
       </button>
       <button mat-menu-item [disabled]='!started' (click)="onMenuClicked('stop')">
-        <mat-icon>stop</mat-icon>
+        <i class="fa fa-fw fa-stop"></i>
         <span>Stop</span>
       </button>
       <button mat-menu-item (click)="onMenuClicked('reload')">
-        <mat-icon>cached</mat-icon>
+        <i class="fa fa-fw fa-undo"></i>
         <span>Reload</span>
       </button>
       <mat-divider></mat-divider>
@@ -31,7 +31,7 @@
       </ng-template>
       <div class="no-jobs-found" *ngIf="jobs.length==0">
         <p>No jobs found!</p>
-        <mat-icon>report_problem</mat-icon>
+        <i class="fa fa-exclamation-triangle fa-4x"></i>
       </div>
     </mat-list>
   </mat-card-content>
