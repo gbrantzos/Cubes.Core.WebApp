@@ -2,13 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DataAccessRoutingModule } from './data-access-routing.module';
-import { DataAccessComponent, DialogOverviewExampleDialogComponent } from './components/data-access/data-access.component';
+import {
+  DataAccessComponent,
+  DialogOverviewExampleDialogComponent,
+  FilePreviewOverlayComponent
+} from './components/data-access/data-access.component';
 import { MaterialModule } from '../shared/material.module';
 
 @NgModule({
   declarations: [
     DataAccessComponent,
-    DialogOverviewExampleDialogComponent
+    DialogOverviewExampleDialogComponent,
+    FilePreviewOverlayComponent
   ],
   imports: [
     CommonModule,
@@ -16,7 +21,8 @@ import { MaterialModule } from '../shared/material.module';
     MaterialModule
   ],
   entryComponents: [
-    DialogOverviewExampleDialogComponent
+    DialogOverviewExampleDialogComponent,
+    FilePreviewOverlayComponent
   ]
 })
 export class DataAccessModule { }
