@@ -1,8 +1,14 @@
 .about {
-  margin: 60px auto 0;
+  margin: 20px auto 0;
   width: 256px;
 
   p {
+    text-align: center;
+    width: 256px;
+    font-size: 1.2em;
+    margin-top: 20px;
+  }
+  p.cubes-server {
     text-align: center;
     width: 256px;
     margin-top: 40px;
@@ -10,5 +16,31 @@
     font-weight: bold;
     color: #6b6b6b;
     text-shadow: 2px 2px #aeaeae
+  }
+}
+
+.results {
+  width: 600px;
+  margin: 20px auto 0;
+  position: relative;
+
+
+  .ping-data {
+    width: 100%;
+    background: white;
+    margin: 0;
+    padding: 12px;
+    border: 1px solid #6b6b6b;
+    border-radius: 6px;
+  }
+
+  .ping-button {
+    position: absolute;
+    top: 12px;
+    margin: 0;
+    right: 12px;
+    color: #6b6b6b;
+    cursor: pointer;
+    font-size: 20px;
   }
 }

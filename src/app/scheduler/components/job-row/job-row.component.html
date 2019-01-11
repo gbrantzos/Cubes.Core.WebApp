@@ -1,7 +1,7 @@
 <mat-list-item>
   <p matLine>
-    <i *ngIf="job.isActive" class="fa fa-fw fa-calendar-check-o"></i>
-    <i *ngIf="!job.isActive" class="fa fa-fw fa-calendar-o"></i>
+    <i *ngIf="job.isActive" class="fa fa-fw fa-calendar-check"></i>
+    <i *ngIf="!job.isActive" class="fa fa-fw fa-calendar"></i>
     <span class="description">{{job.description}}, </span>
     <span *ngIf="job.isActive" class="runs-at">runs {{runsAt(job.cronExpression)}}</span>
     <span *ngIf="!job.isActive" class="disabled">disabled</span>
@@ -17,7 +17,7 @@
     <span *ngIf="job.lastExecutionResult">, with results <strong>{{job.lastExecutionResult}}</strong></span>
   </p>
   <div class="actions">
-    <i class="icon-link fa fa-fw fa-caret-square-o-right" matTooltip="Execute now" (click)="onRunJob(job)"></i>
+    <i class="icon-link fa fa-fw fa-play-circle" matTooltip="Execute now" (click)="onRunJob(job)"></i>
     <i class="icon-link fa fa-fw fa-edit" matTooltip="Edit or delete job" (click)="onEditJob(job)"></i>
   </div>
 </mat-list-item>
