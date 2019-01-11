@@ -27,7 +27,7 @@ export class DataAccessComponent implements OnInit {
   ngOnInit() {
   }
 
-  openDialog(config: FilePreviewDialogConfig = {}) {
+  openDialogOverlay(config: FilePreviewDialogConfig = {}) {
     // Override default configuration
     const dialogConfig = { ...DEFAULT_CONFIG, ...config };
 
@@ -39,15 +39,21 @@ export class DataAccessComponent implements OnInit {
 
     // Attach ComponentPortal to PortalHost
     overlayRef.attach(filePreviewPortal);
+
+    setTimeout(() => {
+      overlayRef.dispose();
+    }, 3000);
   }
-  openDialog1(): void {
+  openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialogComponent, {
       panelClass: 'full-width-dialog',
-      width: '100vw',
-      height:  '100vh',
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      hasBackdrop: false
+      backdropClass: 'backdrop1',
+      // width: '100vw',
+      // height:  '100vh',
+      // maxWidth: '100vw',
+      // maxHeight: '100vh',
+      hasBackdrop: true,
+      disableClose: true
     });
     // max-width: none !important;
     // https://github.com/angular/material2/issues/9823#issuecomment-363779100

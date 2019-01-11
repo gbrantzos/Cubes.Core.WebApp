@@ -1,8 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material';
 import { Router, ActivationEnd } from '@angular/router';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cubes-main-nav',
@@ -11,18 +10,17 @@ import { map, filter } from 'rxjs/operators';
 })
 export class MainNavComponent {
   public title = '';
+  private onDebug = false; // Enable this for debugging!
   @ViewChild('drawer') public sidenav: MatSidenav;
 
-  constructor(private breakpointObserver: BreakpointObserver, private router: Router) {
+  constructor(private router: Router) {
     // Also see: https://stackoverflow.com/a/52355983
     this.router.events
       .pipe(
-        filter(event => event instanceof ActivationEnd),
+        filter(event => event instanceof ActivationEnd && event.snapshot.component !== undefined),
+        tap(event => { if (this.onDebug) { console.log(event); } }),
         map(event => (<ActivationEnd>event).snapshot.data)
       )
-      .subscribe(event => {
-        this.title = event.Title || 'No route data defined!';
-        // setTimeout(() => this.sidenav.close(), 120);
-      });
+      .subscribe(event => this.title = event.Title || 'No route data defined!');
   }
 }
