@@ -54,11 +54,13 @@ export class SchedulerComponent implements OnInit {
   onJobListEvent(event: string) {
     if (event === 'refresh') {
       this.loadData();
+    } else {
+      this.schedulerService.schedulerCommand(event).subscribe(res => console.log(res));
     }
   }
 
   onJobModify(event: JobModifyEvent) {
-    console.log(event);
+    this.schedulerService.saveSchedulerJob(event.job).subscribe(res => console.log(res));
     this.unloadedModifications = true;
     this.autoReload = event.autoReload;
     if (event.autoReload) {

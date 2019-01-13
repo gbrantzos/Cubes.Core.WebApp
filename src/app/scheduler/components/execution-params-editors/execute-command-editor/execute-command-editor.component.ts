@@ -19,8 +19,8 @@ export class ExecuteCommandEditorComponent implements OnInit, ParametersEditor {
   constructor(private fb: FormBuilder) { }
   ngOnInit() {
     this.form = this.fb.group({
-      commandType: ['', Validators.required],
-      commandInst: ['', [Validators.required, CustomValidators.isJSON]]
+      CommandType: ['', Validators.required],
+      CommandInstance: ['', [Validators.required, CustomValidators.isJSON]]
     });
     this.form
       .statusChanges
@@ -33,7 +33,8 @@ export class ExecuteCommandEditorComponent implements OnInit, ParametersEditor {
     const prmJson = JSON.parse(this.parameters);
     if (prmJson) {
       // Valid parameters, apply to form
-      prmJson.commandInst = JSON.stringify(prmJson.commandInst, null, 2);
+      const tmp = JSON.parse(prmJson.CommandInstance);
+      prmJson.CommandInstance = JSON.stringify(tmp, null, 2);
       this.form.patchValue(prmJson);
     } else {
       // Invalid parameters, just tell the world that form is invalid
@@ -42,13 +43,13 @@ export class ExecuteCommandEditorComponent implements OnInit, ParametersEditor {
     }
   }
 
-  get commandType() { return this.form.get('commandType'); }
-  get commandInst() { return this.form.get('commandInst'); }
+  get CommandType() { return this.form.get('CommandType'); }
+  get CommandInstance() { return this.form.get('CommandInstance'); }
 
   get commandInstErrorMessage() {
-    if (this.commandInst.getError('required')) {
+    if (this.CommandInstance.getError('required')) {
       return 'Command Instance is required';
-    } else if (this.commandInst.getError('invalidJson')) {
+    } else if (this.CommandInstance.getError('invalidJson')) {
       return 'Command Instance is not valid JSON';
     }
     return 'Field failed validation, but why?';
@@ -57,8 +58,8 @@ export class ExecuteCommandEditorComponent implements OnInit, ParametersEditor {
   // ParametersEditor implementation
   getParameters(): string {
     const toReturn = {
-      commandType: this.commandType.value,
-      commandInst: JSON.parse(this.commandInst.value)
+      CommandType: this.CommandType.value,
+      CommandInstance: JSON.stringify(JSON.parse(this.CommandInstance.value))
     };
     return JSON.stringify(toReturn);
   }

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 export interface SchedulerStatus {
   state: SchedulerStateEnum;
@@ -33,80 +35,32 @@ export function isSchedulerJob(job: any): job is SchedulerJob {
   providedIn: 'root'
 })
 export class SchedulerService {
-
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getSchedulerStatus(): Observable<SchedulerStatus> {
-    const details: SchedulerStatus = {
-      state: SchedulerStateEnum.Started,
-      serverTime: new Date(),
-      jobs: [
-        {
-          id: '1348c916-0f37-4bbe-8092-69fd1429c9b9',
-          description: 'A scheduler job',
-          cronExpression: '0/5 14,18,3-39,52 * ? JAN,MAR,SEP MON-FRI',
-          isActive: true,
-          fireIfMissed: false,
-          jobType: 'Cubes.Core.Jobs.ExecuteCommand',
-          executionParameters: `{
-            "commandType": "Cubes.Core.Commands.SqlResultsAsEmail",
-            "commandInst": {
-              "FileName": "PickingResults",
-              "DbConnection": "Pharmex.SEn",
-              "SqlQueries": {
-                "Results": "picking-results",
-                "Statistics": "picking-statistics"
-              },
-              "Subject": "Picking Results",
-              "Body": "Picking results for the previous working day.",
-              "ToAddresses": [
-                "ap@pharmex.gr",
-                "g.brantzos@gmail.com"
-              ],
-              "SendIfDataExists": true
-            }
-          }`
-        },
-        {
-          id: 'empty',
-          description: 'Another job...',
-          cronExpression: '* 3 * * * *',
-          isActive: false,
-          fireIfMissed: false,
-          jobType: 'Cubes.Core.Jobs.ExecuteCommand',
-          executionParameters: null
-        },
-        {
-          id: 'empty',
-          description: 'A scheduler job',
-          cronExpression: '* 3 * * * *',
-          isActive: true,
-          fireIfMissed: false,
-          lastExecutionAt: new Date(2018, 12, 26, 23, 45, 23),
-          lastExecutionResult: 'OK...',
-          jobType: 'Cubes.Core.Jobs.ExecuteCommand',
-          executionParameters: null
-        },
-        {
-          id: 'empty',
-          description: 'Another job...',
-          cronExpression: '* 3 * * * *',
-          isActive: false,
-          fireIfMissed: false,
-          nextExecutionAt: new Date(2019, 1, 1, 3, 45, 0),
-          jobType: 'Cubes.Core.Jobs.ExecuteCommand',
-          executionParameters: null
-        }
+    return this.http
+      .get('http://localhost:3001/api/scheduler/status')
+      .pipe(
+        map(res => (<any>res).result)
+      );
+  }
 
-      ]
+  saveSchedulerJob(job: SchedulerJob): Observable<any> {
+    const jobToPost = {
+      id: job.id,
+      description: job.description,
+      cronSchedule: job.cronExpression,
+      jobTypeName: job.jobType,
+      isActive: job.isActive,
+      fireIfMissed: job.fireIfMissed,
+      executionParameter: job.executionParameters
     };
+    return this.http
+      .post('http://localhost:3001/api/scheduler/save', jobToPost);
+  }
 
-
-    const empty: SchedulerStatus = {
-      state: SchedulerStateEnum.Stopped,
-      serverTime: new Date(),
-      jobs: []
-    };
-    return of(details);
+  schedulerCommand(command: string): Observable<any> {
+    return this.http
+      .post('http://localhost:3001/api/scheduler/' + command, {});
   }
 }
