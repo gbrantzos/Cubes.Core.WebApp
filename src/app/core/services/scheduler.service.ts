@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { environment } from '@src/environments/environment';
 
 export interface SchedulerStatus {
   state: SchedulerStateEnum;
@@ -35,32 +36,34 @@ export function isSchedulerJob(job: any): job is SchedulerJob {
   providedIn: 'root'
 })
 export class SchedulerService {
+  private apiUrl = environment.cubesApiUrl + '/scheduler/';
   constructor(private http: HttpClient) { }
 
   getSchedulerStatus(): Observable<SchedulerStatus> {
     return this.http
-      .get('http://localhost:3001/api/scheduler/status')
+      .get(this.apiUrl + 'status')
       .pipe(
         map(res => (<any>res).result)
       );
   }
 
   saveSchedulerJob(job: SchedulerJob): Observable<any> {
+    // Convert to Cubes persistance model
     const jobToPost = {
-      id: job.id,
-      description: job.description,
-      cronSchedule: job.cronExpression,
-      jobTypeName: job.jobType,
-      isActive: job.isActive,
-      fireIfMissed: job.fireIfMissed,
+      id                : job.id,
+      description       : job.description,
+      cronSchedule      : job.cronExpression,
+      jobTypeName       : job.jobType,
+      isActive          : job.isActive,
+      fireIfMissed      : job.fireIfMissed,
       executionParameter: job.executionParameters
     };
     return this.http
-      .post('http://localhost:3001/api/scheduler/save', jobToPost);
+      .post(this.apiUrl + 'save', jobToPost);
   }
 
   schedulerCommand(command: string): Observable<any> {
     return this.http
-      .post('http://localhost:3001/api/scheduler/' + command, {});
+      .post(this.apiUrl + 'scheduler/' + command, {});
   }
 }

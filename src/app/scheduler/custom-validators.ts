@@ -1,6 +1,6 @@
+// cSpell:words cronstrue
 import { AbstractControl } from '@angular/forms';
 import cronstrue from 'cronstrue';
-
 
 export class CustomValidators {
   static isJSON(control: AbstractControl) {

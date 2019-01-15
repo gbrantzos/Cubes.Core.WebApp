@@ -1,12 +1,12 @@
 <form [formGroup]="form">
 
   <mat-form-field class="full">
-    <mat-select placeholder="Command Type" formControlName="CommandType" required>
+    <mat-select placeholder="Command Type" formControlName="commandType" required>
       <mat-option *ngFor="let command of commandsLookup.items" [value]="command.id">
         {{command.display}}
       </mat-option>
     </mat-select>
-    <mat-error *ngIf="CommandType.invalid">Command type is required</mat-error>
+    <mat-error *ngIf="commandType.invalid">Command type is required</mat-error>
   </mat-form-field>
 
   <mat-form-field class="full" hintLabel="Should be a valid JSON">
@@ -16,9 +16,9 @@
       matAutosizeMinRows=10
       class="code"
       placeholder="Command Instance"
-      formControlName="CommandInstance"
+      formControlName="commandInst"
       required></textarea>
-    <mat-error *ngIf="CommandInstance.invalid">{{commandInstErrorMessage}}</mat-error>
+    <mat-error *ngIf="commandInst.invalid">{{commandInstErrorMessage}}</mat-error>
   </mat-form-field>
 
 </form>
