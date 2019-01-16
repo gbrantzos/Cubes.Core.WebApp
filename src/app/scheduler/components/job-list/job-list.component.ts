@@ -15,14 +15,14 @@ export class JobListComponent implements OnInit {
   @Input() autoReload: boolean;
   @Input() lookups: Lookup[];
 
-  @Output() menuClick = new EventEmitter();
+  @Output() schedulerControl = new EventEmitter();
   @Output() modifyJob = new EventEmitter<JobModifyEvent>();
   @Output() runJob = new EventEmitter<SchedulerJob>();
 
   constructor(private dialog: MatDialog) { }
   ngOnInit() { }
 
-  onMenuClicked(menuItem: string) { this.menuClick.emit(menuItem); }
+  onSchedulerControl(menuItem: string) { this.schedulerControl.emit(menuItem); }
   onRunJob(job: SchedulerJob) { this.runJob.emit(job); }
   onEditJob(job: SchedulerJob | string) {
     // New asked, prepare en empty job

@@ -64,6 +64,6 @@ export class SchedulerService {
 
   schedulerCommand(command: string): Observable<any> {
     return this.http
-      .post(this.apiUrl + 'scheduler/' + command, {});
+      .post(this.apiUrl + '/' + command, {});
   }
 }

@@ -20,9 +20,9 @@ export class SchedulerComponent implements OnInit {
   constructor(
     private schedulerService: SchedulerService,
     private lookupService: LookupService) { }
-  ngOnInit() { this.loadData(); }
+  ngOnInit() { this.refreshList(); }
 
-  loadData() {
+  refreshList() {
     this.data$ = forkJoin(
       this.schedulerService.getSchedulerStatus(),
       this.lookupService.getLookup('jobTypes'),
@@ -48,16 +48,19 @@ export class SchedulerComponent implements OnInit {
     );
   }
 
-  reload() {
-    console.log('About to reload scheduler...');
-    this.loadData();
-  }
+  reload() { this.onSchedulerControl('reload'); }
 
-  onJobListEvent(event: string) {
+  onSchedulerControl(event: string) {
     if (event === 'refresh') {
-      this.loadData();
+      this.refreshList();
     } else {
-      this.schedulerService.schedulerCommand(event).subscribe(res => console.log(res));
+      this.schedulerService
+        .schedulerCommand(event)
+        .subscribe(res => {
+          // TODO: Inform user
+          console.log(res);
+          this.refreshList();
+        });
     }
   }
 
@@ -66,7 +69,7 @@ export class SchedulerComponent implements OnInit {
     this.unloadedModifications = true;
     this.autoReload = event.autoReload;
     if (event.autoReload) {
-      this.loadData();
+      this.refreshList();
     }
   }
   onJobRun(event: SchedulerJob) {

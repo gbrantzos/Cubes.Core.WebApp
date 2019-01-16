@@ -1,3 +1,4 @@
+// cSpell:words autofill
 /* You can add global styles to this file, and also import other style files */
 html,
 body {
@@ -14,10 +15,10 @@ body {
   font-family: 'Open Sans' !important;
 }
 
-// Laoding animation, while waiting for data
+// Loading animation, while waiting for data
 @import 'loading.scss';
 
-// Fix yellow background on autofills on Chrome
+// This is to fix yellow background on auto fills on Chrome
 // https://stackoverflow.com/a/29350537/3410871
 input:-webkit-autofill,
 input:-webkit-autofill:hover,

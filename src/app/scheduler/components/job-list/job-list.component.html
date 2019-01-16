@@ -5,20 +5,20 @@
     <i class="icon-link fa fa-bars fa-2x" matTooltip="Scheduler Control" [matMenuTriggerFor]="schedulerControl"></i>
 
     <mat-menu #schedulerControl="matMenu">
-      <button mat-menu-item [disabled]='started' (click)="onMenuClicked('start')">
+      <button mat-menu-item [disabled]='started' (click)="onSchedulerControl('start')">
         <i class="fa fa-fw fa-play"></i>
         <span>Start</span>
       </button>
-      <button mat-menu-item [disabled]='!started' (click)="onMenuClicked('stop')">
+      <button mat-menu-item [disabled]='!started' (click)="onSchedulerControl('stop')">
         <i class="fa fa-fw fa-stop"></i>
         <span>Stop</span>
       </button>
-      <button mat-menu-item (click)="onMenuClicked('reload')">
+      <button mat-menu-item (click)="onSchedulerControl('reload')">
         <i class="fa fa-fw fa-undo"></i>
         <span>Reload</span>
       </button>
       <mat-divider></mat-divider>
-      <button mat-menu-item (click)="onMenuClicked('refresh')">Refresh List</button>
+      <button mat-menu-item (click)="onSchedulerControl('refresh')">Refresh List</button>
     </mat-menu>
 
   </div>

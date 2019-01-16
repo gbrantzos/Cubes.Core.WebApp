@@ -1,6 +1,6 @@
 # Core.WebApp
 
-This project will provide basic configuartion functionallity for Cubes.Core appliaction.
+This project will provide basic configuration functionality for Cubes.Core application.
 
 ## Development server
 
@@ -12,9 +12,9 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build. Also use `--base-href /cubes/` for hosting app in cubes subfolder.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build. Also use `--base-href /cubes/` for hosting app in cubes sub-folder.
 
-Note: since Roboto font and Material Icons are serverd locally (added either on styles.scss or angular.json styles array), we must add `--extract-css=false` on the build command. Poassibly related to [this](https://github.com/angular/angular-cli/issues/8577) issue.
+Note: since Roboto font and Material Icons are served locally (added either on styles.scss or angular.json styles array), we must add `--extract-css=false` on the build command. Possibly related to [this](https://github.com/angular/angular-cli/issues/8577) issue.
 
 The final commands should look like:
 ```

@@ -15,7 +15,8 @@
     [autoReload]="autoReload"
     (modifyJob)="onJobModify($event)"
     (runJob)="onJobRun($event)"
-    (menuClick)="onJobListEvent($event)"></cubes-job-list>
+    (schedulerControl)="onSchedulerControl($event)">
+  </cubes-job-list>
 </div>
 
 <ng-template #loading>
