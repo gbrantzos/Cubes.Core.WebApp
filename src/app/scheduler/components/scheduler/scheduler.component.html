@@ -1,6 +1,9 @@
 <h2>Scheduler</h2>
 <mat-divider></mat-divider>
+
+
 <div *ngIf="data$ | async as data; else loading">
+
   <mat-card class="status" [class.status-started]="data.schedulerStatus.state==='Started'" [class.status-stopped]="data.schedulerStatus.state==='Stopped'">
     <p>
       Cubes scheduler is <strong>{{data.schedulerStatus.state}}</strong>.&nbsp;
@@ -8,24 +11,25 @@
     </p>
     <p style="margin-top: -6px;" *ngIf="unloadedModifications">Scheduler jobs are modified. <a href="" (click)="!!reload()">Reload</a> to apply!</p>
   </mat-card>
+
   <cubes-job-list
-    [jobs]='data.schedulerStatus.jobs'
-    [started]="data.schedulerStatus.state=='Started'"
-    [lookups]="data.lookups"
-    [autoReload]="autoReload"
-    (modifyJob)="onJobModify($event)"
-    (runJob)="onJobRun($event)"
-    (schedulerControl)="onSchedulerControl($event)">
+    [jobs]             = "data.schedulerStatus.jobs"
+    [started]          = "data.schedulerStatus.state=='Started'"
+    [lookups]          = "data.lookups"
+    [autoReload]       = "autoReload"
+    (modifyJob)        = "onJobModify($event)"
+    (runJob)           = "onJobRun($event)"
+    (schedulerControl) = "onSchedulerControl($event)">
   </cubes-job-list>
+
 </div>
 
 <ng-template #loading>
-  <div class="loading">Waiting for data ...</div>
-  <div id="loader">
-    <div id="top"></div>
-    <div id="bottom"></div>
-    <div id="line"></div>
-  </div>
+  <cubes-loading
+    (retry)        = "refreshList()"
+    [hasErrors]    = "errorLoading"
+    [errorMessage] = "errorMessage">
+  </cubes-loading>
 </ng-template>
 
 <!-- Debug -->

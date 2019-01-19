@@ -15,6 +15,8 @@ import { JobModifyEvent } from '../job-list/job-list.component';
 export class SchedulerComponent implements OnInit {
   public data$: any;
   public unloadedModifications: boolean;
+  public errorLoading = false;
+  public errorMessage = '';
   public autoReload = false;
 
   constructor(
@@ -22,7 +24,14 @@ export class SchedulerComponent implements OnInit {
     private lookupService: LookupService) { }
   ngOnInit() { this.refreshList(); }
 
+  private resetError() {
+    this.errorLoading = false;
+    this.errorMessage = '';
+  }
+
   refreshList() {
+    this.resetError();
+
     this.data$ = forkJoin(
       this.schedulerService.getSchedulerStatus(),
       this.lookupService.getLookup('jobTypes'),
@@ -31,7 +40,8 @@ export class SchedulerComponent implements OnInit {
       delay(200),
       catchError((err, caught) => {
         // TODO: Add proper error handling and display!
-        alert(err.message);
+        this.errorLoading = true;
+        this.errorMessage = err.message;
         console.error(err);
         return empty();
       }),

@@ -5,11 +5,13 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   declarations: [
     AlertDialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    LoadingComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
   exports: [
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    LoadingComponent
   ],
   entryComponents: [
     AlertDialogComponent,

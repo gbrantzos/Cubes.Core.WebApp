@@ -4,6 +4,32 @@
   margin-top: 60px;
 }
 
+.errors {
+  i {
+    margin-top: 48px;
+    color: #777;
+  }
+
+  .retry-link {
+    margin-top: 24px;
+    font-size: 0.82em;
+  }
+
+  .error-message {
+    margin: 38px auto;
+    border: 2px red solid;
+    border-radius: 6px;
+    padding: 18px;
+    font-size: 0.62em;
+    color: rgb(128, 0, 0);
+    background-color: whitesmoke;
+    width: 72%;
+
+    box-shadow: 2px 2px #bbbbbb;
+  }
+
+}
+
 $color: #777;
 $size: 40px;
 $animation-seconds: 1.8s;

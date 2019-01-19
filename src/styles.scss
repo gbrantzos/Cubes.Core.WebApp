@@ -15,9 +15,6 @@ body {
   font-family: 'Open Sans' !important;
 }
 
-// Loading animation, while waiting for data
-@import 'loading.scss';
-
 // This is to fix yellow background on auto fills on Chrome
 // https://stackoverflow.com/a/29350537/3410871
 input:-webkit-autofill,
