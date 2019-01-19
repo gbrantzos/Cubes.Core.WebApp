@@ -38,7 +38,7 @@ export class SchedulerComponent implements OnInit {
       this.lookupService.getLookup('jobTypes'),
       this.lookupService.getLookup('commandTypes')
     ).pipe(
-      delay(200),
+      // delay(200),
       catchError((err, caught) => {
         this.errorLoading = true;
         this.errorMessage = err.message;
@@ -83,14 +83,18 @@ export class SchedulerComponent implements OnInit {
       this.refreshList();
     }
   }
+
   onJobRun(event: SchedulerJob) {
-    console.log(event);
+    this.schedulerService
+      .runSchedulerJob(event.id)
+      .subscribe(msg => this.displayMessage(msg));
   }
 
   private displayMessage(message: string) {
     const snackRef = this.snackBar.open(message, 'Close', {
       duration: 10000,
-      panelClass: 'snack-bar'
+      panelClass: 'snack-bar',
+      horizontalPosition: 'right'
     });
     snackRef.onAction().subscribe(() => snackRef.dismiss());
   }

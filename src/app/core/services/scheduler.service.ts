@@ -66,6 +66,12 @@ export class SchedulerService {
       .post(this.apiUrl + '/' + command, {})
       .pipe(cubesExtractMessage());
   }
+
+  runSchedulerJob(id: string): Observable<any> {
+    return this.http
+      .post(this.apiUrl + '/run/' + id, {})
+      .pipe(cubesExtractMessage());
+  }
 }
 
 

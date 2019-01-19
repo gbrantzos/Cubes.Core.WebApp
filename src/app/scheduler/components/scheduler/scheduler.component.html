@@ -22,6 +22,10 @@
     (schedulerControl) = "onSchedulerControl($event)">
   </cubes-job-list>
 
+  <!-- Debug -->
+  <!--
+  <pre class="code">{{data | json}}></pre>
+  -->
 </div>
 
 <ng-template #loading>
@@ -31,6 +35,3 @@
     [errorMessage] = "errorMessage">
   </cubes-loading>
 </ng-template>
-
-<!-- Debug -->
-<!-- <pre>{{schedulerStatus | json}}></pre> -->
