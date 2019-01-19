@@ -37,9 +37,3 @@ To serve the app on Nginx under the path `/cubes`, add the following configurati
     }
   }
 ```
-
-
-
-# TODO
-
-- [ ] Actual calls

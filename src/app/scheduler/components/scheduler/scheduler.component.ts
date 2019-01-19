@@ -5,6 +5,7 @@ import { empty, forkJoin } from 'rxjs';
 import { SchedulerService, SchedulerJob } from 'src/app/core/services/scheduler.service';
 import { LookupService } from 'src/app/core/services/lookup.service';
 import { JobModifyEvent } from '../job-list/job-list.component';
+import { MatSnackBar } from '@angular/material';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class SchedulerComponent implements OnInit {
 
   constructor(
     private schedulerService: SchedulerService,
-    private lookupService: LookupService) { }
+    private lookupService: LookupService,
+    private snackBar: MatSnackBar ) { }
   ngOnInit() { this.refreshList(); }
 
   private resetError() {
@@ -31,7 +33,6 @@ export class SchedulerComponent implements OnInit {
 
   refreshList() {
     this.resetError();
-
     this.data$ = forkJoin(
       this.schedulerService.getSchedulerStatus(),
       this.lookupService.getLookup('jobTypes'),
@@ -39,9 +40,10 @@ export class SchedulerComponent implements OnInit {
     ).pipe(
       delay(200),
       catchError((err, caught) => {
-        // TODO: Add proper error handling and display!
         this.errorLoading = true;
         this.errorMessage = err.message;
+
+        this.displayMessage(this.errorMessage);
         console.error(err);
         return empty();
       }),
@@ -67,8 +69,7 @@ export class SchedulerComponent implements OnInit {
       this.schedulerService
         .schedulerCommand(event)
         .subscribe(res => {
-          // TODO: Inform user
-          console.log(res);
+          this.displayMessage(res);
           this.refreshList();
         });
     }
@@ -84,5 +85,13 @@ export class SchedulerComponent implements OnInit {
   }
   onJobRun(event: SchedulerJob) {
     console.log(event);
+  }
+
+  private displayMessage(message: string) {
+    const snackRef = this.snackBar.open(message, 'Close', {
+      duration: 10000,
+      panelClass: 'snack-bar'
+    });
+    snackRef.onAction().subscribe(() => snackRef.dismiss());
   }
 }

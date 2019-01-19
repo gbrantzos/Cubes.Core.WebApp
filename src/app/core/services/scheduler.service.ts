@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, pipe } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from '@src/environments/environment';
@@ -42,9 +42,7 @@ export class SchedulerService {
   getSchedulerStatus(): Observable<SchedulerStatus> {
     return this.http
       .get(this.apiUrl + 'status')
-      .pipe(
-        map(res => (<any>res).result)
-      );
+      .pipe(cubesExtractResult());
   }
 
   saveSchedulerJob(job: SchedulerJob): Observable<any> {
@@ -59,11 +57,39 @@ export class SchedulerService {
       executionParameter: job.executionParameters
     };
     return this.http
-      .post(this.apiUrl + 'save', jobToPost);
+      .post(this.apiUrl + 'save', jobToPost)
+      .pipe(cubesExtractMessage());
   }
 
   schedulerCommand(command: string): Observable<any> {
     return this.http
-      .post(this.apiUrl + '/' + command, {});
+      .post(this.apiUrl + '/' + command, {})
+      .pipe(cubesExtractMessage());
   }
 }
+
+
+// Extract message or messages from Cubes API result
+const cubesExtractMessage = () =>
+  map(res => {
+    const tmp = (<any>res);
+    if (tmp && tmp.hasOwnProperty('version') && (tmp.hasOwnProperty('message') || tmp.hasOwnProperty('messages'))) {
+      const message = tmp.messages ?
+        tmp.messages.join('\n') :
+        tmp.message;
+      return message;
+    } else {
+      return res;
+    }
+  });
+
+// Extract result object from Cubes API result
+const cubesExtractResult = () =>
+  map(res => {
+    const tmp = (<any>res);
+    if (tmp && tmp.hasOwnProperty('result')) {
+      return (<any>res).result;
+    } else {
+      return res;
+    }
+  });
