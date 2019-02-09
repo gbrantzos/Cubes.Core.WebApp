@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { catchError, delay, map } from 'rxjs/operators';
-import { empty, forkJoin } from 'rxjs';
+import { empty, forkJoin, Observable } from 'rxjs';
 
 import { SchedulerService, SchedulerJob } from 'src/app/core/services/scheduler.service';
 import { LookupService } from 'src/app/core/services/lookup.service';
@@ -23,7 +23,7 @@ export class SchedulerComponent implements OnInit {
   constructor(
     private schedulerService: SchedulerService,
     private lookupService: LookupService,
-    private snackBar: MatSnackBar ) { }
+    private snackBar: MatSnackBar) { }
   ngOnInit() { this.refreshList(); }
 
   private resetError() {
@@ -39,14 +39,6 @@ export class SchedulerComponent implements OnInit {
       this.lookupService.getLookup('commandTypes')
     ).pipe(
       // delay(200),
-      catchError((err, caught) => {
-        this.errorLoading = true;
-        this.errorMessage = err.message;
-
-        this.displayMessage(this.errorMessage);
-        console.error(err);
-        return empty();
-      }),
       map(([schedulerStatus, jobTypes, commandTypes]) => {
         this.unloadedModifications = false;
         return {
@@ -56,6 +48,14 @@ export class SchedulerComponent implements OnInit {
             commandTypes
           }
         };
+      }),
+      catchError((err, caught) => {
+        this.errorLoading = true;
+        this.errorMessage = err.message;
+
+        this.displayMessage(this.errorMessage);
+        console.error(err);
+        return empty();
       })
     );
   }
@@ -76,12 +76,21 @@ export class SchedulerComponent implements OnInit {
   }
 
   onJobModify(event: JobModifyEvent) {
-    this.schedulerService.saveSchedulerJob(event.job).subscribe(res => console.log(res));
-    this.unloadedModifications = true;
-    this.autoReload = event.autoReload;
-    if (event.autoReload) {
-      this.refreshList();
-    }
+    const jobAction: Observable<string> = event.jobId ?
+    this.schedulerService.deleteSchedulerJob(event.jobId) :
+    this.schedulerService.saveSchedulerJob(event.job);
+
+    jobAction.subscribe(res => {
+      this.displayMessage(res);
+      this.unloadedModifications = true;
+      this.autoReload = event.autoReload;
+      if (event.autoReload) {
+        this.reload();
+      }
+    }, err => {
+      console.log(err);
+      this.displayMessage(err);
+    });
   }
 
   onJobRun(event: SchedulerJob) {

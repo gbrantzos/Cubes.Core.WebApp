@@ -45,7 +45,7 @@ export class SchedulerService {
       .pipe(cubesExtractResult());
   }
 
-  saveSchedulerJob(job: SchedulerJob): Observable<any> {
+  saveSchedulerJob(job: SchedulerJob): Observable<string> {
     // Convert to Cubes persistance model
     const jobToPost = {
       id                : job.id,
@@ -58,6 +58,12 @@ export class SchedulerService {
     };
     return this.http
       .post(this.apiUrl + 'save', jobToPost)
+      .pipe(cubesExtractMessage());
+  }
+
+  deleteSchedulerJob(jobID: string): Observable<string> {
+    return this.http
+      .delete(this.apiUrl + 'delete/' + jobID, {})
       .pipe(cubesExtractMessage());
   }
 
