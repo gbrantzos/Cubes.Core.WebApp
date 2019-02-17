@@ -1,46 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, empty } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { environment } from '@src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LookupService {
+  private apiUrl = environment.cubesApiUrl + '/ui-lookup/';
+  constructor(private http: HttpClient) { }
 
-  constructor() { }
-
-  // TODO: Make actual call to backend.
   public getLookup(lookupName: string): Observable<Lookup> {
-    if (lookupName === 'jobTypes') {
-      const jobTypeLookup: Lookup = {
-        name: 'jobTypes',
-        items: [
-          {
-            id: 'Cubes.Core.Jobs.ExecuteCommand',
-            display: 'Execute Command'
-          }
-        ]
-      };
-      return of(jobTypeLookup);
-    }
-
-    if (lookupName === 'commandTypes') {
-      const commandTypeLookup: Lookup = {
-        name: 'commandTypes',
-        items: [
-          {
-            id: 'Cubes.Core.Commands.RunOsProcessCommand',
-            display: 'Run OS process'
-          },
-          {
-            id: 'Cubes.Core.Commands.SqlResultsAsEmail',
-            display: 'Execute SQL and send results as e-mail'
-          }
-        ]
-      };
-      return of(commandTypeLookup);
-    }
-
-    return empty();
+    return this.http
+      .get(`${this.apiUrl}${lookupName}`)
+      .pipe(
+        map(res => (<any>res).result)
+      );
   }
 }
 
