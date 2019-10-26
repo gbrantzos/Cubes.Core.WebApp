@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SchedulerJob } from 'src/app/core/services/scheduler.service';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -21,7 +21,7 @@ export class JobEditorComponent implements OnInit {
   public formValid = false;
 
   public lookups: Lookup;
-  @ViewChild('executionParameters') executionParameters: ParametersEditor;
+  @ViewChild('executionParameters', { static: false }) executionParameters: ParametersEditor;
 
   constructor(
     private fb: FormBuilder,

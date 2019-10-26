@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Router, ActivationEnd } from '@angular/router';
 import { map, filter, tap } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
@@ -12,7 +12,7 @@ import { Title } from '@angular/platform-browser';
 export class MainNavComponent {
   public title = '';
   private onDebug = false; // Enable this for debugging!
-  @ViewChild('drawer') public sidenav: MatSidenav;
+  @ViewChild('drawer', { static: true }) public sidenav: MatSidenav;
 
   constructor(private router: Router, private titleService: Title) {
     // Also see: https://stackoverflow.com/a/52355983

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SchedulerJob, isSchedulerJob } from 'src/app/core/services/scheduler.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { JobEditorComponent } from '../job-editor/job-editor.component';
 import { Lookup } from 'src/app/core/services/lookup.service';
 

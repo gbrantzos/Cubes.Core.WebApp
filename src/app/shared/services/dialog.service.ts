@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent, AlertDialogData } from '../components/alert-dialog/alert-dialog.component';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

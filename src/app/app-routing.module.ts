@@ -11,10 +11,10 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
 
   // Lazy loading
-  { path: 'scheduler', loadChildren: './scheduler/scheduler.module#SchedulerModule' },
-  { path: 'data',      loadChildren: './data-access/data-access.module#DataAccessModule' },
-  { path: 'scheduler', loadChildren: './scheduler/scheduler.module#SchedulerModule' },
-  { path: 'settings',  loadChildren: './settings/settings.module#SettingsModule' }
+  { path: 'scheduler', loadChildren: () => import('./scheduler/scheduler.module').then(m => m.SchedulerModule) },
+  { path: 'data',      loadChildren: () => import('./data-access/data-access.module').then(m => m.DataAccessModule) },
+  { path: 'scheduler', loadChildren: () => import('./scheduler/scheduler.module').then(m => m.SchedulerModule) },
+  { path: 'settings',  loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule) }
 ];
 
 @NgModule({
