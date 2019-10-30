@@ -5,5 +5,12 @@
         "nginx",
         "roboto",
         "validators"
-    ]
+    ],
+    "workbench.colorCustomizations": {
+      "titleBar.activeBackground": "#651a1c",
+      "titleBar.inactiveBackground": "#651a1c99",
+      "titleBar.activeForeground": "#e7e7e7",
+      "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#651a1c"
 }
