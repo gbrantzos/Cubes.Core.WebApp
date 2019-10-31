@@ -1,32 +1,37 @@
-// cSpell:words autofill
+// cSpell:words autofill, deeppurple, theming
 /* You can add global styles to this file, and also import other style files */
-html,
-body {
-  height: calc(100% - 32px);
-}
 
+// Make body fill the hole page
 body {
   margin: 0;
+  height: 100vh;
 }
 
-// Change font globally
-@import 'open-sans.scss';
-*:not(.fa):not(.code) {
-  font-family: 'Open Sans' !important;
-}
+// Font-awesome
+@import './assets/css/font-awesome.css';
 
-// This is to fix yellow background on auto fills on Chrome
-// https://stackoverflow.com/a/29350537/3410871
+// Material theme
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+// Custom fonts
+@import '~@angular/material/theming';
+$custom-typography: mat-typography-config(
+  $font-family: 'Ubuntu, Open Sans, monospace',
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(14px, 24px, 500)
+);
+@include angular-material-typography($custom-typography);
+
+// Fix yellow background on auto fills on Chrome, https://stackoverflow.com/a/29350537/3410871
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
-.snack-bar {
-  max-width: 50vw !important;
-}
+// Make snack-bar wider
+.snack-bar { max-width: 50vw !important; }
 
 
 // WORK IN PROGRESS
@@ -57,8 +62,6 @@ input:-webkit-autofill:active {
     opacity: 0.85 !important;
   }
 }
-
-
 
 .backdrop1 {
   background: #000;

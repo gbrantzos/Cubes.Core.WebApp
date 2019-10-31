@@ -1,69 +1,11 @@
-.sidenav-container {
-  height: 100%;
-}
-
-.elevated {
-  box-shadow:0 3px 5px -1px rgba(0,0,0,.2),0 6px 10px 0 rgba(0,0,0,.14),0 1px 18px 0 rgba(0,0,0,.12);
-}
-
-.sidenav {
-  width: 260px;
-  padding-top: 8px;
-}
-
-// Must be put on global style.scss!!
-/*
-.mat-drawer-inner-container {
-  overflow-x: hidden !important;
-}
-*/
-
-.sidenav .mat-toolbar {
-  background: inherit;
-}
-
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-
+// -----------------------------------------------------------------------------
+// Toolbar
+.toolbar {
   background-color: #353545;
+  z-index: 2 !important;
 }
-
-.separator{
-  margin: 0 8px;
-}
-.hidden {
-  display: none;
-}
-
-.spacer {
-  flex: 1 1 auto;
-}
-
-.mat-toolbar{
-  a {
-    font-size: 0.8em;
-    font-weight: 300;
-  }
-}
-
-a.mat-list-item {
-  border-left: 3px solid transparent;
-  i {
-    color: #555555;
-  }
-}
-a.active-menu {
-  font-weight: bold !important;
-  border-left: 3px solid #673ab7;
-}
-
-.sticky {
-  top: 0;
-  position: fixed;
-  z-index: 999 !important;
-}
+.spacer { flex: 1 1 auto; }
+.hidden { display: none; }
 
 .cubes-logo {
   padding-left: 42px;
@@ -71,19 +13,46 @@ a.active-menu {
   background-repeat: no-repeat;
   background-size: contain;
 }
+.cubes-logo:focus { outline: none; }
+// -----------------------------------------------------------------------------
 
-.cubes-logo:focus {
-  outline: none;
+
+// -----------------------------------------------------------------------------
+// Sidenav
+.sidenav {
+  width: 240px;
+  padding-top: 24px;
+  background-color: #eeeeee;
+
+  background-image: url('../../../../assets/images/cubes.logo.svg');
+  background-position: calc(100% - 20px) calc(100% - 20px);
+  background-size: 140px 140px;
+  background-repeat: no-repeat;
+}
+.sidenav-container {
+  flex: 1 0;
+ }
+.sidenav-content {
+  background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+}
+.content-wrapper {
+  flex-grow: 1;
+  padding: 18px;
+  margin: 20px;
+  border-radius: 6px;
+  background-color: white;
 }
 
-a .fa {
-  padding-right:14px;
+// Sidenav links
+a .fa { padding: 0 14px 0 6px; }
+a.mat-list-item {
+  border-left: 3px solid transparent;
+  i { color: #555555; }
 }
-
-
-.container {
-  display: inline-block;
-  cursor: pointer;
+a.active-menu {
+  font-weight: bold !important;
+  border-left: 3px solid #673ab7;
 }
-
-
+// -----------------------------------------------------------------------------
