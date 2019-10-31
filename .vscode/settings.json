@@ -1,10 +1,11 @@
 {
     "cSpell.words": [
-        "autosize",
-        "injectable",
-        "nginx",
-        "roboto",
-        "validators"
+      "autosize",
+      "injectable",
+      "nginx",
+      "roboto",
+      "sidenav",
+      "validators"
     ],
     "workbench.colorCustomizations": {
       "titleBar.activeBackground": "#651a1c",

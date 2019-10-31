@@ -1,26 +1,30 @@
+<!-- Toolbar -->
 <mat-toolbar class="elevated sticky" color="primary">
+
   <mat-toolbar-row>
     <!-- Use this to show animated humberger icon-->
     <!-- [ngClass]="{change: drawer.opened}"-->
-    <div class="container" (click)="drawer.toggle()">
-      <div class="bar1"></div>
-      <div class="bar2"></div>
-      <div class="bar3"></div>
-    </div>
     <span class="cubes-logo" routerLink="/">Cubes Configuration</span>
-    <i class="fa fa-angle-double-right separator" *ngIf="title.trim()"></i>
-    <span>{{title}}</span>
     <span class="spacer"></span>
-    <i class="fa fa-user-circle"></i>
+
+    <button mat-icon-button
+      [ngClass]="{hidden: !hideSidenav}"
+      (click)="sidenav.toggle()">
+      <i class="fa fa-2x fa-bars"></i>
+    </button>
+
   </mat-toolbar-row>
+
 </mat-toolbar>
+
+<!-- Sidenav -->
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer
+  <mat-sidenav #sidenav
     class="sidenav"
-    fixedInViewport="false"
-    [opened]="true"
-    [attr.role]="'navigation'"
-    [mode]="'side'">
+    [opened]="!hideSidenav"
+    [mode]="hideSidenav ? 'over' : 'side'"
+    [position]="hideSidenav ? 'end' : 'start'"
+    [attr.role]="'navigation'">
     <mat-nav-list>
       <a mat-list-item routerLinkActive="active-menu" routerLink="/scheduler">
         <i class="fa fa-fw fa-calendar"></i>
