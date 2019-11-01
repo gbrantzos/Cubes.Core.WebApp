@@ -1,9 +1,12 @@
-<div class="about">
-  <img src="assets/images/cubes.logo.svg" alt="Cubes Server">
-  <p class="cubes-server">Cubes Server</p>
-  <p>Using Angular {{ngVersion}}</p>
-</div>
-<div class="results">
-  <pre class="code ping-data">{{((pingData$ | async) || 'Waiting for server ping response ...' | json)}}</pre>
-  <span class="ping-button" (click)="pingServer()"><i class="fa fa-sync-alt"></i></span>
+<div *ngIf="pingData$ | async as pingData">
+  <div class="about">
+    <img src="assets/images/cubes.logo.svg" alt="Cubes Server">
+    <p class="cubes-server">Cubes Server</p>
+    <p>v{{pingData.kernelVersion}}, Angular v{{ngVersion}}</p>
+  </div>
+  <div class="results">
+
+    <pre class="ping-data">{{(pingData || 'Waiting for server ping response ...') | json}}</pre>
+    <span class="ping-button" (click)="pingServer()"><i class="fa fa-sync-alt"></i></span>
+  </div>
 </div>

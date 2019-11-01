@@ -36,12 +36,12 @@ export function isSchedulerJob(job: any): job is SchedulerJob {
   providedIn: 'root'
 })
 export class SchedulerService {
-  private apiUrl = environment.cubesApiUrl + '/scheduler/';
+  private apiUrl = environment.cubesApiUrl + '/scheduling/';
   constructor(private http: HttpClient) { }
 
   getSchedulerStatus(): Observable<SchedulerStatus> {
     return this.http
-      .get(this.apiUrl + 'status')
+      .get(this.apiUrl)
       .pipe(cubesExtractResult());
   }
 
