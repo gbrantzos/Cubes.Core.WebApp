@@ -36,7 +36,7 @@
 
   <mat-sidenav-content class="sidenav-content">
     <div class="content-wrapper mat-elevation-z10">
-      <div *ngIf="title">
+      <div *ngIf="title && title.trim().length > 0">
         <h2>{{title}}</h2>
         <mat-divider></mat-divider>
       </div>
