@@ -1,16 +1,18 @@
+:host{
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
 .about {
   margin: 20px auto 0;
-  width: 256px;
+  text-align: center;
 
   p {
-    text-align: center;
-    width: 256px;
-    font-size: 1.2em;
+    font-size: 1.12em;
     margin-top: 20px;
   }
   p.cubes-server {
-    text-align: center;
-    width: 256px;
     margin-top: 40px;
     font-size: 2.6em;
     font-weight: bold;
@@ -19,35 +21,29 @@
   }
 }
 
-.results {
-  width: 800px;
+.server-info {
   margin: 20px auto 0;
+  padding: 0 100px;
   position: relative;
+}
 
+.link {
+  cursor: pointer;
+  color: blue;
+  font-size: 1.12em;
+}
 
-  .ping-data {
-    width: 100%;
-    background: white;
-    margin: 0;
-    padding: 12px;
-    border: 1px solid #6b6b6b;
-    border-radius: 6px;
+.refresh {
+  cursor: pointer;
+  color: gray;
+  position: absolute;
+  top: 6px;
+  left: 0;
+  font-size: 1.4em;
+}
 
-    // Make "pre" wrap text, https://css-tricks.com/snippets/css/make-pre-text-wrap/
-    white-space: pre-wrap;       /* css-3 */
-    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-    white-space: -pre-wrap;      /* Opera 4-6 */
-    white-space: -o-pre-wrap;    /* Opera 7 */
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
-  }
-
-  .ping-button {
-    position: absolute;
-    top: 12px;
-    margin: 0;
-    right: 12px;
-    color: #6b6b6b;
-    cursor: pointer;
-    font-size: 20px;
-  }
+.error {
+  color: red;
+  font-size: 1.18em;
+  padding-top: 6px;
 }

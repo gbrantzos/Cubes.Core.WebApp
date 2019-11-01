@@ -1,12 +1,27 @@
-<div *ngIf="pingData$ | async as pingData">
-  <div class="about">
-    <img src="assets/images/cubes.logo.svg" alt="Cubes Server">
-    <p class="cubes-server">Cubes Server</p>
-    <p>v{{pingData.kernelVersion}}, Angular v{{ngVersion}}</p>
-  </div>
-  <div class="results">
+<div class="about">
+  <img src="assets/images/cubes.logo.svg" alt="Cubes Server">
+  <p class="cubes-server">Cubes Server</p>
+  <p>Using Angular v{{ngVersion}}</p>
+</div>
 
-    <pre class="ping-data">{{(pingData || 'Waiting for server ping response ...') | json}}</pre>
-    <span class="ping-button" (click)="pingServer()"><i class="fa fa-sync-alt"></i></span>
+<div *ngIf="pingData$ | async as pingData; else loading">
+  <div class="server-info">
+    <div *ngIf="!error">
+      <ngx-json-viewer [json]="pingData"></ngx-json-viewer>
+    </div>
+    <span class="refresh" (click)="pingServer()"><i class="fa fa-refresh"></i></span>
   </div>
 </div>
+
+
+
+<ng-template #loading>
+  <p class="link" *ngIf="!error">Waiting for server details ...</p>
+
+  <div *ngIf="error" class="server-info">
+    <p class="error">{{error.message}}</p>
+    <ngx-json-viewer [json]="error"></ngx-json-viewer>
+    <span class="refresh" (click)="pingServer()"><i class="fa fa-refresh"></i></span>
+  </div>
+
+</ng-template>

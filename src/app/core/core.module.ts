@@ -11,6 +11,7 @@ import { AboutComponent } from './components/about/about.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { SharedModule } from '../shared/shared.module';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { SharedModule } from '../shared/shared.module';
     LayoutModule,
     RouterModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    NgxJsonViewerModule
   ],
   declarations: [
     MainNavComponent,
