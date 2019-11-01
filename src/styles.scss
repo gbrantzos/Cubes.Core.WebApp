@@ -13,10 +13,12 @@ body {
 // Material theme
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
+
 // Custom fonts
+@import './assets/css/cairo.css';
 @import '~@angular/material/theming';
 $custom-typography: mat-typography-config(
-  $font-family: 'Ubuntu, Open Sans, monospace',
+  $font-family: 'Cairo, sans-serif, monospace',
   $headline: mat-typography-level(32px, 48px, 700),
   $body-1: mat-typography-level(14px, 24px, 500)
 );
