@@ -11,6 +11,26 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
   styleUrls: ['./main-nav.component.scss']
 })
 export class MainNavComponent implements OnInit {
+  public navItems = [
+    {
+      label: 'Scheduler',
+      icon: 'fa fa-fw fa-calendar',
+      link: '/scheduler'
+    }, {
+      label: 'Data Access',
+      icon: 'fa fa-fw fa-database',
+      link: '/data'
+    }, {
+      label: 'Settings',
+      icon: 'fa fa-fw fa-cogs',
+      link: '/settings'
+    }, {
+      label: 'About',
+      icon: 'fa fa-fw fa-question-circle',
+      link: '/about'
+    },
+  ];
+
   public title = '';
   public hideSidenav = false;
   private onDebug = false; // Enable this for debugging!
@@ -27,8 +47,9 @@ export class MainNavComponent implements OnInit {
         map(event => (<ActivationEnd>event).snapshot.data)
       )
       .subscribe(event => {
-        this.title = event.Title || 'No route data defined!';
-        this.titleService.setTitle('Cubes - ' + (this.title.trim() || 'Home'));
+        this.title = event.Title;
+        const title = this.title ? 'Cubes - ' + (this.title.trim() || 'Home') : 'Cubes';
+        if (this.title) { this.titleService.setTitle(title); }
       });
   }
 

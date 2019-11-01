@@ -25,31 +25,22 @@
     [attr.role]="'navigation'">
 
     <mat-nav-list>
-
-      <a mat-list-item routerLinkActive="active-menu" routerLink="/scheduler">
-        <i class="fa fa-fw fa-calendar"></i>
-        <span>Scheduler</span>
+      <a *ngFor="let item of navItems" mat-list-item
+        routerLinkActive="active-menu" [routerLink] ="item.link">
+        <i [class]="item.icon"></i>
+        <span>{{item.label}}</span>
       </a>
-      <a mat-list-item routerLinkActive="active-menu" routerLink="/data">
-        <i class="fa fa-fw fa-database"></i>
-        <span>Data Access</span>
-      </a>
-      <a mat-list-item routerLinkActive="active-menu" routerLink="/settings">
-        <i class="fa fa-fw fa-cogs"></i>
-        <span>Settings</span>
-      </a>
-      <a mat-list-item routerLinkActive="active-menu" routerLink="/about">
-        <i class="fa fa-fw fa-question-circle"></i>
-        <span>About</span>
-      </a>
-
     </mat-nav-list>
 
   </mat-sidenav>
 
   <mat-sidenav-content class="sidenav-content">
     <div class="content-wrapper mat-elevation-z10">
-    <ng-content ></ng-content>
+      <div *ngIf="title">
+        <h2>{{title}}</h2>
+        <mat-divider></mat-divider>
+      </div>
+      <ng-content></ng-content>
     </div>
   </mat-sidenav-content>
 

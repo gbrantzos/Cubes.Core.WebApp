@@ -48,10 +48,10 @@ export class DataAccessComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialogComponent, {
       panelClass: 'full-width-dialog',
       backdropClass: 'backdrop1',
-      // width: '100vw',
-      // height:  '100vh',
-      // maxWidth: '100vw',
-      // maxHeight: '100vh',
+      width: '100vw',
+      height:  '100vh',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
       hasBackdrop: true,
       disableClose: true
     });
