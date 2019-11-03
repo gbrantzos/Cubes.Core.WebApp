@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { VERSION } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -10,6 +10,8 @@ import { of } from 'rxjs';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
+  @HostBinding('class') class = 'base-component';
+
   public ngVersion = VERSION.full;
   public pingData$: any;
   public error;

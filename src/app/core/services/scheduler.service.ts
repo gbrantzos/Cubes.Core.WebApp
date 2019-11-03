@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '@src/environments/environment';
 
 export interface SchedulerStatus {
-  state: SchedulerStateEnum;
+  schedulerState: SchedulerStateEnum;
   serverTime: Date;
   jobs: SchedulerJob[];
 }

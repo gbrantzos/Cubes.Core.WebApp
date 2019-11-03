@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, HostBinding } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
@@ -21,7 +21,7 @@ const DEFAULT_CONFIG: FilePreviewDialogConfig = {
   styleUrls: ['./data-access.component.scss']
 })
 export class DataAccessComponent implements OnInit {
-
+  @HostBinding('class') class = 'base-component';
   constructor(private dialog: MatDialog, private overlay: Overlay) { }
 
   ngOnInit() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { catchError, delay, map } from 'rxjs/operators';
 import { empty, forkJoin, Observable } from 'rxjs';
 
@@ -14,6 +14,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./scheduler.component.scss']
 })
 export class SchedulerComponent implements OnInit {
+  @HostBinding('class') class = 'base-component';
+
   public data$: any;
   public unloadedModifications: boolean;
   public errorLoading = false;
@@ -36,7 +38,7 @@ export class SchedulerComponent implements OnInit {
     this.data$ = forkJoin(
       this.schedulerService.getSchedulerStatus(),
       this.lookupService.getLookup('jobTypes'),
-      this.lookupService.getLookup('commandTypes')
+      this.lookupService.getLookup('requestTypes')
     ).pipe(
       // delay(200),
       map(([schedulerStatus, jobTypes, commandTypes]) => {

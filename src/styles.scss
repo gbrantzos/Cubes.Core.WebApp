@@ -34,7 +34,13 @@ input:-webkit-autofill:active {
 
 // Make snack-bar wider
 .snack-bar { max-width: 50vw !important; }
+.base-component {
+  overflow: hidden;
+  flex: 1;
 
+  display: flex;
+  flex-direction: column;
+}
 
 // WORK IN PROGRESS
 .wip {
