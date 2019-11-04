@@ -1,0 +1,50 @@
+<form [formGroup]="form" class="dynamic-form-wrapper">
+
+  <!-- Loop schema items -->
+  <ng-container *ngFor="let item of schema.items">
+
+    <!-- Switch based on item type-->
+    <ng-container [ngSwitch]="item.type">
+
+      <!-- Simple input -->
+      <mat-form-field *ngSwitchCase="'text'">
+        <input matInput type="text" placeholder="{{item.label}}" [formControlName]="item.key" />
+      </mat-form-field>
+      <!-- Simple input -->
+
+      <!-- Text area -->
+      <mat-form-field *ngSwitchCase="'textarea'">
+        <textarea matInput placeholder="{{item.label}}" [formControlName]="item.key"></textarea>
+      </mat-form-field>
+      <!-- Text area -->
+
+      <!-- Select -->
+      <mat-form-field *ngSwitchCase="'select'">
+        <mat-select placeholder="{{item.label}}" [formControlName]="item.key" [compareWith]="compareObjects"
+          [multiple]="true">
+          <mat-option *ngFor="let o of item.options" [value]="o.value">{{o.label}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- Select -->
+
+      <!-- Checkbox -->
+      <mat-checkbox *ngSwitchCase="'checkbox'" [formControlName]="item.key">
+        {{item.label}}
+      </mat-checkbox>
+      <!-- Checkbox -->
+
+      <!-- Datepicker -->
+      <mat-form-field *ngSwitchCase="'datepicker'">
+        <input matInput [matDatepicker]="picker" placeholder="{{item.label}}" [formControlName]="item.key">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <!-- Datepicker -->
+
+    </ng-container>
+    <!-- Switch based on item type-->
+
+  </ng-container>
+  <!-- Loop through schema items -->
+
+</form>

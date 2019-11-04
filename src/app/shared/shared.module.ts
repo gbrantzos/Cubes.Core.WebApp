@@ -6,12 +6,14 @@ import { MaterialModule } from './material.module';
 import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 
 @NgModule({
   declarations: [
     AlertDialogComponent,
     ConfirmDialogComponent,
-    LoadingComponent
+    LoadingComponent,
+    DynamicFormComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import { LoadingComponent } from './components/loading/loading.component';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    LoadingComponent
+    LoadingComponent,
+    DynamicFormComponent
   ],
   entryComponents: [
     AlertDialogComponent,

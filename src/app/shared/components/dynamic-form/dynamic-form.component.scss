@@ -1,0 +1,8 @@
+.dynamic-form-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.dynamic-form-wrapper > * {
+  width: 100%;
+}

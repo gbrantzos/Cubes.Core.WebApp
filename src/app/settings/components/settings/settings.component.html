@@ -1,1 +1,11 @@
-<img class="wip" src="assets/images/wip.png"/>
+<div class="form-wrapper">
+  <h3>SMTP Profiles</h3>
+
+  <cubes-dynamic-form #f [schema]="schema" [model]="model">
+  </cubes-dynamic-form>
+
+  <div class="form-buttons">
+    <button mat-stroked-button color="warn" (click)="delete(f.currentValue(), f)">Delete</button>
+    <button class="save-button" mat-stroked-button color="primary" (click)="showCurrent(f.currentValue())">Save</button>
+  </div>
+</div>

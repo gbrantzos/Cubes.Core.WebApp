@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Material stuff
@@ -17,11 +17,22 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
+// Data change support must be on root module!
+import {
+  MAT_DATE_LOCALE,
+  DateAdapter,
+  NativeDateAdapter,
+  MatNativeDateModule
+} from '@angular/material';
+import { CustomDateAdapter } from '../@helpers/custom-date-adapter';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    MatNativeDateModule,
 
     // Material modules
     MatToolbarModule,
@@ -38,7 +49,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatCheckboxModule,
     MatSelectModule,
     MatSlideToggleModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDatepickerModule
   ],
   exports: [
     MatToolbarModule,
@@ -55,7 +67,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatCheckboxModule,
     MatSelectModule,
     MatSlideToggleModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDatepickerModule
+  ],
+  providers: [
+    // TODO Do we need this??
+    // { provide: MAT_DATE_LOCALE, useValue: 'el-EL', multi: true },
+    { provide: DateAdapter, useClass: CustomDateAdapter }
   ]
 })
 export class MaterialModule { }

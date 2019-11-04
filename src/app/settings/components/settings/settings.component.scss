@@ -1,0 +1,19 @@
+.form-wrapper {
+  margin-top:20px;
+  margin: auto;
+  padding: 0 12px;
+  max-width: 680px;
+}
+
+.form-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  .mat-stroked-button {
+    min-width: 82px !important;
+  }
+  .save-button {
+    margin-left: 8px;
+  }
+}
