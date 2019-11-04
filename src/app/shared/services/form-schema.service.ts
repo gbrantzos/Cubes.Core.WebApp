@@ -20,6 +20,7 @@ export interface SchemaItem {
   type: 'text' | 'textarea' | 'select' | 'checkbox' | 'datepicker';
   textareaRows?: number;
   options?: Options;
+  validators?: Validators;
 }
 
 export interface Options {
@@ -31,4 +32,10 @@ export interface OptionItem {
   label: string;
   value: string;
   disabled?: boolean;
+}
+
+export interface Validators {
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
 }

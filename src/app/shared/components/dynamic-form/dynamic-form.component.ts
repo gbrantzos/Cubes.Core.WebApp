@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Schema } from '../../services/form-schema.service';
 
 @Component({
@@ -18,11 +18,27 @@ export class DynamicFormComponent implements OnInit, DynamicForm {
     const formGroup = {};
 
     for (const item of this.schema.items) {
-      formGroup[item.key] = new FormControl(this.model[item.key] || '');
+      formGroup[item.key] = new FormControl(this.model[item.key] || '', this.mapValidators(item.validators));
     }
     this.form = new FormGroup(formGroup);
-
     this.form.patchValue(this.model);
+  }
+
+  private mapValidators(validators) {
+    const formValidators = [];
+
+    if (validators) {
+      for (const validation of Object.keys(validators)) {
+        if (validation === 'required') {
+          formValidators.push(Validators.required);
+        } else if (validation === 'min') {
+          formValidators.push(Validators.min(validators[validation]));
+        } else if (validation === 'max') {
+          formValidators.push(Validators.max(validators[validation]));
+        }
+      }
+    }
+    return formValidators;
   }
 
   compareObjects(o1: any, o2: any) {

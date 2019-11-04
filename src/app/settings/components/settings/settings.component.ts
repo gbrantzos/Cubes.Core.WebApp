@@ -15,6 +15,9 @@ export class SettingsComponent implements OnInit {
         key: 'name',
         label: 'Name',
         type: 'text',
+        validators: {
+          required: true
+        }
       }, {
         key: 'host',
         label: 'Host',
