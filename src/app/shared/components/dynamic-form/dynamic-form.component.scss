@@ -1,6 +1,10 @@
 .dynamic-form-wrapper {
   display: flex;
   flex-direction: column;
+
+  .mat-checkbox {
+    padding-bottom: 17.5px;
+  }
 }
 
 .dynamic-form-wrapper > * {

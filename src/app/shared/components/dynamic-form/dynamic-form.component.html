@@ -14,15 +14,18 @@
 
       <!-- Text area -->
       <mat-form-field *ngSwitchCase="'textarea'">
-        <textarea matInput placeholder="{{item.label}}" [formControlName]="item.key"></textarea>
+        <textarea matInput placeholder="{{item.label}}" [formControlName]="item.key"
+          [rows]="item.textareaRows || 4"></textarea>
       </mat-form-field>
       <!-- Text area -->
 
       <!-- Select -->
       <mat-form-field *ngSwitchCase="'select'">
         <mat-select placeholder="{{item.label}}" [formControlName]="item.key" [compareWith]="compareObjects"
-          [multiple]="true">
-          <mat-option *ngFor="let o of item.options" [value]="o.value">{{o.label}}</mat-option>
+          [multiple]="item.options.multipleOptions">
+          <mat-option *ngFor="let opt of item.options.optionItems" [value]="opt.value" [disabled]="!!opt.disabled">
+            {{opt.label}}
+          </mat-option>
         </mat-select>
       </mat-form-field>
       <!-- Select -->

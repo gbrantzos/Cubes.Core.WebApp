@@ -24,28 +24,31 @@ export class SettingsComponent implements OnInit {
         label: 'Port',
         type: 'text',
       }, {
-        key: 'timeout',
-        label: 'Timeout',
-        type: 'checkbox',
-      }, {
         key: 'options',
         label: 'Options',
         type: 'select',
-        options: [
-          { label: '(choose one)', value: '' },
-          { label: 'Bolzano', value: '39100' },
-          { label: 'Meltina', value: '39010' },
-          { label: 'Appiano', value: '39057' }
-        ],
-        multipleOptions: true
+        options: {
+          optionItems: [
+            { label: '(choose one)', value: '' },
+            { label: 'Bolzano', value: '39100' },
+            { label: 'Meltina', value: '39010', disabled: true },
+            { label: 'Appiano', value: '39057' }
+          ],
+          multipleOptions: true
+        }
       }, {
         key: 'sender',
         label: 'Sender',
         type: 'textarea',
+        textareaRows: 4
       }, {
         key: 'validFrom',
         label: 'Valid from',
         type: 'datepicker'
+      }, {
+        key: 'timeout',
+        label: 'Timeout',
+        type: 'checkbox',
       }
     ]
   };
@@ -56,7 +59,7 @@ export class SettingsComponent implements OnInit {
     timeout: 300,
     sender: 'no-reply@localhost',
     options: [],
-    validFrom: new Date(2019, 11, 5)
+    validFrom: new Date()
   };
 
   constructor() { }
@@ -74,7 +77,7 @@ export class SettingsComponent implements OnInit {
       timeout: 3001,
       sender: 'no-reply@localhost',
       options: [],
-      validFrom: new Date(2019, 6, 3)
+      validFrom: new Date(2019, 5, 3)
     };
     form.setModel(model);
   }

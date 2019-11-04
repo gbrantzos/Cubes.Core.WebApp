@@ -19,10 +19,9 @@ export class CustomDateAdapter extends NativeDateAdapter {
 
   // Support other date format
   format(date: Date, format: string): string {
-    console.log(date);
-    const year: number = date.getFullYear();
-    const month: number = date.getMonth();
-    const day: number = date.getDate();
+    const year:  number = date.getFullYear();
+    const month: number = date.getMonth() + 1;
+    const day:   number = date.getDate();
 
     let toReturn = '';
     toReturn = `${day}/${month}/${year}`;
@@ -32,18 +31,16 @@ export class CustomDateAdapter extends NativeDateAdapter {
 
   parse(value: any): Date | null {
     const today = new Date();
-    let year: number = today.getFullYear();
+    let year:  number = today.getFullYear();
     let month: number = today.getMonth();
-    let day: number = today.getDate();
+    let day:   number = today.getDate();
 
     if (value) {
       const dateParts = value.trim().split('/');
       if (dateParts.length >= 1 && this.isPositive(dateParts[0])) { day   = Number(dateParts[0]); }
-      if (dateParts.length >= 2 && this.isPositive(dateParts[1])) { month = Number(dateParts[1]); }
+      if (dateParts.length >= 2 && this.isPositive(dateParts[1])) { month = Number(dateParts[1]) - 1; }
       if (dateParts.length >= 3 && this.isPositive(dateParts[2])) { year  = Number(dateParts[2]); }
-
-      console.log(year, month, day);
     }
-    return new Date(year, month - 1, day);
+    return new Date(year, month, day);
   }
 }

@@ -18,11 +18,17 @@ export interface SchemaItem {
   key: string;
   label: string;
   type: 'text' | 'textarea' | 'select' | 'checkbox' | 'datepicker';
-  options?: OptionItem[];
+  textareaRows?: number;
+  options?: Options;
+}
+
+export interface Options {
   multipleOptions?: boolean;
+  optionItems?: OptionItem[];
 }
 
 export interface OptionItem {
   label: string;
   value: string;
+  disabled?: boolean;
 }
