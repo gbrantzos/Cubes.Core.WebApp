@@ -24,7 +24,7 @@ $custom-typography: mat-typography-config(
 );
 @include angular-material-typography($custom-typography);
 
-// Fix yellow background on auto fills on Chrome, https://stackoverflow.com/a/29350537/3410871
+// Fixes yellow background on auto fills on Chrome, https://stackoverflow.com/a/29350537/3410871
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,

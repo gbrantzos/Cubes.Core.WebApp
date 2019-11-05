@@ -81,13 +81,13 @@ export class DynamicFormComponent implements OnInit, DynamicForm {
     const keyName = label || this.toCapitalFirst(key);
 
     let errorMessage = `Errors with ${keyName}`;
-    if (control.errors.required)     { errorMessage = `${keyName} is required`; }
-    if (control.errors.min)          { errorMessage = `${keyName} must be more than ${control.errors.min.min}`; }
-    if (control.errors.max)          { errorMessage = `${keyName} must be less than ${control.errors.max.max}`; }
-    if (control.errors.minLength)    { errorMessage = `${keyName} must be more than ${control.errors.min.minLength} characters`; }
-    if (control.errors.maxLength)    { errorMessage = `${keyName} must be less than ${control.errors.max.maxLength} characters`; }
-    if (control.errors.pattern)      { errorMessage = `${keyName} does not match required pattern`; }
-    if (control.errors.email)        { errorMessage = `${keyName} is not a valid email`; }
+    if (control.errors.required)  { errorMessage = `${keyName} is required`; }
+    if (control.errors.min)       { errorMessage = `${keyName} must be more than ${control.errors.min.min}`; }
+    if (control.errors.max)       { errorMessage = `${keyName} must be less than ${control.errors.max.max}`; }
+    if (control.errors.minLength) { errorMessage = `${keyName} must be more than ${control.errors.min.minLength} characters`; }
+    if (control.errors.maxLength) { errorMessage = `${keyName} must be less than ${control.errors.max.maxLength} characters`; }
+    if (control.errors.pattern)   { errorMessage = `${keyName} does not match required pattern`; }
+    if (control.errors.email)     { errorMessage = `${keyName} is not a valid email`; }
 
     return errorMessage;
   }

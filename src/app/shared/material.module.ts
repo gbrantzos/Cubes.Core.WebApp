@@ -23,7 +23,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MAT_DATE_LOCALE,
   DateAdapter,
-  NativeDateAdapter,
   MatNativeDateModule
 } from '@angular/material';
 import { CustomDateAdapter } from '../@helpers/custom-date-adapter';
@@ -71,8 +70,6 @@ import { CustomDateAdapter } from '../@helpers/custom-date-adapter';
     MatDatepickerModule
   ],
   providers: [
-    // TODO Do we need this??
-    // { provide: MAT_DATE_LOCALE, useValue: 'el-EL', multi: true },
     { provide: DateAdapter, useClass: CustomDateAdapter }
   ]
 })
