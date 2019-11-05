@@ -8,6 +8,7 @@ import { DynamicForm } from '@src/app/shared/components/dynamic-form/dynamic-for
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+  public isValid = false;
   public schema: Schema = {
     name: 'testingSchema',
     items: [
@@ -15,17 +16,16 @@ export class SettingsComponent implements OnInit {
         key: 'name',
         label: 'Name',
         type: 'text',
-        validators: {
-          required: true
-        }
+        validators: [{ name: 'required'}]
       }, {
         key: 'host',
         label: 'Host',
-        type: 'text',
+        type: 'text'
       }, {
         key: 'port',
         label: 'Port',
         type: 'text',
+        validators: [{ name: 'min', parameters: 25}]
       }, {
         key: 'options',
         label: 'Options',
@@ -38,20 +38,23 @@ export class SettingsComponent implements OnInit {
             { label: 'Appiano', value: '39057' }
           ],
           multipleOptions: true
-        }
+        },
+        validators: [{ name: 'required' }]
       }, {
         key: 'sender',
         label: 'Sender',
         type: 'textarea',
-        textareaRows: 4
-      }, {
-        key: 'validFrom',
-        label: 'Valid from',
-        type: 'datepicker'
+        textareaRows: 4,
+        validators: [{ name: 'email'}]
       }, {
         key: 'timeout',
         label: 'Timeout',
         type: 'checkbox',
+        validators: [{ name: 'requiredTrue'}]
+      }, {
+        key: 'validFrom',
+        label: 'Valid from',
+        type: 'datepicker'
       }
     ]
   };
@@ -59,7 +62,7 @@ export class SettingsComponent implements OnInit {
     name: 'Default',
     host: 'localhost',
     port: '25',
-    timeout: 300,
+    timeout: true,
     sender: 'no-reply@localhost',
     options: [],
     validFrom: new Date()
@@ -83,5 +86,6 @@ export class SettingsComponent implements OnInit {
       validFrom: new Date(2019, 5, 3)
     };
     form.setModel(model);
+    console.log(form);
   }
 }

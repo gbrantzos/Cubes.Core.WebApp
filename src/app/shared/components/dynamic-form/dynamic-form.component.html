@@ -9,6 +9,7 @@
       <!-- Simple input -->
       <mat-form-field *ngSwitchCase="'text'">
         <input matInput type="text" placeholder="{{item.label}}" [formControlName]="item.key" />
+        <mat-error *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
       </mat-form-field>
       <!-- Simple input -->
 
@@ -16,6 +17,7 @@
       <mat-form-field *ngSwitchCase="'textarea'">
         <textarea matInput placeholder="{{item.label}}" [formControlName]="item.key"
           [rows]="item.textareaRows || 4"></textarea>
+        <mat-error *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
       </mat-form-field>
       <!-- Text area -->
 
@@ -27,13 +29,17 @@
             {{opt.label}}
           </mat-option>
         </mat-select>
+        <mat-error *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
       </mat-form-field>
       <!-- Select -->
 
       <!-- Checkbox -->
-      <mat-checkbox *ngSwitchCase="'checkbox'" [formControlName]="item.key">
-        {{item.label}}
-      </mat-checkbox>
+      <div class="checkbox" *ngSwitchCase="'checkbox'">
+        <mat-checkbox [formControlName]="item.key">
+          {{item.label}}
+        </mat-checkbox>
+        <mat-error class="checkbox-error" *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
+      </div>
       <!-- Checkbox -->
 
       <!-- Datepicker -->
@@ -41,6 +47,7 @@
         <input matInput [matDatepicker]="picker" placeholder="{{item.label}}" [formControlName]="item.key">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
       </mat-form-field>
       <!-- Datepicker -->
 
