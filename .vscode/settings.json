@@ -5,6 +5,7 @@
       "nginx",
       "roboto",
       "sidenav",
+      "smtp",
       "validators"
     ],
     "workbench.colorCustomizations": {

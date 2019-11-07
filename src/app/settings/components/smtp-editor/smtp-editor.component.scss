@@ -1,0 +1,28 @@
+.form-buttons {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  .mat-stroked-button {
+    min-width: 82px !important;
+  }
+  .save-button {
+    margin-left: 8px;
+  }
+}
+
+.hidden { display: none; }
+.create-new {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  img {
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+
+    margin-top: 160px;
+  }
+}

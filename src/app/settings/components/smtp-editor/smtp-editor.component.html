@@ -1,0 +1,16 @@
+<div [class.hidden]="!model">
+  <cubes-dynamic-form #f [schema]="schema" [model]="model" (isValid)="save.disabled=!$event">
+  </cubes-dynamic-form>
+
+  <div class="form-buttons">
+    <button mat-stroked-button color="warn" (click)="onDelete(f.currentValue())">Delete</button>
+    <button #save class="save-button" mat-stroked-button color="primary"
+      (click)="onSave(f.currentValue())">Save</button>
+  </div>
+</div>
+
+<div [class.hidden]="model">
+  <div class="create-new">
+    <img src="assets/images/smtp.png" alt="">
+  </div>
+</div>

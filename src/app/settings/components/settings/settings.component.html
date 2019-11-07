@@ -1,28 +1,14 @@
-<div class="form-wrapper">
-  <div class="header">
-    <img src="assets/images/smtp.png" alt="" width="48px" height="48px" style="padding-right:15px;" />
-    <div>
-      <h3 style="margin-bottom:0">SMTP Profiles</h3>
-      <p style="font-weight: bold;">Default</p>
-    </div>
-    <div class="spacer"></div>
-    <div style="padding-top: 12px; cursor: pointer;user-select: none;">
-      <span [matMenuTriggerFor]="menu">Select profile&nbsp; <i class="fa fa-caret-down"></i></span>
-    </div>
+<div *ngIf="data$ | async as data; else loading">
 
-    <mat-menu #menu="matMenu" xPosition="before">
-      <button mat-menu-item>Item 1</button>
-      <button mat-menu-item>Item 2</button>
-    </mat-menu>
-
+  <div class="form-wrapper">
+    <cubes-smtp-selector [profiles]="data.profiles" (select)="onSelect($event)"></cubes-smtp-selector>
+    <cubes-smtp-editor #editor [schema]="data.schema" (save)="onSave($event)" (delete)="onDelete($event)">
+    </cubes-smtp-editor>
   </div>
 
-  <cubes-dynamic-form #f [schema]="schema" [model]="model" (isValid)="save.disabled=!$event">
-  </cubes-dynamic-form>
-
-  <div class="form-buttons">
-    <button mat-stroked-button color="warn" (click)="delete(f.currentValue(), f)">Delete</button>
-    <button #save class="save-button" mat-stroked-button color="primary"
-      (click)="showCurrent(f.currentValue())">Save</button>
-  </div>
 </div>
+
+<ng-template #loading>
+  <cubes-loading (retry)="loadData()" [hasErrors]="errorLoading" [errorMessage]="errorMessage">
+  </cubes-loading>
+</ng-template>

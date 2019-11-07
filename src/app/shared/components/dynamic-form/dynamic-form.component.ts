@@ -20,13 +20,16 @@ export class DynamicFormComponent implements OnInit, DynamicForm {
     const formGroup = {};
 
     for (const item of this.schema.items) {
-      formGroup[item.key] = new FormControl(this.model[item.key] || '', this.mapValidators(item.validators));
+      formGroup[item.key] = new FormControl();
+      formGroup[item.key].Validators = this.mapValidators(item.validators);
     }
     this.form = new FormGroup(formGroup);
     this.form.statusChanges.subscribe(status => this.isValid.emit(status === 'VALID'));
 
-    this.form.patchValue(this.model);
-    this.form.markAllAsTouched();
+    if (this.model) {
+      this.form.patchValue(this.model);
+      this.form.markAllAsTouched();
+    }
   }
 
   private mapValidators(validators: Validator[]) {
