@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+let memoryProfiles: SmtpSettings[];
 @Injectable({
   providedIn: 'root'
 })
@@ -8,32 +10,14 @@ export class SettingsService {
 
   constructor() { }
   public getSmtp(): Observable<SmtpSettings[]> {
-    const profile1: SmtpSettings = {
-      name: 'Default',
-      host: 'localhost',
-      port: 25,
-      timeout: 600,
-      sender: 'no-reply@somewhere.com',
-      useSsl: false,
-      userName: 'user',
-      password: 'password'
-    };
-    const profile2: SmtpSettings = {
-      name: 'Gmail',
-      host: 'gmail.com',
-      port: 25,
-      timeout: 600,
-      sender: 'no-reply@somewhere.com',
-      useSsl: false,
-      userName: 'user',
-      password: 'password'
-    };
-
-    return of([profile1, profile2]);
+    return of(memoryProfiles || []).pipe(
+      map(result => result.sort((a, b) => a.name.localeCompare(b.name)))
+    );
   }
 
-  public saveSmtp(smtpCollection: SmtpSettings[]) {
-    console.log('will save!', smtpCollection);
+  public saveSmtp(profiles: SmtpSettings[]): Observable<string> {
+    memoryProfiles = profiles;
+    return of('SMTP profiles saved');
   }
 }
 

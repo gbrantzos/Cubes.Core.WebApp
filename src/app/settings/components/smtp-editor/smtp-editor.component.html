@@ -3,7 +3,7 @@
   </cubes-dynamic-form>
 
   <div class="form-buttons">
-    <button mat-stroked-button color="warn" (click)="onDelete(f.currentValue())">Delete</button>
+    <button mat-stroked-button color="warn" (click)="onDelete(f.currentValue())" [disabled]="isNew">Delete</button>
     <button #save class="save-button" mat-stroked-button color="primary"
       (click)="onSave(f.currentValue())">Save</button>
   </div>

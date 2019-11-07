@@ -6,15 +6,20 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./smtp-selector.component.scss']
 })
 export class SmtpSelectorComponent implements OnInit {
-  @Input() profiles: string[];
-  @Output() select = new EventEmitter<string>();
-  public current: string;
-  constructor() { }
-  ngOnInit() {
-    if (this.profiles && this.profiles.length > 0) {
-      this.onSelect(this.profiles[0]);
+  private _profiles: string[];
+  @Input()
+  set profiles(value: string[]) {
+    this._profiles = value || [];
+    if (this._profiles && this._profiles.length > 0) {
+      this.onSelect(this._profiles[0]);
     }
   }
+  get profiles() { return this._profiles || []; }
+  @Output() select = new EventEmitter<string>();
+  public current: string;
+
+  constructor() { }
+  ngOnInit() { }
 
   onSelect(profile: string) {
     this.current = profile === 'NEW' ? 'New profile' : profile;

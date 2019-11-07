@@ -15,15 +15,21 @@ export class SmtpEditorComponent implements OnInit {
   @Output() save = new EventEmitter<any>();
   @Output() delete = new EventEmitter<string>();
 
+  private originalName = '';
+  public isNew = false;
+
   @ViewChild('f', {static: false}) f: DynamicForm;
 
   constructor() { }
   ngOnInit() { }
 
-  onSave(model: any) { this.save.emit(model); }
-  onDelete(profile: string) { this.save.emit(profile); }
+  onSave(model: any) { this.save.emit({ model, originalName: this.originalName}); }
+  onDelete(profile: SmtpSettings) { this.delete.emit(profile.name); }
 
   public setModel(model: SmtpSettings) {
+    this.isNew = model.name === 'NEW';
+    if (model.name === 'NEW') { model.name = 'New model'; }
+    this.originalName = model.name;
     this.f.setModel(model);
     this.model = model;
   }

@@ -5,6 +5,7 @@ import { Observable, forkJoin, empty } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { SmtpEditorComponent } from '@src/app/settings/components/smtp-editor/smtp-editor.component';
 import { MatSnackBar } from '@angular/material';
+import { DialogService } from '@src/app/shared/services/dialog.service';
 
 @Component({
   selector: 'cubes-settings',
@@ -13,7 +14,7 @@ import { MatSnackBar } from '@angular/material';
 })
 export class SettingsComponent implements OnInit {
   @HostBinding('class') class = 'base-component';
-  @ViewChild('editor', {static: false}) editor: SmtpEditorComponent;
+  @ViewChild('editor', { static: false }) editor: SmtpEditorComponent;
 
   public data$: Observable<any>;
   public errorLoading = false;
@@ -24,6 +25,7 @@ export class SettingsComponent implements OnInit {
   constructor(
     private settingsService: SettingsService,
     private formSchemaService: FormSchemaService,
+    private dialogService: DialogService,
     private snackBar: MatSnackBar) { }
   ngOnInit() { this.loadData(); }
 
@@ -33,8 +35,8 @@ export class SettingsComponent implements OnInit {
       this.settingsService.getSmtp(),
     ).pipe(
       map(([schema, model]) => {
-        const profiles =  (model as SmtpSettings[]) .map(a => a.name);
-        this.smtpProfiles = model;
+        this.smtpProfiles = model || [];
+        const profiles = (model as SmtpSettings[]).map(a => a.name);
         return {
           schema,
           model,
@@ -52,21 +54,40 @@ export class SettingsComponent implements OnInit {
     );
   }
 
-  // TODO
-  onSave(currentValue: any) {
-    console.log(currentValue);
+  onSave(editorArgs: any) {
+    const currentValue = editorArgs.model as SmtpSettings;
+    const originalName = editorArgs.originalName as string;
+
+    const existing = this.smtpProfiles.find(s => s.name === originalName);
+    if (!existing) {
+      this.smtpProfiles.push(currentValue);
+    } else {
+      Object.assign(existing, currentValue);
+    }
+    this.settingsService
+      .saveSmtp(this.smtpProfiles)
+      .subscribe(result => {
+        this.displayMessage(result);
+        this.loadData();
+      });
   }
 
-  // TODO
   onDelete(profile: string) {
-    console.log(`Deleting profile ${profile}`);
+    this.dialogService
+      .confirm('You are about to delete SMTP profile <strong>' + profile + '</strong>!<br>Continue?')
+      .subscribe(resultOk => {
+        if (resultOk) {
+          console.log(`Deleting profile ${profile}`);
+            // TODO
+        }
+      });
   }
 
   onSelect(profile: string) {
     let model = this.smtpProfiles.find(s => s.name === profile);
     if (profile === 'NEW') {
       model = {
-        name: 'New model',
+        name: 'NEW',
         host: 'localhost',
         port: 25,
         sender: 'nobody@somewhere.com',
@@ -79,7 +100,7 @@ export class SettingsComponent implements OnInit {
 
   private displayMessage(message: string) {
     const snackRef = this.snackBar.open(message, 'Close', {
-      duration: 10000,
+      duration: 3000,
       panelClass: 'snack-bar',
       horizontalPosition: 'right'
     });
