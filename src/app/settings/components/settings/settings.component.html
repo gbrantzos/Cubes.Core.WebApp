@@ -1,5 +1,21 @@
 <div class="form-wrapper">
-  <h3>SMTP Profiles</h3>
+  <div class="header">
+    <img src="assets/images/smtp.png" alt="" width="48px" height="48px" style="padding-right:15px;" />
+    <div>
+      <h3 style="margin-bottom:0">SMTP Profiles</h3>
+      <p style="font-weight: bold;">Default</p>
+    </div>
+    <div class="spacer"></div>
+    <div style="padding-top: 12px; cursor: pointer;user-select: none;">
+      <span [matMenuTriggerFor]="menu">Select profile&nbsp; <i class="fa fa-caret-down"></i></span>
+    </div>
+
+    <mat-menu #menu="matMenu" xPosition="before">
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+
+  </div>
 
   <cubes-dynamic-form #f [schema]="schema" [model]="model" (isValid)="save.disabled=!$event">
   </cubes-dynamic-form>
