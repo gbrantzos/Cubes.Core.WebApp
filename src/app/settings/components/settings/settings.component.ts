@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, HostBinding } from '@angular/core';
-import { FormSchemaService } from '@src/app/shared/services/form-schema.service';
+import { SchemaService } from '@src/app/shared/services/schema.service';
 import { SettingsService, SmtpSettings } from '@src/app/core/services/settings.service';
 import { Observable, forkJoin, empty } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -24,14 +24,14 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private settingsService: SettingsService,
-    private formSchemaService: FormSchemaService,
+    private schemaService: SchemaService,
     private dialogService: DialogService,
     private snackBar: MatSnackBar) { }
   ngOnInit() { this.loadData(); }
 
   public loadData() {
     this.data$ = forkJoin(
-      this.formSchemaService.getSchema('smtp'),
+      this.schemaService.getSchema('smtp'),
       this.settingsService.getSmtp(),
     ).pipe(
       map(([schema, model]) => {

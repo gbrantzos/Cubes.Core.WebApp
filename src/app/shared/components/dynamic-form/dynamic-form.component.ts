@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Schema, Validator } from '@src/app/shared/services/form-schema.service';
+import { Schema, Validator } from '@src/app/shared/services/schema.service';
 
 
 @Component({
@@ -20,16 +20,12 @@ export class DynamicFormComponent implements OnInit, DynamicForm {
     const formGroup = {};
 
     for (const item of this.schema.items) {
-      formGroup[item.key] = new FormControl();
-      formGroup[item.key].Validators = this.mapValidators(item.validators);
+      formGroup[item.key] = new FormControl('', this.mapValidators(item.validators));
     }
     this.form = new FormGroup(formGroup);
     this.form.statusChanges.subscribe(status => this.isValid.emit(status === 'VALID'));
 
-    if (this.model) {
-      this.form.patchValue(this.model);
-      this.form.markAllAsTouched();
-    }
+    if (this.model) { this.form.patchValue(this.model); }
   }
 
   private mapValidators(validators: Validator[]) {
@@ -103,6 +99,8 @@ export class DynamicFormComponent implements OnInit, DynamicForm {
   public setModel(value: any) {
     this.model = value;
     this.form.patchValue(this.model);
+    // TODO Maybe this is needed >>
+    // this.form.markAllAsTouched();
   }
 }
 
