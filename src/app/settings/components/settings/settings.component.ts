@@ -30,6 +30,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit() { this.loadData(); }
 
   public loadData() {
+    this.smtpProfiles = [];
     this.data$ = forkJoin(
       this.schemaService.getSchema('smtp'),
       this.settingsService.getSmtp(),
@@ -64,21 +65,25 @@ export class SettingsComponent implements OnInit {
     } else {
       Object.assign(existing, currentValue);
     }
+    this.saveSettings();
+  }
+
+  private saveSettings() {
     this.settingsService
       .saveSmtp(this.smtpProfiles)
       .subscribe(result => {
-        this.displayMessage(result);
+        this.displayMessage(result || 'SMTP settings saved!');
         this.loadData();
       });
   }
-
   onDelete(profile: string) {
     this.dialogService
       .confirm('You are about to delete SMTP profile <strong>' + profile + '</strong>!<br>Continue?')
       .subscribe(resultOk => {
         if (resultOk) {
-          console.log(`Deleting profile ${profile}`);
-            // TODO
+          const toDelete = this.smtpProfiles.find(s => s.name === profile);
+          this.smtpProfiles.splice(this.smtpProfiles.indexOf(toDelete), 1);
+          setTimeout(() => this.saveSettings());
         }
       });
   }
