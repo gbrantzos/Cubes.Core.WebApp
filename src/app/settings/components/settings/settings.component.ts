@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, HostBinding } from '@angular/core';
-import { SchemaService } from '@src/app/shared/services/schema.service';
+import { SchemaService, CoreSchemas } from '@src/app/shared/services/schema.service';
 import { SettingsService, SmtpSettings } from '@src/app/core/services/settings.service';
 import { Observable, forkJoin, empty } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -32,7 +32,7 @@ export class SettingsComponent implements OnInit {
   public loadData() {
     this.smtpProfiles = [];
     this.data$ = forkJoin(
-      this.schemaService.getSchema('smtp'),
+      this.schemaService.getSchema(CoreSchemas.SettingsSMTP),
       this.settingsService.getSmtp(),
     ).pipe(
       map(([schema, model]) => {

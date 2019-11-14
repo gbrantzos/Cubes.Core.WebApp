@@ -2,6 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export enum CoreSchemas {
+  SettingsSMTP   = 'Cubes.Core.Email.SmtpSettingsProfiles',
+  DataConnection = 'Cubes.Core.Data.Connection',
+  DataQueries    = 'Cubes.Core.Data.Query'
+}
+
 @Injectable({
   providedIn: 'root'
 })

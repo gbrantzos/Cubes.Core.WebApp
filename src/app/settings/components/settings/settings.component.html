@@ -1,7 +1,7 @@
 <div *ngIf="data$ | async as data; else loading">
 
   <div class="form-wrapper">
-    <cubes-smtp-selector [profiles]="data.profiles" (select)="onSelect($event)"></cubes-smtp-selector>
+    <cubes-smtp-selector [profiles]="data.profiles" (select)="onSelect($event)"> </cubes-smtp-selector>
     <cubes-smtp-editor #editor [schema]="data.schema" (save)="onSave($event)" (delete)="onDelete($event)">
     </cubes-smtp-editor>
   </div>
