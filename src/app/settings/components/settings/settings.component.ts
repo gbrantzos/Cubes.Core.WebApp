@@ -29,7 +29,13 @@ export class SettingsComponent implements OnInit {
     private snackBar: MatSnackBar) { }
   ngOnInit() { this.loadData(); }
 
+  private resetError() {
+    this.errorLoading = false;
+    this.errorMessage = '';
+  }
+
   public loadData() {
+    this.resetError();
     this.smtpProfiles = [];
     this.data$ = forkJoin(
       this.schemaService.getSchema(CoreSchemas.SettingsSMTP),
