@@ -9,6 +9,7 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiResultWrapperInterceptor } from './@helpers/api-result-wrapper.interceptor';
+import { LoaderInterceptorService } from './shared/services/loader-interceptor.service';
 
 
 @NgModule({
@@ -25,9 +26,14 @@ import { ApiResultWrapperInterceptor } from './@helpers/api-result-wrapper.inter
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptorService,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
       useClass: ApiResultWrapperInterceptor,
       multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })
