@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SchedulerJob } from 'src/app/core/services/scheduler.service';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Lookup } from 'src/app/core/services/lookup.service';
+import { Lookup } from '@src/app/shared/services/lookup.service';
 import { ParametersEditor } from '../execution-params-editors/execution-params-editors';
 import { CustomValidators } from '../../custom-validators';
 import cronstrue from 'cronstrue';

@@ -3,7 +3,7 @@ import { catchError, delay, map } from 'rxjs/operators';
 import { empty, forkJoin, Observable } from 'rxjs';
 
 import { SchedulerService, SchedulerJob } from 'src/app/core/services/scheduler.service';
-import { LookupService } from 'src/app/core/services/lookup.service';
+import { LookupService } from '@src/app/shared/services/lookup.service';
 import { JobModifyEvent } from '../job-list/job-list.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +18,12 @@ export class SettingsService {
       .pipe(
         map(result => ((result as any).profiles as any[]).map(pr => {
           return {
-            name: pr.name,
-            host: pr.host,
-            port: pr.port,
-            timeout: pr.timeout,
-            sender: pr.sender,
-            useSsl: pr.useSsl,
+            name    : pr.name,
+            host    : pr.host,
+            port    : pr.port,
+            timeout : pr.timeout,
+            sender  : pr.sender,
+            useSsl  : pr.useSsl,
             userName: pr.credentials ? pr.credentials.userName : '',
             password: pr.credentials ? pr.credentials.password : ''
           } as SmtpSettings;
@@ -37,19 +37,22 @@ export class SettingsService {
   public saveSmtp(profiles: SmtpSettings[]): Observable<string> {
     const settingsProfiles = profiles.map(pr => {
       return {
-        name: pr.name,
-        host: pr.host,
-        port: pr.port,
+        name   : pr.name,
+        host   : pr.host,
+        port   : pr.port,
         timeout: pr.timeout,
-        sender: pr.sender,
-        useSsl: pr.useSsl,
+        sender : pr.sender,
+        useSsl : pr.useSsl,
         credentials: (pr.userName && pr.password) ? { userName: pr.userName, password: pr.password } : null
       };
     });
     const settings = { profiles: settingsProfiles } as SmtpSettingsProfiles;
     return this
       .httpClient
-      .post<string>(`${this.rootUrl}/${this.smtpSettingsTypes}`, settings);
+      .post<string>(`${this.rootUrl}/${this.smtpSettingsTypes}`, settings, {
+        headers: new HttpHeaders({ 'Content-Type': 'text/plain' })
+      });
+      // This specific endpoint of cubes accepts plain text (string)!
   }
 }
 

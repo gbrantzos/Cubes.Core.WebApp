@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Lookup } from 'src/app/core/services/lookup.service';
+import { Lookup } from '@src/app/shared/services/lookup.service';
 import { ParametersEditor } from '../execution-params-editors';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from 'src/app/scheduler/custom-validators';
