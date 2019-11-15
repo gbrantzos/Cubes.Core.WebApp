@@ -61,7 +61,22 @@ export class SettingsService {
   public getDataAccess(): Observable<DataAccessSettings> {
     return this
       .httpClient
-      .get<DataAccessSettings>(`${this.rootUrl}/${CoreSettings.DATA}`);
+      .get<DataAccessSettings>(`${this.rootUrl}/${CoreSettings.DATA}`)
+      .pipe(
+        map(result => {
+          const toReturn =  {
+            connections: result.connections.sort((a, b) => a.name.localeCompare(b.name)),
+            queries: result.queries.sort((a, b) => a.name.localeCompare(b.name))
+          } as DataAccessSettings;
+          toReturn
+            .connections
+            .map((cnx, index) => cnx.id = index + 1);
+          toReturn
+            .queries
+            .map((qr, index) => qr.id = index + 1);
+          return toReturn;
+        })
+      );
   }
 
   public saveDataAccess(settings: DataAccessSettings): Observable<string> {
@@ -107,6 +122,7 @@ interface SmtpSettingsProfiles {
 // ----------------------------------------------------------------------
 // DataAccess models
 export interface Connection {
+  id?: number;
   name: string;
   comments?: string;
   connectionString: string;
@@ -114,6 +130,7 @@ export interface Connection {
 }
 
 export interface Query {
+  id?: number;
   name: string;
   comments?: string;
   queryCommand: string;

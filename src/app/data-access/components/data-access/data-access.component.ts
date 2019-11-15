@@ -71,6 +71,7 @@ export class DataAccessComponent implements OnInit {
     snackRef.onAction().subscribe(() => snackRef.dismiss());
   }
 
+
   openDialogOverlay(config: FilePreviewDialogConfig = {}) {
     // Override default configuration
     const dialogConfig = { ...DEFAULT_CONFIG, ...config };

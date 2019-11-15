@@ -12,6 +12,7 @@ export class DynamicFormComponent implements OnInit, DynamicForm {
   @Input() schema: Schema;
   @Input() model: any;
   @Output() isValid = new EventEmitter<boolean>();
+  @Output() modelChanged = new EventEmitter<any>();
 
   public form: FormGroup;
 
@@ -20,10 +21,11 @@ export class DynamicFormComponent implements OnInit, DynamicForm {
     const formGroup = {};
 
     for (const item of this.schema.items) {
-      formGroup[item.key] = new FormControl('', this.mapValidators(item.validators));
+      formGroup[item.key] = new FormControl('', { validators: this.mapValidators(item.validators), updateOn: 'blur'});
     }
     this.form = new FormGroup(formGroup);
     this.form.statusChanges.subscribe(status => this.isValid.emit(status === 'VALID'));
+    this.form.valueChanges.subscribe(model => this.modelChanged.next(model));
 
     if (this.model) { this.form.patchValue(this.model); }
   }
