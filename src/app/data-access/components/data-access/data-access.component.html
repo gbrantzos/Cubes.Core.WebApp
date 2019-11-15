@@ -1,19 +1,23 @@
-<div class="about-wrapper" style="display: flex; flex-direction: column; flex:1; overflow:hidden;">
-  <div class="image">
-    <img class="wip" src="assets/images/wip.png" />
+<div *ngIf="data$ | async as data; else loading">
 
-    <button mat-button (click)="openDialog()">Open full screen dialog</button>
-  </div>
-  <div style = "height:100%; overflow:auto; margin: 0 20px;">
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere voluptatem ratione at a accusantium nemo enim
-    incidunt? Nesciunt, recusandae harum, deserunt mollitia autem atque voluptate maiores id incidunt modi ratione!</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere voluptatem ratione at a accusantium nemo enim
-    incidunt? Nesciunt, recusandae harum, deserunt mollitia autem atque voluptate maiores id incidunt modi ratione!</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere voluptatem ratione at a accusantium nemo enim
-    incidunt? Nesciunt, recusandae harum, deserunt mollitia autem atque voluptate maiores id incidunt modi ratione!</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere voluptatem ratione at a accusantium nemo enim
-    incidunt? Nesciunt, recusandae harum, deserunt mollitia autem atque voluptate maiores id incidunt modi ratione!</p>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere voluptatem ratione at a accusantium nemo enim
-    incidunt? Nesciunt, recusandae harum, deserunt mollitia autem atque voluptate maiores id incidunt modi ratione!</p>
-  </div>
+  <mat-tab-group>
+
+    <mat-tab label="Connections">
+      <cubes-connection [schema]="data.schema" [model]="data.model.connections"></cubes-connection>
+    </mat-tab>
+
+    <mat-tab label="Queries">
+      <div class="about-wrapper" style="display: flex; flex-direction: column; flex:1; overflow:hidden;">
+        <button mat-button (click)="openDialog()">Open full screen dialog</button>
+
+      </div>
+      <ngx-json-viewer [json]="data" [expanded]="false"></ngx-json-viewer>
+    </mat-tab>
+  </mat-tab-group>
+
 </div>
+
+<ng-template #loading>
+  <cubes-loading (retry)="loadData()" [hasErrors]="errorLoading" [errorMessage]="errorMessage">
+  </cubes-loading>
+</ng-template>

@@ -18,6 +18,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 // Data change support must be on root module!
 import {
@@ -49,7 +50,8 @@ import { CustomDateAdapter } from '../@helpers/custom-date-adapter';
     MatSelectModule,
     MatSlideToggleModule,
     MatSnackBarModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatExpansionModule
   ],
   exports: [
     MatToolbarModule,
@@ -67,7 +69,8 @@ import { CustomDateAdapter } from '../@helpers/custom-date-adapter';
     MatSelectModule,
     MatSlideToggleModule,
     MatSnackBarModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatExpansionModule
   ],
   providers: [
     { provide: DateAdapter, useClass: CustomDateAdapter }

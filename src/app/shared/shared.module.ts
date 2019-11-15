@@ -8,6 +8,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { LoadingComponent } from './components/loading/loading.component';
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,9 @@ import { LoaderComponent } from './components/loader/loader.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+
+    NgxJsonViewerModule
   ],
   exports: [
     FormsModule,
@@ -29,7 +32,8 @@ import { LoaderComponent } from './components/loader/loader.component';
     MaterialModule,
     LoadingComponent,
     DynamicFormComponent,
-    LoaderComponent
+    LoaderComponent,
+    NgxJsonViewerModule
   ],
   entryComponents: [
     AlertDialogComponent,

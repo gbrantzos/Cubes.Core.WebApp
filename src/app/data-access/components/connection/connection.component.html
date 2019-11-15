@@ -1,0 +1,18 @@
+<mat-accordion>
+  <mat-expansion-panel [expanded]="true" *ngFor="let c of model">
+
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{c.name}}</mat-panel-title>
+      <mat-panel-description> {{c.comments}} </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <cubes-dynamic-form [schema]="schema" [model]="c"></cubes-dynamic-form>
+    <button mat-button color="primary">Test Connection</button>
+    <button mat-button color="warn">Delete</button>
+  </mat-expansion-panel>
+
+  <mat-action-row>
+    <button  mat-stroked-button color="primary">New Connection</button>
+    <button mat-stroked-button color="primary">Save Changes</button>
+  </mat-action-row>
+</mat-accordion>

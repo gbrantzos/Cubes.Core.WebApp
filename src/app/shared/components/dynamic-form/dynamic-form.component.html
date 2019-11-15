@@ -25,7 +25,7 @@
       <mat-form-field *ngSwitchCase="'select'">
         <mat-select placeholder="{{item.label}}" [formControlName]="item.key" [compareWith]="compareObjects"
           [multiple]="item.options.multipleOptions">
-          <mat-option *ngFor="let opt of item.options.optionItems" [value]="opt.value" [disabled]="!!opt.disabled">
+          <mat-option *ngFor="let opt of item.options.items" [value]="opt.value" [disabled]="!!opt.disabled">
             {{opt.label}}
           </mat-option>
         </mat-select>

@@ -2,6 +2,11 @@ import { Component, OnInit, Inject, HostBinding } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
+import { forkJoin, Observable, empty } from 'rxjs';
+import { SchemaService, CoreSchemas } from '@src/app/shared/services/schema.service';
+import { SettingsService } from '@src/app/core/services/settings.service';
+import { map, catchError } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 interface FilePreviewDialogConfig {
   panelClass?: string;
@@ -22,9 +27,48 @@ const DEFAULT_CONFIG: FilePreviewDialogConfig = {
 })
 export class DataAccessComponent implements OnInit {
   @HostBinding('class') class = 'base-component';
-  constructor(private dialog: MatDialog, private overlay: Overlay) { }
 
-  ngOnInit() {
+  public data$: Observable<any>;
+  public errorLoading = false;
+  public errorMessage = '';
+
+  constructor(
+    private schemaService: SchemaService,
+    private settingsService: SettingsService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private overlay: Overlay) { }
+  ngOnInit() { this.loadData(); }
+
+  public loadData() {
+    this.data$ = forkJoin(
+      this.schemaService.getSchema(CoreSchemas.DataConnection),
+      this.settingsService.getDataAccess()
+    ).pipe(
+      map(([schema, model]) => {
+        return {
+          schema,
+          model
+        };
+      }),
+      catchError((err, caught) => {
+        this.errorLoading = true;
+        this.errorMessage = err.message;
+
+        this.displayMessage(this.errorMessage);
+        console.error(err);
+        return empty();
+      })
+    );
+  }
+
+  private displayMessage(message: string) {
+    const snackRef = this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      panelClass: 'snack-bar',
+      horizontalPosition: 'right'
+    });
+    snackRef.onAction().subscribe(() => snackRef.dismiss());
   }
 
   openDialogOverlay(config: FilePreviewDialogConfig = {}) {

@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 
 export enum CoreSchemas {
   SettingsSMTP   = 'Cubes.Core.Email.SmtpSettingsProfiles',
-  DataConnection = 'Cubes.Core.Data.Connection',
-  DataQueries    = 'Cubes.Core.Data.Query'
+  DataConnection = 'Cubes.Core.DataAccess.Connection',
+  DataQueries    = 'Cubes.Core.DataAccess.Query'
 }
 
 @Injectable({
@@ -36,7 +36,7 @@ export interface SchemaItem {
 
 export interface Options {
   multipleOptions?: boolean;
-  optionItems?: OptionItem[];
+  items?: OptionItem[];
 }
 
 export interface OptionItem {

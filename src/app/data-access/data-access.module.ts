@@ -8,12 +8,14 @@ import {
   FilePreviewOverlayComponent
 } from './components/data-access/data-access.component';
 import { SharedModule } from '../shared/shared.module';
+import { ConnectionComponent } from './components/connection/connection.component';
 
 @NgModule({
   declarations: [
     DataAccessComponent,
     DialogOverviewExampleDialogComponent,
-    FilePreviewOverlayComponent
+    FilePreviewOverlayComponent,
+    ConnectionComponent
   ],
   imports: [
     CommonModule,

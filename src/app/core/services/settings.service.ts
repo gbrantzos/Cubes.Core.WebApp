@@ -1,20 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+export enum CoreSettings {
+  SMTP = 'Cubes.Core.Email.SmtpSettingsProfiles',
+  DATA = 'Cubes.Core.DataAccess.DataAccessSettings'
+}
 @Injectable({
   providedIn: 'root'
 })
 export class SettingsService {
   private readonly rootUrl: String = 'api/configuration';
-  private readonly smtpSettingsTypes: String = 'Cubes.Core.Email.SmtpSettingsProfiles';
 
   constructor(private httpClient: HttpClient) { }
   public getSmtp(): Observable<SmtpSettings[]> {
     const settings$ = this
       .httpClient
-      .get<SmtpSettingsProfiles>(`${this.rootUrl}/${this.smtpSettingsTypes}`)
+      .get<SmtpSettingsProfiles>(`${this.rootUrl}/${CoreSettings.SMTP}`)
       .pipe(
         map(result => ((result as any).profiles as any[]).map(pr => {
           return {
@@ -49,13 +52,29 @@ export class SettingsService {
     const settings = { profiles: settingsProfiles } as SmtpSettingsProfiles;
     return this
       .httpClient
-      .post<string>(`${this.rootUrl}/${this.smtpSettingsTypes}`, settings, {
+      .post<string>(`${this.rootUrl}/${CoreSettings.SMTP}`, settings, {
+        headers: new HttpHeaders({ 'Content-Type': 'text/plain' })
+      });
+      // This specific endpoint of cubes accepts plain text (string)!
+  }
+
+  public getDataAccess(): Observable<DataAccessSettings> {
+    return this
+      .httpClient
+      .get<DataAccessSettings>(`${this.rootUrl}/${CoreSettings.DATA}`);
+  }
+
+  public saveDataAccess(settings: DataAccessSettings): Observable<string> {
+    return this
+      .httpClient
+      .post<string>(`${this.rootUrl}/${CoreSettings.DATA}`, settings, {
         headers: new HttpHeaders({ 'Content-Type': 'text/plain' })
       });
       // This specific endpoint of cubes accepts plain text (string)!
   }
 }
 
+// ----------------------------------------------------------------------
 export interface SmtpSettings {
   name: string;
   host: string;
@@ -66,7 +85,6 @@ export interface SmtpSettings {
   userName?: string;
   password?: string;
 }
-
 
 // Cubes model, used for server communication
 interface SmtpSettingsProfiles {
@@ -83,3 +101,27 @@ interface SmtpSettingsProfiles {
     };
   }];
 }
+// ----------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------
+// DataAccess models
+export interface Connection {
+  name: string;
+  comments?: string;
+  connectionString: string;
+  dbProvider: string;
+}
+
+export interface Query {
+  name: string;
+  comments?: string;
+  queryCommand: string;
+  parameters?: any[];
+}
+
+export interface DataAccessSettings {
+  connections: Connection[];
+  queries: Query[];
+}
+// ----------------------------------------------------------------------
