@@ -1,0 +1,23 @@
+.no-connection{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    margin-top: 18px;
+  }
+
+  p {
+    margin-top: 18px;
+    font-size: 1.18em;
+    text-align: center;
+  }
+
+  .link {
+    cursor: pointer;
+    text-decoration: underline;
+    color: blue;
+    font-weight: bold;
+  }
+}

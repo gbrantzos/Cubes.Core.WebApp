@@ -12,8 +12,9 @@ import { DialogService } from '@src/app/shared/services/dialog.service';
 export class ConnectionComponent implements OnInit {
   @Input() model: Connection[];
   @Input() schema: Schema;
+
   @Output() saveConnections = new EventEmitter<Connection[]>();
-  // @Output() test = new EventEmitter<Connection>();
+  @Output() testConnection = new EventEmitter<Connection>();
 
   @ViewChildren(MatExpansionPanel) list: QueryList<MatExpansionPanel>;
 
@@ -39,7 +40,7 @@ export class ConnectionComponent implements OnInit {
     }
   }
 
-  onSave() { this.saveConnections.next(this.model); console.log(this.model); }
+  onSave() { this.saveConnections.next(this.model); }
   onDelete(connection: Connection) {
     this.dialogService
       .confirm('You are about to delete connection <strong>' + connection.name + '</strong>!<br>Continue?')
@@ -47,9 +48,9 @@ export class ConnectionComponent implements OnInit {
         if (resultOk) {
           const toDelete = this.model.find(c => c.id === connection.id);
           this.model.splice(this.model.indexOf(toDelete), 1);
-          // setTimeout(() => this.saveSettings());
+          setTimeout(() => this.onSave());
         }
       });
   }
-  // onTest(connection: Connection) { this.test.next(connection); }
+  onTest(connection: Connection) { this.testConnection.next(connection); }
 }

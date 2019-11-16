@@ -1,4 +1,9 @@
-<mat-accordion #list>
+<div class="no-connection" *ngIf="model.length===0">
+  <img src="assets/images/connection.png" alt="">
+  <p>No connections defined!&nbsp;&nbsp;<span class="link" (click)="onNewConnection()">Add connection</span></p>
+</div>
+
+<mat-accordion>
 
   <mat-expansion-panel [expanded]="i === 0" *ngFor="let c of model; let i = index">
 
@@ -14,8 +19,8 @@
 
   </mat-expansion-panel>
 
-  <mat-action-row>
-    <button  mat-stroked-button color="primary" (click)="onNewConnection(list)">New Connection</button>
+  <mat-action-row *ngIf="model.length!==0">
+    <button mat-stroked-button color="primary" (click)="onNewConnection()">New Connection</button>
     <button mat-stroked-button color="primary" (click)="onSave()">Save Changes</button>
   </mat-action-row>
 

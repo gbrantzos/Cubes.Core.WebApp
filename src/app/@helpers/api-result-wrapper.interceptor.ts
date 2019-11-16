@@ -33,5 +33,5 @@ export interface ApiResponse {
 }
 
 export function isApiResponse(r: any): r is ApiResponse {
-  return ('version' in r) && ('createdAt' in r) && ('hasErrors' in r) && ('statusCode' in r);
+  return r && ('version' in r) && ('createdAt' in r) && ('hasErrors' in r) && ('statusCode' in r);
 }

@@ -4,9 +4,10 @@ import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { forkJoin, Observable, empty } from 'rxjs';
 import { SchemaService, CoreSchemas } from '@src/app/shared/services/schema.service';
-import { SettingsService } from '@src/app/core/services/settings.service';
+import { SettingsService, DataAccessSettings, Connection } from '@src/app/core/services/settings.service';
 import { map, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
+import { DataConnectionService } from '@src/app/core/services/data-connection.service';
 
 interface FilePreviewDialogConfig {
   panelClass?: string;
@@ -35,6 +36,7 @@ export class DataAccessComponent implements OnInit {
   constructor(
     private schemaService: SchemaService,
     private settingsService: SettingsService,
+    private connectionService: DataConnectionService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private overlay: Overlay) { }
@@ -71,6 +73,26 @@ export class DataAccessComponent implements OnInit {
     snackRef.onAction().subscribe(() => snackRef.dismiss());
   }
 
+  public onSave(data: DataAccessSettings) {
+    this.settingsService
+      .saveDataAccess(data)
+      .subscribe(res => {
+        this.displayMessage(res || 'Data Access settings saved!');
+        this.loadData();
+      });
+  }
+
+  public onTestConnection(connection: Connection) {
+    console.log(`Testing connection ${connection.name} ...`);
+    this.connectionService
+      .testConnection(connection)
+      .subscribe(result => {
+        this.displayMessage(result);
+      }, error => {
+        console.error(error);
+        this.displayMessage(error.error.message);
+      });
+  }
 
   openDialogOverlay(config: FilePreviewDialogConfig = {}) {
     // Override default configuration
@@ -94,7 +116,7 @@ export class DataAccessComponent implements OnInit {
       panelClass: 'full-width-dialog',
       backdropClass: 'backdrop1',
       width: '100vw',
-      height:  '100vh',
+      height: '100vh',
       maxWidth: '100vw',
       maxHeight: '100vh',
       hasBackdrop: true,

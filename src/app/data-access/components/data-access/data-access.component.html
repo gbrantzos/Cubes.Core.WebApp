@@ -3,7 +3,9 @@
   <mat-tab-group>
 
     <mat-tab label="Connections">
-      <cubes-connection [schema]="data.schema" [model]="data.model.connections"></cubes-connection>
+      <cubes-connection [schema]="data.schema" [model]="data.model.connections" (saveConnections)="onSave(data.model)"
+        (testConnection)="onTestConnection($event)">
+      </cubes-connection>
     </mat-tab>
 
     <mat-tab label="Queries">
