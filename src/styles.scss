@@ -43,6 +43,12 @@ input:-webkit-autofill:active {
 }
 
 // WORK IN PROGRESS
+
+.mat-tab-body-wrapper1 {
+  height: 100%;
+  border: red 1px solid;
+  overflow: scroll;
+}
 .wip {
   margin-top:48px;
   display: block;

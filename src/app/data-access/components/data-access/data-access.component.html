@@ -1,25 +1,33 @@
-<div *ngIf="data$ | async as data; else loading">
+<div class="data-wrapper">
+  <div *ngIf="data$ | async as data; else loading">
 
-  <mat-tab-group>
+    <mat-tab-group [dynamicHeight]="true">
 
-    <mat-tab label="Connections">
-      <cubes-connection [schema]="data.schema" [model]="data.model.connections" (saveConnections)="onSave(data.model)"
-        (testConnection)="onTestConnection($event)">
-      </cubes-connection>
-    </mat-tab>
+      <mat-tab label="Connections">
+        <cubes-connection [schema]="data.schema.connection" [model]="data.model.connections"
+          (saveConnections)="onSave(data.model)" (testConnection)="onTestConnection($event)">
+        </cubes-connection>
+      </mat-tab>
 
-    <mat-tab label="Queries">
-      <div class="about-wrapper" style="display: flex; flex-direction: column; flex:1; overflow:hidden;">
-        <button mat-button (click)="openDialog()">Open full screen dialog</button>
+      <mat-tab label="Queries">
+        <cubes-query [schema]="data.schema.query" [model]="data.model.queries" (saveQueries)="onSave(data.model)">
+        </cubes-query>
+      </mat-tab>
 
-      </div>
-      <ngx-json-viewer [json]="data" [expanded]="false"></ngx-json-viewer>
-    </mat-tab>
-  </mat-tab-group>
+      <mat-tab label="Debug Data">
+        <ngx-json-viewer [json]="data" [expanded]="false"></ngx-json-viewer>
+      </mat-tab>
 
+    </mat-tab-group>
+
+  </div>
 </div>
 
 <ng-template #loading>
   <cubes-loading (retry)="loadData()" [hasErrors]="errorLoading" [errorMessage]="errorMessage">
   </cubes-loading>
 </ng-template>
+
+<!--
+  <button mat-button (click)="openDialog()">Open full screen dialog</button>
+-->

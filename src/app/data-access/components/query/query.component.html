@@ -1,0 +1,26 @@
+<div class="no-query" *ngIf="model.length===0">
+  <img src="assets/images/data-query.png" alt="">
+  <p>No queries defined!&nbsp;&nbsp;<span class="link" (click)="onNewQuery()">Add query</span></p>
+</div>
+
+<mat-accordion>
+
+  <mat-expansion-panel [expanded]="i === 0" *ngFor="let q of model; let i = index">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{q.name}}</mat-panel-title>
+      <mat-panel-description> {{q.comments}} </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <cubes-dynamic-form [schema]="schema" [model]="q" (modelChanged)="onEditorChanges($event, i)"></cubes-dynamic-form>
+
+    <button mat-button color="primary" disabled=true (click)="onExecute(q)">Execute Query</button>
+    <button mat-button color="warn" (click)="onDelete(q)">Delete</button>
+
+  </mat-expansion-panel>
+
+  <mat-action-row *ngIf="model.length!==0">
+    <button mat-stroked-button color="primary" (click)="onNewQuery()">New Query</button>
+    <button mat-stroked-button color="primary" (click)="onSave()">Save Changes</button>
+  </mat-action-row>
+
+</mat-accordion>

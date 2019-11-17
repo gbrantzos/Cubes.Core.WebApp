@@ -9,13 +9,15 @@ import {
 } from './components/data-access/data-access.component';
 import { SharedModule } from '../shared/shared.module';
 import { ConnectionComponent } from './components/connection/connection.component';
+import { QueryComponent } from './components/query/query.component';
 
 @NgModule({
   declarations: [
     DataAccessComponent,
     DialogOverviewExampleDialogComponent,
     FilePreviewOverlayComponent,
-    ConnectionComponent
+    ConnectionComponent,
+    QueryComponent
   ],
   imports: [
     CommonModule,

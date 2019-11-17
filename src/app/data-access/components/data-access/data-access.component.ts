@@ -45,11 +45,15 @@ export class DataAccessComponent implements OnInit {
   public loadData() {
     this.data$ = forkJoin(
       this.schemaService.getSchema(CoreSchemas.DataConnection),
+      this.schemaService.getSchema(CoreSchemas.DataQueries),
       this.settingsService.getDataAccess()
     ).pipe(
-      map(([schema, model]) => {
+      map(([schemaConnection, schemaQuery, model]) => {
         return {
-          schema,
+          schema: {
+            connection: schemaConnection,
+            query: schemaQuery
+          },
           model
         };
       }),
