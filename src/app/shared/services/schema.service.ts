@@ -29,6 +29,7 @@ export interface SchemaItem {
   key: string;
   label: string;
   type: 'text' | 'textarea' | 'select' | 'checkbox' | 'datepicker';
+  className?: string;
   textareaRows?: number;
   options?: Options;
   validators?: Validator[];

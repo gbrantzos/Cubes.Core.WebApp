@@ -21,3 +21,8 @@
     font-weight: bold;
   }
 }
+
+// Remove mat-expansion-panel border & box-shadow
+.mat-expansion-panel:not([class*='mat-elevation-z']) {
+  box-shadow: none;
+}
