@@ -4,7 +4,7 @@ import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { forkJoin, Observable, empty } from 'rxjs';
 import { SchemaService, CoreSchemas } from '@src/app/shared/services/schema.service';
-import { SettingsService, DataAccessSettings, Connection } from '@src/app/core/services/settings.service';
+import { SettingsService, DataAccessSettings, Connection, Query } from '@src/app/core/services/settings.service';
 import { map, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
 import { DataConnectionService } from '@src/app/core/services/data-connection.service';
@@ -32,6 +32,10 @@ export class DataAccessComponent implements OnInit {
   public data$: Observable<any>;
   public errorLoading = false;
   public errorMessage = '';
+
+  public selectedTab: 0;
+  public selectedConnection: '';
+  public selectedQuery: 0;
 
   constructor(
     private schemaService: SchemaService,
@@ -96,6 +100,14 @@ export class DataAccessComponent implements OnInit {
         console.error(error);
         this.displayMessage(error.error.message);
       });
+  }
+
+  public onConnectionChanged(connection) { if (connection) { this.selectedConnection = connection; } }
+
+  public onQueryChanged(query) { if (query) { this.selectedQuery = query; } }
+
+  public onExecuteQuery(query: Query) {
+    alert(`Executing query ${query.name}`);
   }
 
   openDialogOverlay(config: FilePreviewDialogConfig = {}) {

@@ -5,9 +5,11 @@
 
 <mat-accordion>
 
-  <mat-expansion-panel [expanded]="i === 0" *ngFor="let c of model; let i = index">
+  <mat-expansion-panel #p *ngFor="let c of model; let i = index" (opened)="onSelectionChanged(c.name)">
 
-    <mat-expansion-panel-header>
+    <span style="display: none;">{{mapID(p.id, c.name)}}</span>
+
+    <mat-expansion-panel-header (click)="onSelectionChanged(c.name)">
       <mat-panel-title>{{c.name}}</mat-panel-title>
       <mat-panel-description> {{c.comments}} </mat-panel-description>
     </mat-expansion-panel-header>

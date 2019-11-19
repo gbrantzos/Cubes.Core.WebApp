@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { Schema } from '@src/app/shared/services/schema.service';
 import { Query } from '@src/app/core/services/settings.service';
 import { MatExpansionPanel } from '@angular/material';
@@ -9,16 +9,35 @@ import { DialogService } from '@src/app/shared/services/dialog.service';
   templateUrl: './query.component.html',
   styleUrls: ['./query.component.scss']
 })
-export class QueryComponent implements OnInit {
+export class QueryComponent implements OnInit, AfterViewInit {
   @Input() model: Query[];
   @Input() schema: Schema;
+  @Input() selected = '--NONE--';
 
   @Output() saveQueries = new EventEmitter<Query[]>();
+  @Output() selectionChanged = new EventEmitter<string>();
+  @Output() executeQuery = new EventEmitter<Query>();
 
   @ViewChildren(MatExpansionPanel) list: QueryList<MatExpansionPanel>;
+  public queries: any[] = Array.of();
 
   constructor(private dialogService: DialogService) { }
   ngOnInit() { }
+  ngAfterViewInit() {
+    const listElements = this.list.toArray();
+    if (listElements.length === 0) { return; }
+
+    let selected: MatExpansionPanel;
+    for (const el of listElements) {
+      if (el.id === this.queries[this.selected]) {
+        selected = el;
+        break;
+      }
+    }
+    if (!selected) { selected = listElements[0]; }
+    setTimeout(() => selected.open());
+  }
+  mapID(elementID: string, queryName: string) { this.queries[queryName] = elementID; }
 
   onNewQuery() {
     const maxID = Math.max(...this.model.map(m => m.id), 0) + 1;
@@ -38,6 +57,7 @@ export class QueryComponent implements OnInit {
     const query = model as Query;
     if (model) {
       Object.assign(this.model[index], query);
+      this.raiseSelectionChanged(query.name);
     }
   }
 
@@ -52,6 +72,8 @@ export class QueryComponent implements OnInit {
         }
       });
   }
+  onExecute(query: Query) { this.executeQuery.next(query); }
 
-  onExecute(query: Query) { console.log(`Executing query ${query.name}`); }
+  onSelectionChanged(query) { this.raiseSelectionChanged(query); }
+  private raiseSelectionChanged(query: string) { setTimeout(() => this.selectionChanged.next(query)); }
 }

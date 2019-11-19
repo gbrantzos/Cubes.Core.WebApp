@@ -1,16 +1,19 @@
 <div class="data-wrapper">
   <div *ngIf="data$ | async as data; else loading">
 
-    <mat-tab-group [dynamicHeight]="true">
+    <mat-tab-group [dynamicHeight]="true" (selectedIndexChange)="selectedTab=$event" [selectedIndex]="selectedTab">
 
       <mat-tab label="Connections">
         <cubes-connection [schema]="data.schema.connection" [model]="data.model.connections"
-          (saveConnections)="onSave(data.model)" (testConnection)="onTestConnection($event)">
+          (saveConnections)="onSave(data.model)" (testConnection)="onTestConnection($event)"
+          [selected]="selectedConnection" (selectionChanged)="onConnectionChanged($event)">
         </cubes-connection>
       </mat-tab>
 
       <mat-tab label="Queries">
-        <cubes-query [schema]="data.schema.query" [model]="data.model.queries" (saveQueries)="onSave(data.model)">
+        <cubes-query [schema]="data.schema.query" [model]="data.model.queries" (saveQueries)="onSave(data.model)"
+          (executeQuery)="onExecuteQuery($event)" [selected]="selectedQuery"
+          (selectionChanged)="onQueryChanged($event)">
         </cubes-query>
       </mat-tab>
 
