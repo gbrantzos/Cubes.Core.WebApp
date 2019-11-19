@@ -122,7 +122,7 @@ export class DataAccessComponent implements OnInit {
           .confirm('Query command has changed. Update command on query <strong>' + query.name + '</strong>?')
           .subscribe(resultOk => {
             if (resultOk) {
-              this.queries.updateQueryCommand(query.id, result);
+              setTimeout(() => this.queries.updateQueryCommand(query.id, result));
             }
           });
       }
