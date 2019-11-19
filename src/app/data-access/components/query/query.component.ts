@@ -75,5 +75,10 @@ export class QueryComponent implements OnInit, AfterViewInit {
   onExecute(query: Query) { this.executeQuery.next(query); }
 
   onSelectionChanged(query) { this.raiseSelectionChanged(query); }
+
+  updateQueryCommand(id: number, queryCommand: string) {
+    const index = this.model.findIndex(q => q.id === id);
+    setTimeout(() => this.model[index].queryCommand = queryCommand);
+  }
   private raiseSelectionChanged(query: string) { setTimeout(() => this.selectionChanged.next(query)); }
 }

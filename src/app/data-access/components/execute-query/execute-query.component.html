@@ -1,7 +1,32 @@
-<div mat-dialog-content>
-  <p>Execute Query: {{query.name}}</p>
-</div>
-<pre>{{query.queryCommand}}</pre>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Close</button>
+<div class="wrapper">
+
+  <div class="title">
+    <h3>Execute Query: {{query.name}}</h3>
+    <span class="filler"></span>
+    <span class="times" (click)="onNoClick()">&times;</span>
+  </div>
+  <mat-divider></mat-divider>
+
+  <div class="content">
+    <div class="toolbar">
+      <mat-form-field>
+        <mat-label>Connection</mat-label>
+        <mat-select [(ngModel)]="selectedConnection" name="selectedConnection">
+          <mat-option *ngFor="let cnx of connections" [value]="cnx">
+            {{cnx}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      &nbsp;&nbsp;
+      <button mat-button color="primary">Execute</button>
+    </div>
+
+    <div class="editor">
+      <mat-form-field>
+        <mat-label>Query Command</mat-label>
+        <textarea class="queryEditor" matInput cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="30"
+          placeholder="Query Command" [(ngModel)]="query.queryCommand"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
 </div>

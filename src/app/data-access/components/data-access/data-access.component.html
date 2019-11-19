@@ -11,7 +11,7 @@
       </mat-tab>
 
       <mat-tab label="Queries">
-        <cubes-query [schema]="data.schema.query" [model]="data.model.queries" (saveQueries)="onSave(data.model)"
+        <cubes-query #queries [schema]="data.schema.query" [model]="data.model.queries" (saveQueries)="onSave(data.model)"
           (executeQuery)="onExecuteQuery($event)" [selected]="selectedQuery"
           (selectionChanged)="onQueryChanged($event)">
         </cubes-query>

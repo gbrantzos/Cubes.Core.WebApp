@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { forkJoin, Observable, empty } from 'rxjs';
 import { SchemaService, CoreSchemas } from '@src/app/shared/services/schema.service';
@@ -7,12 +7,8 @@ import { map, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
 import { DataConnectionService } from '@src/app/core/services/data-connection.service';
 import { ExecuteQueryComponent } from '../execute-query/execute-query.component';
-
-interface FilePreviewDialogConfig {
-  panelClass?: string;
-  hasBackdrop?: boolean;
-  backdropClass?: string;
-}
+import { DialogService } from '@src/app/shared/services/dialog.service';
+import { QueryComponent } from '../query/query.component';
 
 
 @Component({
@@ -22,6 +18,7 @@ interface FilePreviewDialogConfig {
 })
 export class DataAccessComponent implements OnInit {
   @HostBinding('class') class = 'base-component';
+  @ViewChild('queries', { static: false }) queries: QueryComponent;
 
   public data$: Observable<any>;
   public errorLoading = false;
@@ -37,6 +34,7 @@ export class DataAccessComponent implements OnInit {
     private schemaService: SchemaService,
     private settingsService: SettingsService,
     private connectionService: DataConnectionService,
+    private dialogService: DialogService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog) { }
   ngOnInit() { this.loadData(); }
@@ -112,8 +110,21 @@ export class DataAccessComponent implements OnInit {
       hasBackdrop: true,
       disableClose: true,
       data: {
-        query: query,
-        connections: this.connectionNames
+        query: Object.assign({}, query),
+        connections: this.connectionNames,
+        selectedConnection: this.selectedConnection
+      }
+    })
+    .afterClosed()
+    .subscribe(result => {
+      if (result !== query.queryCommand) {
+        this.dialogService
+          .confirm('Query command has changed. Update command on query <strong>' + query.name + '</strong>?')
+          .subscribe(resultOk => {
+            if (resultOk) {
+              this.queries.updateQueryCommand(query.id, result);
+            }
+          });
       }
     });
   }

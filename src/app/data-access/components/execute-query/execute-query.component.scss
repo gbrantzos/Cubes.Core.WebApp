@@ -1,0 +1,39 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+
+  flex: 1 1 auto;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+}
+
+.filler {
+  flex: 1 1 0;
+}
+.times {
+  font-size: 34px;
+  color: #353535;
+  cursor: pointer;
+}
+
+.content {
+  flex: 1 1 auto;
+}
+
+.toolbar {
+  padding-top: 12px;
+}
+
+.editor > * {
+  width: 100%;
+}
+
+.queryEditor {
+  width: 100%;
+
+  font-family: monospace;
+  font-size: 0.9em;
+}
