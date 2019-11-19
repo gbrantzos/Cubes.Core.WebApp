@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChildren, QueryList, AfterViewInit, ViewChild } from '@angular/core';
 import { Schema } from '@src/app/shared/services/schema.service';
 import { Query } from '@src/app/core/services/settings.service';
 import { MatExpansionPanel } from '@angular/material';
 import { DialogService } from '@src/app/shared/services/dialog.service';
+import { DynamicForm } from '@src/app/shared/components/dynamic-form/dynamic-form.component';
 
 @Component({
   selector: 'cubes-query',
@@ -19,7 +20,9 @@ export class QueryComponent implements OnInit, AfterViewInit {
   @Output() executeQuery = new EventEmitter<Query>();
 
   @ViewChildren(MatExpansionPanel) list: QueryList<MatExpansionPanel>;
+
   public queries: any[] = Array.of();
+  public currentEditor: DynamicForm;
 
   constructor(private dialogService: DialogService) { }
   ngOnInit() { }
@@ -74,11 +77,17 @@ export class QueryComponent implements OnInit, AfterViewInit {
   }
   onExecute(query: Query) { this.executeQuery.next(query); }
 
-  onSelectionChanged(query) { this.raiseSelectionChanged(query); }
+  onSelectionChanged(queryName: string, editor: DynamicForm) {
+    this.raiseSelectionChanged(queryName);
+    this.currentEditor = editor;
+  }
 
   updateQueryCommand(id: number, queryCommand: string) {
-    const index = this.model.findIndex(q => q.id === id);
-    setTimeout(() => this.model[index].queryCommand = queryCommand);
+    const toUpdate = this.model.find(q => q.id === id);
+    toUpdate.queryCommand = queryCommand;
+
+    this.currentEditor.setModel(toUpdate);
   }
+
   private raiseSelectionChanged(query: string) { setTimeout(() => this.selectionChanged.next(query)); }
 }

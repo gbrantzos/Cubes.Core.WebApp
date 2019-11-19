@@ -5,7 +5,7 @@
 
 <mat-accordion>
 
-  <mat-expansion-panel #p *ngFor="let q of model; let i = index" (opened)="onSelectionChanged(q.name)">
+  <mat-expansion-panel #p *ngFor="let q of model; let i = index" (opened)="onSelectionChanged(q.name, editor)">
 
     <span style="display: none;">{{mapID(p.id, q.name)}}</span>
 
@@ -14,7 +14,8 @@
       <mat-panel-description> {{q.comments}} </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <cubes-dynamic-form [schema]="schema" [model]="q" (modelChanged)="onEditorChanges($event, i)"></cubes-dynamic-form>
+    <cubes-dynamic-form #editor [schema]="schema" [model]="q" (modelChanged)="onEditorChanges($event, i)">
+    </cubes-dynamic-form>
 
     <button mat-button color="primary" (click)="onExecute(q)">Execute Query</button>
     <button mat-button color="warn" (click)="onDelete(q)">Delete</button>
