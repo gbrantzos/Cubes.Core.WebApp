@@ -17,9 +17,11 @@
         </cubes-query>
       </mat-tab>
 
+      <!--
       <mat-tab label="Debug Data">
         <ngx-json-viewer [json]="data" [expanded]="false"></ngx-json-viewer>
       </mat-tab>
+      -->
 
     </mat-tab-group>
 
@@ -30,7 +32,3 @@
   <cubes-loading (retry)="loadData()" [hasErrors]="errorLoading" [errorMessage]="errorMessage">
   </cubes-loading>
 </ng-template>
-
-<!--
-  <button mat-button (click)="openDialog()">Open full screen dialog</button>
--->

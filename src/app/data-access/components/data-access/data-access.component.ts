@@ -1,13 +1,12 @@
-import { Component, OnInit, Inject, HostBinding } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
+import { Component, OnInit, HostBinding } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { forkJoin, Observable, empty } from 'rxjs';
 import { SchemaService, CoreSchemas } from '@src/app/shared/services/schema.service';
 import { SettingsService, DataAccessSettings, Connection, Query } from '@src/app/core/services/settings.service';
 import { map, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
 import { DataConnectionService } from '@src/app/core/services/data-connection.service';
+import { ExecuteQueryComponent } from '../execute-query/execute-query.component';
 
 interface FilePreviewDialogConfig {
   panelClass?: string;
@@ -15,11 +14,6 @@ interface FilePreviewDialogConfig {
   backdropClass?: string;
 }
 
-const DEFAULT_CONFIG: FilePreviewDialogConfig = {
-  hasBackdrop: true,
-  backdropClass: 'dark-backdrop',
-  panelClass: 'tm-file-preview-dialog-panel'
-};
 
 @Component({
   selector: 'cubes-data-access',
@@ -34,16 +28,17 @@ export class DataAccessComponent implements OnInit {
   public errorMessage = '';
 
   public selectedTab: 0;
-  public selectedConnection: '';
-  public selectedQuery: 0;
+  public selectedConnection: '-- NONE --';
+  public selectedQuery: '-- NONE --';
+
+  private connectionNames;
 
   constructor(
     private schemaService: SchemaService,
     private settingsService: SettingsService,
     private connectionService: DataConnectionService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog,
-    private overlay: Overlay) { }
+    private dialog: MatDialog) { }
   ngOnInit() { this.loadData(); }
 
   public loadData() {
@@ -53,6 +48,7 @@ export class DataAccessComponent implements OnInit {
       this.settingsService.getDataAccess()
     ).pipe(
       map(([schemaConnection, schemaQuery, model]) => {
+        this.connectionNames = model.connections.map(c => c.name);
         return {
           schema: {
             connection: schemaConnection,
@@ -61,7 +57,7 @@ export class DataAccessComponent implements OnInit {
           model
         };
       }),
-      catchError((err, caught) => {
+      catchError((err) => {
         this.errorLoading = true;
         this.errorMessage = err.message;
 
@@ -107,135 +103,18 @@ export class DataAccessComponent implements OnInit {
   public onQueryChanged(query) { if (query) { this.selectedQuery = query; } }
 
   public onExecuteQuery(query: Query) {
-    alert(`Executing query ${query.name}`);
-  }
-
-  openDialogOverlay(config: FilePreviewDialogConfig = {}) {
-    // Override default configuration
-    const dialogConfig = { ...DEFAULT_CONFIG, ...config };
-
-    // Returns an OverlayRef which is a PortalHost
-    const overlayRef = this.createOverlay(dialogConfig);
-
-    // Create ComponentPortal that can be attached to a PortalHost
-    const filePreviewPortal = new ComponentPortal(FilePreviewOverlayComponent);
-
-    // Attach ComponentPortal to PortalHost
-    overlayRef.attach(filePreviewPortal);
-
-    setTimeout(() => {
-      overlayRef.dispose();
-    }, 3000);
-  }
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialogComponent, {
+    this.dialog.open(ExecuteQueryComponent, {
       panelClass: 'full-width-dialog',
-      backdropClass: 'backdrop1',
       width: '100vw',
       height: '100vh',
       maxWidth: '100vw',
       maxHeight: '100vh',
       hasBackdrop: true,
-      disableClose: true
+      disableClose: true,
+      data: {
+        query: query,
+        connections: this.connectionNames
+      }
     });
-    // max-width: none !important;
-    // https://github.com/angular/material2/issues/9823#issuecomment-363779100
-  }
-
-  private createOverlay(config: FilePreviewDialogConfig) {
-    const overlayConfig = this.getOverlayConfig(config);
-    return this.overlay.create(overlayConfig);
-  }
-
-  private getOverlayConfig(config: FilePreviewDialogConfig): OverlayConfig {
-    const positionStrategy = this.overlay.position()
-      .global()
-      .centerHorizontally()
-      .centerVertically();
-
-    const overlayConfig = new OverlayConfig({
-      hasBackdrop: config.hasBackdrop,
-      backdropClass: config.backdropClass,
-      panelClass: config.panelClass,
-      scrollStrategy: this.overlay.scrollStrategies.block(),
-      positionStrategy
-    });
-
-    return overlayConfig;
   }
 }
-
-
-
-@Component({
-  selector: 'dialog-overview-example-dialog',
-  template: `<div mat-dialog-content>
-  <p>Full Screen Overlay!</p>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Close</button>
-</div>`
-})
-export class DialogOverviewExampleDialogComponent {
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogOverviewExampleDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-}
-
-
-@Component({
-  selector: 'file-preview-overlay',
-  template: `
-  <mat-card class="example-card">
-      <mat-card-content>
-
-        <form class="example-form">
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Favorite food" value="Sushi">
-          </mat-form-field>
-
-          <mat-form-field class="example-full-width">
-            <textarea matInput placeholder="Leave a comment"></textarea>
-          </mat-form-field>
-        </form>
-
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button>SHARE</button>
-      </mat-card-actions>
-    </mat-card>
-  `,
-  styles: [`
-    :host {
-      display: block;
-      background: white;
-    }
-
-    h1 {
-      margin: 0;
-      padding: 1em;
-    }
-
-    .example-card {
-      max-width: 400px;
-    }
-
-    .example-form {
-      min-width: 150px;
-      max-width: 500px;
-      width: 100%;
-    }
-
-    .example-full-width {
-      width: 100%;
-    }
-  `]
-})
-export class FilePreviewOverlayComponent { }

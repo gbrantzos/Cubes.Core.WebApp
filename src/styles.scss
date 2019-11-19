@@ -1,19 +1,28 @@
 // cSpell:words autofill, deeppurple, theming
 /* You can add global styles to this file, and also import other style files */
 
+// ----------------------------------------------------------------------------------------------------
 // Make body fill the hole page
 body {
   margin: 0;
   height: 100vh;
 }
+// ----------------------------------------------------------------------------------------------------
 
+
+// ----------------------------------------------------------------------------------------------------
 // Font-awesome
 @import './assets/css/font-awesome.css';
+// ----------------------------------------------------------------------------------------------------
 
+
+// ----------------------------------------------------------------------------------------------------
 // Material theme
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+// ----------------------------------------------------------------------------------------------------
 
 
+// ----------------------------------------------------------------------------------------------------
 // Custom fonts
 @import './assets/css/cairo.css';
 @import '~@angular/material/theming';
@@ -23,7 +32,10 @@ $custom-typography: mat-typography-config(
   $body-1: mat-typography-level(14px, 24px, 500)
 );
 @include angular-material-typography($custom-typography);
+// ----------------------------------------------------------------------------------------------------
 
+
+// ----------------------------------------------------------------------------------------------------
 // Fixes yellow background on auto fills on Chrome, https://stackoverflow.com/a/29350537/3410871
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -31,7 +43,10 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
 }
+// ----------------------------------------------------------------------------------------------------
 
+
+// ----------------------------------------------------------------------------------------------------
 // Make snack-bar wider
 .snack-bar { max-width: 80vw !important; }
 .base-component {
@@ -41,14 +56,19 @@ input:-webkit-autofill:active {
   display: flex;
   flex-direction: column;
 }
+// ----------------------------------------------------------------------------------------------------
 
-// WORK IN PROGRESS
 
-.mat-tab-body-wrapper1 {
-  height: 100%;
-  border: red 1px solid;
-  overflow: scroll;
+// ----------------------------------------------------------------------------------------------------
+// Full width dialogs
+.full-width-dialog .mat-dialog-container {
+  max-width: 100vw !important;
+  border-radius: 0 !important;
 }
+// ----------------------------------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------------------------------
+// WORK IN PROGRESS
 .wip {
   margin-top:48px;
   display: block;
@@ -59,25 +79,4 @@ input:-webkit-autofill:active {
   opacity: 0.7;
   filter: alpha(opacity=70); /* For IE8 and earlier */
 }
-
-.full-width-dialog .mat-dialog-container {
-  max-width: 100vw !important;
-  border-radius: 0 !important;
-}
-
-.mat-drawer-inner-container {
-  overflow-x: hidden !important;
-}
-
-
-.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
-  &.dark-backdrop {
-    background: #000;
-    opacity: 0.85 !important;
-  }
-}
-
-.backdrop1 {
-  background: #000;
-    opacity: 0.85 !important;
-}
+// ----------------------------------------------------------------------------------------------------
