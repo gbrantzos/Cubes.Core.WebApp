@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, HostBinding } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Query } from '@src/app/core/services/settings.service';
+import { DataAccessService } from '@src/app/core/services/data-access.service';
 
 @Component({
   selector: 'cubes-execute-query',
@@ -14,8 +15,10 @@ export class ExecuteQueryComponent implements OnInit {
   public connections: string[];
 
   public selectedConnection: string;
+  public result: any;
 
   constructor(
+    private dataAccessService: DataAccessService,
     private dialogRef: MatDialogRef<ExecuteQueryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -26,4 +29,13 @@ export class ExecuteQueryComponent implements OnInit {
 
   ngOnInit() { }
   onNoClick(): void { this.dialogRef.close(this.query.queryCommand); }
+
+  onExecute() {
+    this.dataAccessService
+      .executeQuery(this.query, this.selectedConnection)
+      .subscribe(res => {
+        console.log(res);
+        this.result = res;
+      });
+  }
 }

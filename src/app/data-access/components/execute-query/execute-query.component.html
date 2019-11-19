@@ -18,15 +18,19 @@
         </mat-select>
       </mat-form-field>
       &nbsp;&nbsp;
-      <button mat-button color="primary">Execute</button>
+      <button mat-button color="primary" (click)="onExecute()">Execute</button>
     </div>
 
     <div class="editor">
       <mat-form-field>
         <mat-label>Query Command</mat-label>
-        <textarea class="queryEditor" matInput cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="30"
+        <textarea class="queryEditor" matInput cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="20"
           placeholder="Query Command" [(ngModel)]="query.queryCommand"></textarea>
       </mat-form-field>
+    </div>
+
+    <div class="results">
+      <pre>{{result | json}}</pre>
     </div>
   </div>
 </div>

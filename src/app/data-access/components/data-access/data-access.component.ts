@@ -5,7 +5,7 @@ import { SchemaService, CoreSchemas } from '@src/app/shared/services/schema.serv
 import { SettingsService, DataAccessSettings, Connection, Query } from '@src/app/core/services/settings.service';
 import { map, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
-import { DataConnectionService } from '@src/app/core/services/data-connection.service';
+import { DataAccessService } from '@src/app/core/services/data-access.service';
 import { ExecuteQueryComponent } from '../execute-query/execute-query.component';
 import { DialogService } from '@src/app/shared/services/dialog.service';
 import { QueryComponent } from '../query/query.component';
@@ -33,7 +33,7 @@ export class DataAccessComponent implements OnInit {
   constructor(
     private schemaService: SchemaService,
     private settingsService: SettingsService,
-    private connectionService: DataConnectionService,
+    private connectionService: DataAccessService,
     private dialogService: DialogService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog) { }
