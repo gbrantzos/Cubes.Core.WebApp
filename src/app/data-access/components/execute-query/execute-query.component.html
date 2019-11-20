@@ -25,12 +25,15 @@
       <mat-form-field>
         <mat-label>Query Command</mat-label>
         <textarea class="queryEditor" matInput cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="20"
-          placeholder="Query Command" [(ngModel)]="query.queryCommand"></textarea>
+          placeholder="Query Command" [(ngModel)]="query.queryCommand" spellcheck="false"></textarea>
       </mat-form-field>
     </div>
 
     <div class="results">
-      <pre>{{result | json}}</pre>
+      <mat-label>Results</mat-label>
+      <cubes-dynamic-table [tableClass]="'mat-elevation-z1'" [columns]="columns"
+        [displayedColumns]="displayedColumns" [data]="tableData">
+      </cubes-dynamic-table>
     </div>
   </div>
 </div>

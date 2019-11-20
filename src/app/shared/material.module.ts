@@ -1,4 +1,4 @@
-import { NgModule, Injectable } from '@angular/core';
+import { NgModule, } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Material stuff
@@ -19,10 +19,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTableModule } from '@angular/material/table';
+
 
 // Data change support must be on root module!
 import {
-  MAT_DATE_LOCALE,
   DateAdapter,
   MatNativeDateModule
 } from '@angular/material';
@@ -51,7 +52,8 @@ import { CustomDateAdapter } from '../@helpers/custom-date-adapter';
     MatSlideToggleModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTableModule
   ],
   exports: [
     MatToolbarModule,
@@ -70,7 +72,8 @@ import { CustomDateAdapter } from '../@helpers/custom-date-adapter';
     MatSlideToggleModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTableModule
   ],
   providers: [
     { provide: DateAdapter, useClass: CustomDateAdapter }

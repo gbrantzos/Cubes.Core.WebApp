@@ -9,6 +9,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     ConfirmDialogComponent,
     LoadingComponent,
     DynamicFormComponent,
-    LoaderComponent
+    LoaderComponent,
+    DynamicTableComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
     MaterialModule,
     LoadingComponent,
     DynamicFormComponent,
+    DynamicTableComponent,
     LoaderComponent,
     NgxJsonViewerModule
   ],
