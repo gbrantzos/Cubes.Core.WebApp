@@ -85,7 +85,6 @@ export class DataAccessComponent implements OnInit {
   }
 
   public onTestConnection(connection: Connection) {
-    console.log(`Testing connection ${connection.name} ...`);
     this.connectionService
       .testConnection(connection)
       .subscribe(result => {

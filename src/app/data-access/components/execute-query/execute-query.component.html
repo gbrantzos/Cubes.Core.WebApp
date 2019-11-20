@@ -19,6 +19,10 @@
       </mat-form-field>
       &nbsp;&nbsp;
       <button mat-button color="primary" (click)="onExecute()">Execute</button>
+      &nbsp;&nbsp;
+      <button mat-button color="primary" [disabled]="!resultDetails || resultDetails.data.length === 0"
+        (click)="onExportResults()">Export results</button>
+
     </div>
 
     <div class="editor">
@@ -30,10 +34,18 @@
     </div>
 
     <div class="results">
-      <mat-label>Results</mat-label>
-      <cubes-dynamic-table [tableClass]="'mat-elevation-z1'" [columns]="columns"
-        [displayedColumns]="displayedColumns" [data]="tableData">
-      </cubes-dynamic-table>
+      <div *ngIf="resultDetails">
+        <h4>Results</h4>
+        <mat-divider></mat-divider>
+        <cubes-dynamic-table [tableClass]="resultDetails.tableClass" [columns]="resultDetails.columns"
+          [displayedColumns]="resultDetails.displayedColumns" [data]="resultDetails.data">
+        </cubes-dynamic-table>
+      </div>
+
+      <div class="no-rows" *ngIf="!resultDetails || resultDetails.data.length === 0">
+        <p><i class="fa fa-5x fa-clone" style="color: gray; margin-top: 12px"></i></p>
+        <p><strong>No data to display!</strong></p>
+      </div>
     </div>
   </div>
 </div>

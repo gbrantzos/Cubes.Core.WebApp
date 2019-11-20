@@ -43,7 +43,7 @@ export class ConnectionComponent implements OnInit, AfterViewInit {
     const maxID = Math.max(...this.model.map(m => m.id), 0) + 1;
     this.model.push({
       id: maxID,
-      name: `Connection #${maxID}`,
+      name: `Connection.#${maxID}`,
       comments: 'This is a new connection',
       connectionString: '<<Enter here the connection string>>',
       dbProvider: 'mssql'
