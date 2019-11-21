@@ -46,7 +46,7 @@ export class QueryComponent implements OnInit, AfterViewInit {
     const maxID = Math.max(...this.model.map(m => m.id), 0) + 1;
     this.model.push({
       id: maxID,
-      name: `Query #${maxID}`,
+      name: `Query.#${maxID}`,
       comments: 'This is a new query',
       queryCommand: '<<Enter here the SQL query>>',
       parameters: []

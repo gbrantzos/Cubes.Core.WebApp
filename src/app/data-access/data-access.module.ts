@@ -7,13 +7,15 @@ import { SharedModule } from '../shared/shared.module';
 import { ConnectionComponent } from './components/connection/connection.component';
 import { QueryComponent } from './components/query/query.component';
 import { ExecuteQueryComponent } from './components/execute-query/execute-query.component';
+import { ExportSettingsComponent } from './components/export-settings/export-settings.component';
 
 @NgModule({
   declarations: [
     DataAccessComponent,
     ConnectionComponent,
     QueryComponent,
-    ExecuteQueryComponent
+    ExecuteQueryComponent,
+    ExportSettingsComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,8 @@ import { ExecuteQueryComponent } from './components/execute-query/execute-query.
     SharedModule
   ],
   entryComponents: [
-    ExecuteQueryComponent
+    ExecuteQueryComponent,
+    ExportSettingsComponent
   ]
 })
 export class DataAccessModule { }

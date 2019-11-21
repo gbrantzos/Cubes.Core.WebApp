@@ -1,38 +1,51 @@
-import { Component, OnInit, Inject, HostBinding } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Component, OnInit, Inject, HostBinding, OnDestroy } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatSnackBar } from '@angular/material';
 import { Query } from '@src/app/core/services/settings.service';
-import { DataAccessService } from '@src/app/core/services/data-access.service';
+import { DataAccessService, ExportSettings } from '@src/app/core/services/data-access.service';
 import { ColumnDefinition } from '@src/app/shared/components/dynamic-table/dynamic-table.component';
 import { DialogService } from '@src/app/shared/services/dialog.service';
+import * as moment from 'moment';
+import { Subscription } from 'rxjs';
+import { ExportSettingsComponent } from '../export-settings/export-settings.component';
 
 @Component({
   selector: 'cubes-execute-query',
   templateUrl: './execute-query.component.html',
   styleUrls: ['./execute-query.component.scss']
 })
-export class ExecuteQueryComponent implements OnInit {
+export class ExecuteQueryComponent implements OnInit, OnDestroy {
   @HostBinding('class') class = 'base-component';
 
   public query: Query;
   public connections: string[];
   public selectedConnection: string;
 
-  public resultDetails: TableData;
+  public resultDetails: TableDetails;
+  public exportSettings: ExportSettings;
+  private subscription: Subscription;
 
   constructor(
     private dataAccessService: DataAccessService,
     private dialogService: DialogService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
     private dialogRef: MatDialogRef<ExecuteQueryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.query = data.query;
     this.connections = data.connections;
     this.selectedConnection = data.selectedConnection;
+
+    this.subscription = this
+      .dataAccessService
+      .getExportSettings()
+      .subscribe(s => this.exportSettings = s);
   }
 
   ngOnInit() { }
-  onNoClick(): void { this.dialogRef.close(this.query.queryCommand); }
+  ngOnDestroy() { this.subscription.unsubscribe(); }
 
+  onNoClick(): void { this.dialogRef.close(this.query.queryCommand); }
   onExecute() {
     this.resultDetails = null;
     this.dataAccessService
@@ -54,13 +67,18 @@ export class ExecuteQueryComponent implements OnInit {
         this.dialogService.alert(`Error executing query:<br>${errorResponse.error.message}`);
       });
   }
-
   onExportResults() {
-    const filename = 'export-data.csv';
+    /* cspell: disable-next-line */
+    const filename = `${this.query.name}-DataExport-${moment().format('YYYYMMDDHHmmss')}.csv`;
     let csvContent = 'data:text/csv;charset=utf-8,';
 
+    if (this.exportSettings.includeHeaders) {
+      const firstRow = this.resultDetails.data[0];
+      csvContent += Object.keys(firstRow).join(this.exportSettings.separator);
+      csvContent += '\r\n';
+    }
     this.resultDetails.data.forEach(dataRow => {
-      const row = Object.values(dataRow).join(';');
+      const row = Object.values(dataRow).join(this.exportSettings.separator);
       csvContent += row + '\r\n';
     });
 
@@ -71,6 +89,30 @@ export class ExecuteQueryComponent implements OnInit {
     document.body.appendChild(link); // Required for FF
 
     link.click();
+  }
+  onExportSettings() {
+    this
+      .dialog
+      .open(ExportSettingsComponent, {
+        hasBackdrop: true,
+        width: '320px',
+        data: Object.assign({}, this.exportSettings)
+      })
+      .afterClosed()
+      .subscribe(settings => {
+        if (settings) {
+          this.exportSettings = settings;
+          this
+            .dataAccessService
+            .setExportSettings(settings as ExportSettings)
+            .subscribe(response => {
+              this.displayMessage(response);
+            }, error => {
+              console.log(error);
+              this.displayMessage(error.error.message);
+            });
+          }
+      });
   }
 
   private prepareResultDetails(result: any): void {
@@ -90,9 +132,17 @@ export class ExecuteQueryComponent implements OnInit {
       tableClass: 'mat-elevation-z1'
     };
   }
+  private displayMessage(message: string) {
+    const snackRef = this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      panelClass: 'snack-bar',
+      horizontalPosition: 'right'
+    });
+    snackRef.onAction().subscribe(() => snackRef.dismiss());
+  }
 }
 
-interface TableData {
+interface TableDetails {
   data: any;
   columns: ColumnDefinition[];
   displayedColumns: string[];

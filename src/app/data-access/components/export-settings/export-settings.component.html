@@ -1,0 +1,21 @@
+<div class="wrapper">
+
+  <div class="title">
+    <h3>Export Settings</h3>
+    <span class="filler"></span>
+    <span class="times" (click)="onClose()">&times;</span>
+  </div>
+  <mat-divider></mat-divider>
+
+  <div class="content">
+    <mat-form-field>
+      <input matInput placeholder="Separator" [(ngModel)]="settings.separator" name="separator" id="separator" #s="ngModel"
+        required>
+    </mat-form-field>
+    <mat-checkbox [(ngModel)]="settings.includeHeaders">Include headers</mat-checkbox>
+  </div>
+
+  <div class="actions">
+    <button mat-button color="primary" [disabled]="s.invalid" (click)="onSave()">Save</button>
+  </div>
+</div>

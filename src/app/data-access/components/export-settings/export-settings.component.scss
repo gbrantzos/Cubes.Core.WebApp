@@ -1,0 +1,37 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+
+  flex: 1 1 auto;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+}
+
+.filler {
+  flex: 1 1 0;
+}
+
+.times {
+  font-size: 34px;
+  color: #353535;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+}
+.times:hover { transform: scale(1.3); }
+
+.content {
+  * { width: 100%; }
+  padding-top: 12px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.actions {
+  padding-top: 12px;
+  display: flex;
+  flex-direction: row-reverse;
+}

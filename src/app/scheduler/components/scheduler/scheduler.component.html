@@ -25,9 +25,9 @@
 </div>
 
 <ng-template #loading>
-  <cubes-loading
+  <cubes-waiting-data
     (retry)        = "refreshList()"
     [hasErrors]    = "errorLoading"
     [errorMessage] = "errorMessage">
-  </cubes-loading>
+  </cubes-waiting-data>
 </ng-template>

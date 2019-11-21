@@ -1,7 +1,7 @@
 <div class="wrapper">
 
   <div class="title">
-    <h3>Execute Query: {{query.name}}</h3>
+    <h3>{{query.name}}</h3>
     <span class="filler"></span>
     <span class="times" (click)="onNoClick()">&times;</span>
   </div>
@@ -19,9 +19,10 @@
       </mat-form-field>
       &nbsp;&nbsp;
       <button mat-button color="primary" (click)="onExecute()">Execute</button>
-      &nbsp;&nbsp;
-      <button mat-button color="primary" [disabled]="!resultDetails || resultDetails.data.length === 0"
+      <div class="filler"></div>
+      <button mat-button [class.hidden]="!resultDetails || resultDetails.data.length === 0"
         (click)="onExportResults()">Export results</button>
+      <button mat-button (click)="onExportSettings()"><i class="fa fa-cogs" aria-hidden="true"></i></button>
 
     </div>
 
@@ -35,7 +36,7 @@
 
     <div class="results">
       <div *ngIf="resultDetails">
-        <h4>Results</h4>
+        <h4>Results ({{resultDetails.data.length}} rows)</h4>
         <mat-divider></mat-divider>
         <cubes-dynamic-table [tableClass]="resultDetails.tableClass" [columns]="resultDetails.columns"
           [displayedColumns]="resultDetails.displayedColumns" [data]="resultDetails.data">

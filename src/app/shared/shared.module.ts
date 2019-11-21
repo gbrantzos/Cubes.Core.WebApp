@@ -5,7 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
-import { LoadingComponent } from './components/loading/loading.component';
+import { WaitingDataComponent } from './components/waiting-data/waiting-data.component';
 import { DynamicFormComponent } from './components/dynamic-form/dynamic-form.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
@@ -15,7 +15,7 @@ import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.
   declarations: [
     AlertDialogComponent,
     ConfirmDialogComponent,
-    LoadingComponent,
+    WaitingDataComponent,
     DynamicFormComponent,
     LoaderComponent,
     DynamicTableComponent
@@ -32,7 +32,7 @@ import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    LoadingComponent,
+    WaitingDataComponent,
     DynamicFormComponent,
     DynamicTableComponent,
     LoaderComponent,

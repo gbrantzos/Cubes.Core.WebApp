@@ -29,6 +29,6 @@
 </div>
 
 <ng-template #loading>
-  <cubes-loading (retry)="loadData()" [hasErrors]="errorLoading" [errorMessage]="errorMessage">
-  </cubes-loading>
+  <cubes-waiting-data (retry)="loadData()" [hasErrors]="errorLoading" [errorMessage]="errorMessage">
+  </cubes-waiting-data>
 </ng-template>

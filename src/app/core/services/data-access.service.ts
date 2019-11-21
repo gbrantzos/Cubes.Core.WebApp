@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Connection, Query } from './settings.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { ExportSettingsComponent } from '@src/app/data-access/components/export-settings/export-settings.component';
 
 @Injectable({
   providedIn: 'root'
@@ -24,4 +25,21 @@ export class DataAccessService {
       .httpClient
       .post<any>(url, query);
   }
+
+  public getExportSettings(): Observable<ExportSettings> {
+    return this
+      .httpClient
+      .get<ExportSettings>(`${this.urlRoot}/exportSettings`);
+  }
+
+  public setExportSettings(settings: ExportSettings): Observable<string> {
+    return this
+      .httpClient
+      .post<string>(`${this.urlRoot}/exportSettings`, settings);
+  }
+}
+
+export interface ExportSettings {
+  separator: string;
+  includeHeaders: boolean;
 }
