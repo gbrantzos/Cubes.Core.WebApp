@@ -8,7 +8,7 @@ import { ExportSettingsComponent } from '@src/app/data-access/components/export-
   providedIn: 'root'
 })
 export class DataAccessService {
-  private urlRoot = 'api/data';
+  private urlRoot = '/api/data';
 
   constructor(private httpClient: HttpClient) { }
 

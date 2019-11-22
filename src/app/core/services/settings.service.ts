@@ -11,7 +11,7 @@ export enum CoreSettings {
   providedIn: 'root'
 })
 export class SettingsService {
-  private readonly rootUrl: String = 'api/configuration';
+  private readonly rootUrl: String = '/api/configuration';
 
   constructor(private httpClient: HttpClient) { }
   public getSmtp(): Observable<SmtpSettings[]> {
