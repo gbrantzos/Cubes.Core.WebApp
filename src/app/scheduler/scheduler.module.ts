@@ -9,7 +9,7 @@ import { JobEditorComponent } from './components/job-editor/job-editor.component
 import { SharedModule } from '../shared/shared.module';
 import { DefaultEditorComponent } from './components/execution-params-editors/default-editor/default-editor.component';
 // tslint:disable-next-line:max-line-length
-import { ExecuteCommandEditorComponent } from './components/execution-params-editors/execute-command-editor/execute-command-editor.component';
+import { ExecuteRequestEditorComponent } from './components/execution-params-editors/execute-request-editor/execute-request-editor.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,7 @@ import { ExecuteCommandEditorComponent } from './components/execution-params-edi
     JobRowComponent,
     JobEditorComponent,
     DefaultEditorComponent,
-    ExecuteCommandEditorComponent
+    ExecuteRequestEditorComponent
   ],
   imports: [
     CommonModule,

@@ -13,7 +13,7 @@
 
           <mat-form-field class="full">
             <mat-select formControlName="jobType" placeholder="Job Type" required>
-              <mat-option *ngFor="let type of lookups['jobTypes'].items" [value]="type.id">
+              <mat-option *ngFor="let type of lookups['jobTypes'].items" [value]="type.value">
                 {{type.display}}
               </mat-option>
             </mat-select>
@@ -37,13 +37,13 @@
       <mat-tab label="Execution Parameters" [disabled]="!jobTypeForSwitch">
         <div class="basic">
           <div class="full parameters" [ngSwitch]="jobTypeForSwitch">
-            <cubes-execute-command-editor
-                *ngSwitchCase="'Cubes.Core.Jobs.ExecuteCommand'"
+            <cubes-execute-request-editor
+                *ngSwitchCase="'Cubes.Core.Scheduling.Jobs.ExecuteRequestJob'"
                 #executionParameters
                 [commandsLookup]="lookups['commandTypes']"
                 [parameters]="job.executionParameters"
                 (validChanged)="onParametersEditorValidChanged($event)">
-            </cubes-execute-command-editor>
+            </cubes-execute-request-editor>
             <cubes-default-editor
                 *ngSwitchDefault
                 #executionParameters

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, pipe } from 'rxjs';
+import { Observable, of, pipe, Scheduler } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { environment } from '@src/environments/environment';
 
 export interface SchedulerStatus {
   schedulerState: SchedulerStateEnum;
@@ -11,8 +10,8 @@ export interface SchedulerStatus {
 }
 
 export enum SchedulerStateEnum {
-  Started = 'Started',
-  Stopped = 'Stopped'
+  Started = 'Active',
+  Stopped = 'StandBy'
 }
 
 export interface SchedulerJob {
@@ -36,13 +35,34 @@ export function isSchedulerJob(job: any): job is SchedulerJob {
   providedIn: 'root'
 })
 export class SchedulerService {
-  private apiUrl = environment.cubesApiUrl + '/scheduling/';
+  private apiUrl = '/api/scheduling/';
   constructor(private http: HttpClient) { }
 
   getSchedulerStatus(): Observable<SchedulerStatus> {
     return this.http
       .get(this.apiUrl)
-      .pipe(cubesExtractResult());
+      .pipe(
+        cubesExtractResult(),
+        map(s => {
+          return {
+            schedulerState: s.schedulerState,
+            serverTime    : s.serverTime,
+            jobs          : s.jobs.map((job, index) => {
+              return {
+                id                 : index.toString(),
+                description        : job.name,
+                cronExpression     : job.cronExpression,
+                isActive           : job.active,
+                fireIfMissed       : false,
+                jobType            : job.jobType,
+                executionParameters: job.executionParameters,
+                lastExecutionAt    : job.lastExecutionAt,
+                nextExecutionAt    : job.nextExecutionAt
+              } as SchedulerJob;
+            })
+          } as SchedulerStatus;
+        })
+      );
   }
 
   saveSchedulerJob(job: SchedulerJob): Observable<string> {
@@ -69,7 +89,7 @@ export class SchedulerService {
 
   schedulerCommand(command: string): Observable<any> {
     return this.http
-      .post(this.apiUrl + '/' + command, {})
+      .post(this.apiUrl + '/command/' + command, {})
       .pipe(cubesExtractMessage());
   }
 

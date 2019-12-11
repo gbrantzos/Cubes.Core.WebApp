@@ -5,11 +5,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from 'src/app/scheduler/custom-validators';
 
 @Component({
-  selector: 'cubes-execute-command-editor',
-  templateUrl: './execute-command-editor.component.html',
-  styleUrls: ['./execute-command-editor.component.scss', '../common-styles.scss']
+  selector: 'cubes-execute-request-editor',
+  templateUrl: './execute-request-editor.component.html',
+  styleUrls: ['./execute-request-editor.component.scss', '../common-styles.scss']
 })
-export class ExecuteCommandEditorComponent implements OnInit, ParametersEditor {
+export class ExecuteRequestEditorComponent implements OnInit, ParametersEditor {
   @Input() parameters: string;
   @Input() commandsLookup: Lookup;
   @Output() validChanged: EventEmitter<boolean> = new EventEmitter();

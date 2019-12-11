@@ -1,33 +1,27 @@
 <div *ngIf="data$ | async as data; else loading">
 
-  <mat-card class="status" [class.status-started]="data.schedulerStatus.state==='Started'" [class.status-stopped]="data.schedulerStatus.state==='Stopped'">
+  <mat-card class="status" [class.status-started]="data.schedulerStatus.schedulerState==='Active'"
+    [class.status-stopped]="data.schedulerStatus.schedulerState==='StandBy'">
     <p>
-      Cubes scheduler is <strong>{{data.schedulerStatus.state}}</strong>.&nbsp;
+      Cubes scheduler is <strong>{{data.schedulerStatus.schedulerState}}</strong>.&nbsp;
       Current time on server is {{data.schedulerStatus.serverTime | date:'medium'}}.
     </p>
-    <p style="margin-top: -6px;" *ngIf="unloadedModifications">Scheduler jobs are modified. <a href="" (click)="!!reload()">Reload</a> to apply!</p>
+    <p style="margin-top: -6px;" *ngIf="unloadedModifications">Scheduler jobs are modified. <a href=""
+        (click)="!!reload()">Reload</a> to apply!</p>
   </mat-card>
 
-  <cubes-job-list
-    [jobs]             = "data.schedulerStatus.jobs"
-    [started]          = "data.schedulerStatus.state=='Started'"
-    [lookups]          = "data.lookups"
-    [autoReload]       = "autoReload"
-    (modifyJob)        = "onJobModify($event)"
-    (runJob)           = "onJobRun($event)"
-    (schedulerControl) = "onSchedulerControl($event)">
+  <cubes-job-list [jobs]="data.schedulerStatus.jobs" [started]="data.schedulerStatus.schedulerState=='Active'"
+    [lookups]="data.lookups" [autoReload]="autoReload" (modifyJob)="onJobModify($event)" (runJob)="onJobRun($event)"
+    (schedulerControl)="onSchedulerControl($event)">
   </cubes-job-list>
 
   <!-- Debug -->
-
-  <pre class="code">{{data | json}}</pre>
-
+  <div style="overflow: auto; height: 360px; margin-top: 20px;">
+    <pre class="code">{{data | json}}</pre>
+  </div>
 </div>
 
 <ng-template #loading>
-  <cubes-waiting-data
-    (retry)        = "refreshList()"
-    [hasErrors]    = "errorLoading"
-    [errorMessage] = "errorMessage">
+  <cubes-waiting-data (retry)="refreshList()" [hasErrors]="errorLoading" [errorMessage]="errorMessage">
   </cubes-waiting-data>
 </ng-template>
