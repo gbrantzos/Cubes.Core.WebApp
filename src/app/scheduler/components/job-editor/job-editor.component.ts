@@ -16,6 +16,8 @@ import cronstrue from 'cronstrue';
 })
 export class JobEditorComponent implements OnInit {
   public job: SchedulerJob;
+  private isNew: boolean;
+  private existing: string[];
   public jobForm: FormGroup;
   public jobTypeForSwitch: string;
   public formValid = false;
@@ -28,8 +30,10 @@ export class JobEditorComponent implements OnInit {
     private dialogRef: MatDialogRef<JobEditorComponent>,
     private dialogService: DialogService,
     @Inject(MAT_DIALOG_DATA) data) {
-    this.job = data.job;
-    this.lookups = data.lookups;
+    this.job      = data.job;
+    this.lookups  = data.lookups;
+    this.isNew    = data.isNew;
+    this.existing = data.existing;
   }
   ngOnInit() {
     this.jobForm = this.createJobForm();
@@ -91,6 +95,12 @@ export class JobEditorComponent implements OnInit {
   onJobFormSubmit(form: FormGroup) {
     const toSave = <Partial<SchedulerJob>>{};
     Object.assign(toSave, form.value);
+
+    if (this.isNew && this.existing.find(i => i === toSave.description).length > 1) {
+      this.dialogService
+        .alert('Name already used by existing scheduler job!');
+      return;
+    }
 
     const parametersEditor = <ParametersEditor>this.executionParameters;
     toSave.executionParameters = parametersEditor.getParameters();

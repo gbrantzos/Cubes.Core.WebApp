@@ -40,7 +40,7 @@
             <cubes-execute-request-editor
                 *ngSwitchCase="'Cubes.Core.Scheduling.Jobs.ExecuteRequestJob'"
                 #executionParameters
-                [commandsLookup]="lookups['commandTypes']"
+                [requestsLookup]="lookups['requestTypes']"
                 [parameters]="job.executionParameters"
                 (validChanged)="onParametersEditorValidChanged($event)">
             </cubes-execute-request-editor>

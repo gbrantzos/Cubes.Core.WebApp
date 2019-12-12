@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Lookup } from '@src/app/shared/services/lookup.service';
 import { ParametersEditor } from '../execution-params-editors';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CustomValidators } from 'src/app/scheduler/custom-validators';
 
 @Component({
   selector: 'cubes-execute-request-editor',
@@ -11,7 +10,7 @@ import { CustomValidators } from 'src/app/scheduler/custom-validators';
 })
 export class ExecuteRequestEditorComponent implements OnInit, ParametersEditor {
   @Input() parameters: string;
-  @Input() commandsLookup: Lookup;
+  @Input() requestsLookup: Lookup;
   @Output() validChanged: EventEmitter<boolean> = new EventEmitter();
 
   public form: FormGroup;
@@ -19,11 +18,8 @@ export class ExecuteRequestEditorComponent implements OnInit, ParametersEditor {
   constructor(private fb: FormBuilder) { }
   ngOnInit() {
     this.form = this.fb.group({
-      commandType: ['', Validators.required],
-      commandInst: ['', [
-        Validators.required,
-        CustomValidators.isJSON
-      ]]
+      requestType: ['', Validators.required],
+      requestInst: ['', Validators.required]
     });
     this.form
       .statusChanges
@@ -39,8 +35,8 @@ export class ExecuteRequestEditorComponent implements OnInit, ParametersEditor {
       const tmp = JSON.parse(prmJson.CommandInstance);
       prmJson.CommandInstance = JSON.stringify(tmp, null, 2);
       this.form.patchValue({
-        commandType: prmJson.CommandType,
-        commandInst: prmJson.CommandInstance
+        requestType: prmJson.CommandType,
+        requestInst: prmJson.CommandInstance
       });
     } else {
       // Invalid parameters, just tell the world that form is invalid
@@ -49,14 +45,14 @@ export class ExecuteRequestEditorComponent implements OnInit, ParametersEditor {
     }
   }
 
-  get commandType() { return this.form.get('commandType'); }
-  get commandInst() { return this.form.get('commandInst'); }
+  get requestType() { return this.form.get('requestType'); }
+  get requestInst() { return this.form.get('requestInst'); }
 
-  get commandInstErrorMessage() {
-    if (this.commandInst.getError('required')) {
-      return 'Command Instance is required';
-    } else if (this.commandInst.getError('invalidJson')) {
-      return 'Command Instance is not valid JSON';
+  get requestInstErrorMessage() {
+    if (this.requestInst.getError('required')) {
+      return 'Request Instance is required';
+    } else if (this.requestInst.getError('invalidJson')) {
+      return 'Request Instance is not valid JSON';
     }
     return 'Field failed validation, but why?';
   }
@@ -64,8 +60,8 @@ export class ExecuteRequestEditorComponent implements OnInit, ParametersEditor {
   // ParametersEditor implementation
   getParameters(): string {
     const toReturn = {
-      CommandType: this.commandType.value,
-      CommandInstance: JSON.stringify(JSON.parse(this.commandInst.value))
+      RequestType: this.requestType.value,
+      RequestInstance: this.requestInst.value
     };
     return JSON.stringify(toReturn);
   }

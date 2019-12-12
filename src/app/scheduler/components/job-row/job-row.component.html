@@ -8,11 +8,11 @@
   </p>
   <p matLine class="execution-info">Will be executed at
     <span [class.not-defined]="!job.nextExecutionAt">
-      {{(job.nextExecutionAt | date:'medium') || 'Not defined'}}
+      {{(job.nextExecutionAt | date:'medium') || 'not defined'}}
     </span>.
     Last execution was at
     <span [class.not-defined]="!job.lastExecutionAt">
-      {{(job.lastExecutionAt | date:'medium') || 'Not defined'}}
+      {{(job.lastExecutionAt | date:'medium') || 'not defined'}}
     </span>
     <span *ngIf="job.lastExecutionResult">, with results <strong>{{job.lastExecutionResult}}</strong></span>
   </p>

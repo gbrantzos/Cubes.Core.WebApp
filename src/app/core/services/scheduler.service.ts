@@ -90,12 +90,17 @@ export class SchedulerService {
   schedulerCommand(command: string): Observable<any> {
     return this.http
       .post(this.apiUrl + '/command/' + command, {})
-      .pipe(cubesExtractMessage());
+      .pipe(
+        cubesExtractMessage(),
+        map(res => {
+          return typeof(res) === 'string' ? res : 'Command executed successfully!';
+        })
+      );
   }
 
-  runSchedulerJob(id: string): Observable<any> {
+  runSchedulerJob(jobName: string): Observable<any> {
     return this.http
-      .post(this.apiUrl + '/run/' + id, {})
+      .post(this.apiUrl + '/execute/' + jobName, {})
       .pipe(cubesExtractMessage());
   }
 }

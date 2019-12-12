@@ -26,13 +26,16 @@ export class JobListComponent implements OnInit {
   onRunJob(job: SchedulerJob) { this.runJob.emit(job); }
   onEditJob(job: SchedulerJob | string) {
     // New asked, prepare en empty job
-    if (!job) { job = this.newJob(); }
+    const isNew = !job;
+    if (isNew) { job = this.newJob(); }
 
     // Open editor
     this.dialog.open(JobEditorComponent, {
       data: {
-        job: job,
-        lookups: this.lookups
+        job     : job,
+        lookups : this.lookups,
+        existing: this.jobs.map(j => j.description),
+        isNew
       },
       minWidth: 640
     }).afterClosed()
@@ -50,13 +53,14 @@ export class JobListComponent implements OnInit {
   }
 
   private newJob() {
+    const maxID = Math.max(...this.jobs.map(m => Number(m.id)), 0) + 1;
     return <SchedulerJob>{
-      id: '00000000-0000-0000-0000-000000000000',
-      description: 'New scheduler job',
-      cronExpression: '0 0 0 ? * *',
-      isActive: false,
-      fireIfMissed: false,
-      jobType: '',
+      id                 : maxID.toString(),
+      description        : `New scheduler job - ${maxID}`,
+      cronExpression     : '0 0 0 ? * *',
+      isActive           : false,
+      fireIfMissed       : false,
+      jobType            : '',
       executionParameters: null
     };
   }

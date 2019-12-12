@@ -41,13 +41,13 @@ export class SchedulerComponent implements OnInit {
       this.lookupService.getLookup('requestTypes')
     ).pipe(
       // delay(200),
-      map(([schedulerStatus, jobTypes, commandTypes]) => {
+      map(([schedulerStatus, jobTypes, requestTypes]) => {
         this.unloadedModifications = false;
         return {
           schedulerStatus,
           lookups: {
             jobTypes,
-            commandTypes
+            requestTypes
           }
         };
       }),
@@ -97,7 +97,7 @@ export class SchedulerComponent implements OnInit {
 
   onJobRun(event: SchedulerJob) {
     this.schedulerService
-      .runSchedulerJob(event.id)
+      .runSchedulerJob(event.description)
       .subscribe(msg => this.displayMessage(msg));
   }
 
