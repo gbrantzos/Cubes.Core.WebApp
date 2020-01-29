@@ -17,10 +17,10 @@ export class SchedulerComponent implements OnInit {
   @HostBinding('class') class = 'base-component';
 
   public data$: any;
-  public unloadedModifications: boolean;
   public errorLoading = false;
   public errorMessage = '';
-  public autoReload = false;
+
+  private jobs: SchedulerJob[];
 
   constructor(
     private schedulerService: SchedulerService,
@@ -34,6 +34,7 @@ export class SchedulerComponent implements OnInit {
   }
 
   refreshList() {
+    this.jobs = [];
     this.resetError();
     this.data$ = forkJoin(
       this.schedulerService.getSchedulerStatus(),
@@ -42,9 +43,9 @@ export class SchedulerComponent implements OnInit {
     ).pipe(
       // delay(200),
       map(([schedulerStatus, jobTypes, requestTypes]) => {
-        this.unloadedModifications = false;
+        this.jobs = schedulerStatus.jobs;
         return {
-          schedulerStatus,
+          schedulerStatus: schedulerStatus,
           lookups: {
             jobTypes,
             requestTypes
@@ -78,21 +79,24 @@ export class SchedulerComponent implements OnInit {
   }
 
   onJobModify(event: JobModifyEvent) {
-    const jobAction: Observable<string> = event.jobId ?
-    this.schedulerService.deleteSchedulerJob(event.jobId) :
-    this.schedulerService.saveSchedulerJob(event.job);
+    const toSave = event.jobId ?
+      this.jobs.filter(j => j.id !== event.jobId) :
+      event.initialName ?
+        this.jobs :
+        [
+          ...this.jobs.filter(j => j.description !== event.job.description),
+          event.job
+        ];
 
-    jobAction.subscribe(res => {
-      this.displayMessage(res);
-      this.unloadedModifications = true;
-      this.autoReload = event.autoReload;
-      if (event.autoReload) {
-        this.reload();
-      }
-    }, err => {
-      console.log(err);
-      this.displayMessage(err);
-    });
+    this.schedulerService
+      .saveSchedulerJobs(toSave)
+      .subscribe(res => {
+        // Add a delay to wait Cubes Scheduler to reload
+        setTimeout(() => this.refreshList(), 3000);
+      }, err => {
+        console.log(err);
+        this.displayMessage(err.message);
+      });
   }
 
   onJobRun(event: SchedulerJob) {

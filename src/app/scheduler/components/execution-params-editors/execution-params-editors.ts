@@ -1,3 +1,5 @@
+import { JobParameters } from '@src/app/core/services/scheduler.service';
+
 export interface ParametersEditor {
-  getParameters(): string;
+  getParameters(): JobParameters;
 }

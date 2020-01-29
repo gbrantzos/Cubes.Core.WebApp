@@ -21,10 +21,14 @@ export interface SchedulerJob {
   isActive: boolean;
   fireIfMissed: boolean;
   jobType: string;
-  executionParameters: string;
+  executionParameters?: JobParameters;
   lastExecutionAt?: Date;
   lastExecutionResult?: string;
   nextExecutionAt?: Date;
+}
+
+export interface JobParameters {
+  [key: string]: string;
 }
 
 export function isSchedulerJob(job: any): job is SchedulerJob {
@@ -46,18 +50,19 @@ export class SchedulerService {
         map(s => {
           return {
             schedulerState: s.schedulerState,
-            serverTime    : s.serverTime,
-            jobs          : s.jobs.map((job, index) => {
+            serverTime: s.serverTime,
+            jobs: s.jobs.map((job, index) => {
               return {
-                id                 : index.toString(),
-                description        : job.name,
-                cronExpression     : job.cronExpression,
-                isActive           : job.active,
-                fireIfMissed       : false,
-                jobType            : job.jobType,
-                executionParameters: job.executionParameters,
-                lastExecutionAt    : job.lastExecutionAt,
-                nextExecutionAt    : job.nextExecutionAt
+                id: index.toString(),
+                description: job.name,
+                cronExpression: job.cronExpression,
+                isActive: job.active,
+                fireIfMissed: false,
+                jobType: job.jobType,
+                executionParameters: job.jobParameters,
+                lastExecutionAt: job.previousFireTime,
+                nextExecutionAt: job.nextFireTime,
+                lastExecutionResult: job.failureMessage
               } as SchedulerJob;
             })
           } as SchedulerStatus;
@@ -65,19 +70,19 @@ export class SchedulerService {
       );
   }
 
-  saveSchedulerJob(job: SchedulerJob): Observable<string> {
+  saveSchedulerJobs(jobs: SchedulerJob[]): Observable<string> {
     // Convert to Cubes persistance model
-    const jobToPost = {
-      id                : job.id,
-      description       : job.description,
-      cronSchedule      : job.cronExpression,
-      jobTypeName       : job.jobType,
-      isActive          : job.isActive,
-      fireIfMissed      : job.fireIfMissed,
-      executionParameter: job.executionParameters
-    };
+    const jobsToPost = jobs.map(job => {
+      return {
+        name: job.description,
+        cronExpression: job.cronExpression,
+        jobType: job.jobType,
+        active: job.isActive,
+        parameters: job.executionParameters
+      };
+    });
     return this.http
-      .post(this.apiUrl + 'save', jobToPost)
+      .post(this.apiUrl + 'save', jobsToPost)
       .pipe(cubesExtractMessage());
   }
 
@@ -89,11 +94,11 @@ export class SchedulerService {
 
   schedulerCommand(command: string): Observable<any> {
     return this.http
-      .post(this.apiUrl + '/command/' + command, {})
+      .post(this.apiUrl + 'command/' + command, {})
       .pipe(
         cubesExtractMessage(),
         map(res => {
-          return typeof(res) === 'string' ? res : 'Command executed successfully!';
+          return typeof (res) === 'string' ? res : 'Command executed successfully!';
         })
       );
   }
@@ -101,7 +106,12 @@ export class SchedulerService {
   runSchedulerJob(jobName: string): Observable<any> {
     return this.http
       .post(this.apiUrl + '/execute/' + jobName, {})
-      .pipe(cubesExtractMessage());
+      .pipe(
+        cubesExtractMessage(),
+        map(res => {
+          return typeof (res) === 'string' ? res : 'Job execution triggered!';
+        })
+      );
   }
 }
 

@@ -15,9 +15,10 @@ import cronstrue from 'cronstrue';
   styleUrls: ['./job-editor.component.scss']
 })
 export class JobEditorComponent implements OnInit {
-  public job: SchedulerJob;
   private isNew: boolean;
   private existing: string[];
+  private initialName: string;
+  public job: SchedulerJob;
   public jobForm: FormGroup;
   public jobTypeForSwitch: string;
   public formValid = false;
@@ -34,6 +35,8 @@ export class JobEditorComponent implements OnInit {
     this.lookups  = data.lookups;
     this.isNew    = data.isNew;
     this.existing = data.existing;
+
+    this.initialName = data.job.description;
   }
   ngOnInit() {
     this.jobForm = this.createJobForm();
@@ -54,7 +57,7 @@ export class JobEditorComponent implements OnInit {
       description   : ['', Validators.required],
       cronExpression: ['', [Validators.required, CustomValidators.isCronExpression]],
       isActive      : false,
-      fireIfMissed  : false,
+      fireIfMissed  : { value: false, disabled: true },
       jobType       : ['', Validators.required]
     });
 
@@ -96,7 +99,7 @@ export class JobEditorComponent implements OnInit {
     const toSave = <Partial<SchedulerJob>>{};
     Object.assign(toSave, form.value);
 
-    if (this.isNew && this.existing.find(i => i === toSave.description).length > 1) {
+    if (this.isNew && this.existing.find(i => i === toSave.description)) {
       this.dialogService
         .alert('Name already used by existing scheduler job!');
       return;

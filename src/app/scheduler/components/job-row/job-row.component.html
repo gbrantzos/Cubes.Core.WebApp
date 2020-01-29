@@ -1,6 +1,6 @@
 <mat-list-item>
   <p matLine>
-    <i *ngIf="job.isActive" class="fa fa-fw fa-calendar-check"></i>
+    <i *ngIf="job.isActive" class="fa fa-fw fa-calendar-check-o"></i>
     <i *ngIf="!job.isActive" class="fa fa-fw fa-calendar"></i>
     <span class="description">{{job.description}}, </span>
     <span *ngIf="job.isActive" class="runs-at">runs {{runsAt(job.cronExpression)}}</span>
