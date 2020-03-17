@@ -4,7 +4,7 @@ import { SettingsService, SmtpSettings } from '@src/app/core/services/settings.s
 import { Observable, forkJoin, empty } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { SmtpEditorComponent } from '@src/app/settings/components/smtp-editor/smtp-editor.component';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from '@src/app/shared/services/dialog.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { DialogService } from '@src/app/shared/services/dialog.service';
 })
 export class SettingsComponent implements OnInit {
   @HostBinding('class') class = 'base-component';
-  @ViewChild('editor', { static: false }) editor: SmtpEditorComponent;
+  @ViewChild('editor') editor: SmtpEditorComponent;
 
   public data$: Observable<any>;
   public errorLoading = false;

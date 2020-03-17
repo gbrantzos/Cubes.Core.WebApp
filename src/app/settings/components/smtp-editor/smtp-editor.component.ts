@@ -18,7 +18,7 @@ export class SmtpEditorComponent implements OnInit {
   private originalName = '';
   public isNew = false;
 
-  @ViewChild('f', {static: false}) f: DynamicForm;
+  @ViewChild('f') f: DynamicForm;
 
   constructor() { }
   ngOnInit() { }

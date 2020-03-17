@@ -4,7 +4,7 @@ import { forkJoin, Observable, empty } from 'rxjs';
 import { SchemaService, CoreSchemas } from '@src/app/shared/services/schema.service';
 import { SettingsService, DataAccessSettings, Connection, Query } from '@src/app/core/services/settings.service';
 import { map, catchError } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataAccessService } from '@src/app/core/services/data-access.service';
 import { ExecuteQueryComponent } from '../execute-query/execute-query.component';
 import { DialogService } from '@src/app/shared/services/dialog.service';
@@ -18,7 +18,7 @@ import { QueryComponent } from '../query/query.component';
 })
 export class DataAccessComponent implements OnInit {
   @HostBinding('class') class = 'base-component';
-  @ViewChild('queries', { static: false }) queries: QueryComponent;
+  @ViewChild('queries') queries: QueryComponent;
 
   public data$: Observable<any>;
   public errorLoading = false;

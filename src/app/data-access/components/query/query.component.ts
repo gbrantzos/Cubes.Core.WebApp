@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChildren, QueryList, AfterViewInit, ViewChild } from '@angular/core';
 import { Schema } from '@src/app/shared/services/schema.service';
 import { Query } from '@src/app/core/services/settings.service';
-import { MatExpansionPanel } from '@angular/material';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import { DialogService } from '@src/app/shared/services/dialog.service';
 import { DynamicForm } from '@src/app/shared/components/dynamic-form/dynamic-form.component';
 

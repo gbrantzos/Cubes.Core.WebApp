@@ -23,10 +23,7 @@ import { MatTableModule } from '@angular/material/table';
 
 
 // Data change support must be on root module!
-import {
-  DateAdapter,
-  MatNativeDateModule
-} from '@angular/material';
+import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { CustomDateAdapter } from '../@helpers/custom-date-adapter';
 
 @NgModule({

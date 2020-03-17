@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, HostBinding, OnDestroy } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Query } from '@src/app/core/services/settings.service';
 import { DataAccessService, ExportSettings } from '@src/app/core/services/data-access.service';
 import { ColumnDefinition } from '@src/app/shared/components/dynamic-table/dynamic-table.component';

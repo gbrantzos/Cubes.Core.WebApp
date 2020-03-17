@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChildren, QueryList, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { Connection } from '@src/app/core/services/settings.service';
 import { Schema } from '@src/app/shared/services/schema.service';
-import { MatExpansionPanel } from '@angular/material';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import { DialogService } from '@src/app/shared/services/dialog.service';
 
 @Component({

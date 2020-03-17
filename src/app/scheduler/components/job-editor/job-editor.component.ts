@@ -24,7 +24,7 @@ export class JobEditorComponent implements OnInit {
   public formValid = false;
 
   public lookups: Lookup;
-  @ViewChild('executionParameters', { static: false }) executionParameters: ParametersEditor;
+  @ViewChild('executionParameters') executionParameters: ParametersEditor;
 
   constructor(
     private fb: FormBuilder,
