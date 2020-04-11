@@ -8,9 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { AboutComponent } from './components/about/about.component';
-import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../@shared/shared.module';
 
 @NgModule({
   imports: [
@@ -22,9 +20,7 @@ import { SharedModule } from '../shared/shared.module';
   ],
   declarations: [
     MainNavComponent,
-    AboutComponent,
-    HomeComponent,
-    LoginComponent
+    AboutComponent
   ],
   exports: [
     // Module components

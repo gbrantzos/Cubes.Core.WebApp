@@ -22,9 +22,11 @@
     "@types/hammerjs": "^2.0.36",
     "core-js": "^2.5.4",
     "cronstrue": "^1.58.0",
+    "date-fns": "^2.12.0",
     "moment": "^2.24.0",
     "ngx-json-viewer": "^2.4.0",
     "rxjs": "~6.5.5",
+    "ts-md5": "^1.2.7",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.3"
   },

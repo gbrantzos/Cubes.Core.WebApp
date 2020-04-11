@@ -1,30 +1,64 @@
-// cSpell:words autofill, deeppurple, theming
-/* You can add global styles to this file, and also import other style files */
+// cSpell:words autofill, deeppurple, theming, scrollbar
 
 // ----------------------------------------------------------------------------------------------------
-// Make body fill the hole page
-body {
+// Global styles
+//
+html, body {
   margin: 0;
   height: 100vh;
+  background: #f3f3f3;
+}
+
+body {
+	margin: 0;
+	font-family: Cairo, Roboto, "Helvetica Neue", sans-serif;
+}
+
+[hidden] {
+	display: none !important;
+}
+.hidden { display: none !important; }
+
+.link {
+	cursor: pointer !important;
+	color: blue;
+}
+
+.filler {
+	flex: 1 1 auto;
+}
+
+.gap {
+	margin-right: 10px;
+}
+
+.icon-button {
+  min-width: 24px !important;
+  padding: 0 8px !important;
+}
+
+.mat-snack-bar-container {
+  max-width: 680px !important;
+  min-width: 480px !important;
+}
+
+.mat-icon {
+  height: auto !important;
 }
 // ----------------------------------------------------------------------------------------------------
 
 
 // ----------------------------------------------------------------------------------------------------
-// Font-awesome
-@import './assets/css/font-awesome.css';
-// ----------------------------------------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------------------------------------
-// Material theme
+// Local custom fonts
+//
+@import '~assets/css/font-awesome.css';
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 // ----------------------------------------------------------------------------------------------------
 
 
 // ----------------------------------------------------------------------------------------------------
-// Custom fonts
-@import './assets/css/cairo.css';
+// Custom typography
+@import '~assets/css/cairo.css';
 @import '~@angular/material/theming';
 $custom-typography: mat-typography-config(
   $font-family: 'Cairo, sans-serif, monospace',
@@ -60,6 +94,29 @@ input:-webkit-autofill:active {
 
 
 // ----------------------------------------------------------------------------------------------------
+// Custom scroll bars
+//
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #d6d6d6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+  width: 10px;
+}
+// ----------------------------------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------------------------------
 // Full width dialogs
 .full-width-dialog .mat-dialog-container {
   max-width: 100vw !important;
@@ -70,6 +127,7 @@ input:-webkit-autofill:active {
   background-color: #fafafa;
 }
 // ----------------------------------------------------------------------------------------------------
+
 
 // ----------------------------------------------------------------------------------------------------
 // WORK IN PROGRESS
@@ -82,12 +140,5 @@ input:-webkit-autofill:active {
 
   opacity: 0.7;
   filter: alpha(opacity=70); /* For IE8 and earlier */
-}
-// ----------------------------------------------------------------------------------------------------
-
-// ----------------------------------------------------------------------------------------------------
-// Fix menu appearance
-.mat-drawer-inner-container {
-  overflow-x: hidden !important;
 }
 // ----------------------------------------------------------------------------------------------------

@@ -1,0 +1,32 @@
+.wrapper {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: lightgray;
+  color: #343434;
+  overflow: hidden;
+  text-align: center;
+}
+
+.image {
+  display: inline-block;
+}
+
+.title {
+  font-size: 140px;
+  line-height: 160px;
+}
+
+.message {
+  padding-top: 16px;
+  font-size: 32px;
+  line-height: 40px;
+}
+
+.home-link {
+  padding-top: 8px;
+  a {
+    color: orangered;
+    font-weight: bold;
+  }
+}

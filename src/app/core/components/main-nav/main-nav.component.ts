@@ -40,17 +40,17 @@ export class MainNavComponent implements OnInit {
     private titleService: Title,
     private breakpointObserver: BreakpointObserver) {
     // Also see: https://stackoverflow.com/a/52355983
-    this.router.events
-      .pipe(
-        filter(event => event instanceof ActivationEnd && event.snapshot.component !== undefined),
-        tap(event => { if (this.onDebug) { console.log(event); } }),
-        map(event => (<ActivationEnd>event).snapshot.data)
-      )
-      .subscribe(event => {
-        this.title = event.Title;
-        const title = this.title ? 'Cubes - ' + (this.title.trim() || 'Home') : 'Cubes';
-        if (this.title) { this.titleService.setTitle(title); }
-      });
+    // this.router.events
+    //   .pipe(
+    //     filter(event => event instanceof ActivationEnd && event.snapshot.component !== undefined),
+    //     tap(event => { if (this.onDebug) { console.log(event); } }),
+    //     map(event => (<ActivationEnd>event).snapshot.data)
+    //   )
+    //   .subscribe(event => {
+    //     this.title = event.Title;
+    //     const title = this.title ? 'Cubes - ' + (this.title.trim() || 'Home') : 'Cubes';
+    //     if (this.title) { this.titleService.setTitle(title); }
+    //   });
   }
 
   ngOnInit() {
