@@ -35,10 +35,10 @@ const routes: Routes = [
   },
 
   { path: 'login', component: LoginComponent },
-  { path: '404', component: NotFoundComponent },
+  { path: 'not-found', component: NotFoundComponent },
 
   // Fallback when no prior routes is matched
-  { path: '**', redirectTo: '/404', pathMatch: 'full' }
+  { path: '**', redirectTo: '/not-found', pathMatch: 'full' }
 ];
 
 @NgModule({

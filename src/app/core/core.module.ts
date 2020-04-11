@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 import { AppSettingsService } from './services/app-settings.service';
 import { HttpClientModule } from '@angular/common/http';
 
-import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { AboutComponent } from './components/about/about.component';
 import { SharedModule } from '../@shared/shared.module';
 
@@ -19,12 +18,10 @@ import { SharedModule } from '../@shared/shared.module';
     SharedModule
   ],
   declarations: [
-    MainNavComponent,
     AboutComponent
   ],
   exports: [
     // Module components
-    MainNavComponent
   ],
   providers: [
     AppSettingsService

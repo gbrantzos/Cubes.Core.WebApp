@@ -17,9 +17,10 @@
 
 .mat-list-item {
   color: #c3c3c3;
+  box-sizing: border-box;
 }
 .mat-list-item:hover {
-  color: #FFF;
+  color: #fff;
 }
 
 .nav-item {
@@ -42,4 +43,10 @@
 .mat-list-item {
   height: 82px !important;
   margin-bottom: 6px;
+}
+
+.active-menu {
+  color: #fff;
+  border-right: 4px orangered solid;
+  border-left: 4px transparent solid;
 }
