@@ -1,13 +1,15 @@
 <div class="wrapper">
 
   <!-- Toolbar -->
-  <cubes-nav-bar class="toolbar"></cubes-nav-bar>
+  <cubes-nav-bar class="toolbar" [showMenuIcon]="smallView" (toggleSidenav)="onToggleSidenav()"></cubes-nav-bar>
 
   <!-- Sidenav - Content -->
   <div class="content">
-    <cubes-side-bar>
+
+    <cubes-side-bar [isHidden]="smallView && hideSidenav">
       <router-outlet></router-outlet>
     </cubes-side-bar>
+
   </div>
 
 </div>

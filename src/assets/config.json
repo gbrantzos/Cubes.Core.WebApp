@@ -5,7 +5,8 @@
     {
       "userID": "admin",
       "password": "admin",
-      "fullName": "System Administrator"
+      "fullName": "System Administrator",
+      "email": "g.brantzos@gmail.com"
     },
     {
       "userID": "giorgio",

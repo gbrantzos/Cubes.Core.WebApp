@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { Router, ActivationEnd } from '@angular/router';
 import { AuthService, UserDetails } from '@core/services/auth.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { filter, tap, map } from 'rxjs/operators';
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 
 @Component({
   selector: 'cubes-nav-bar',
@@ -11,15 +10,15 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
   styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent implements OnInit {
+  @Input() showMenuIcon = false;
+  @Output() toggleSidenav = new EventEmitter<void>();
+
   public user: UserDetails;
-  public hideSidenav = false;
 
   private onDebug = false; // Enable this for debugging!
 
-  @ViewChild('sidenav', { static: true }) public sidenav: MatSidenav;
   constructor(
     private authService: AuthService,
-    private breakpointObserver: BreakpointObserver,
     private router: Router) {
     // Also see: https://stackoverflow.com/a/52355983
     this.router.events
@@ -38,14 +37,13 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authService.loggedUser;
-    this.breakpointObserver
-      .observe(['(min-width: 699px)'])
-      .subscribe((state: BreakpointState) => { this.hideSidenav = !state.matches; });
   }
 
   logout() {
     this.authService.logout();
     this.router.navigate(['/']);
   }
+
+  onToggleSidenav() { this.toggleSidenav.emit(); }
 
 }
