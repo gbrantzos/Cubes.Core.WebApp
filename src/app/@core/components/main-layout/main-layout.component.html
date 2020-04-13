@@ -5,11 +5,12 @@
 
   <!-- Sidenav - Content -->
   <div class="content">
-
-    <cubes-side-bar [isHidden]="smallView && hideSidenav">
-      <router-outlet></router-outlet>
-    </cubes-side-bar>
-
+    <cubes-side-bar [isHidden]="smallView && hideSidenav"></cubes-side-bar>
   </div>
 
 </div>
+
+<!-- Also: ball-scale-ripple-multiple -->
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.72)" size="large" color="#fff" type="timer" [fullScreen]="true">
+  <p style="color: white"> Waiting for data... </p>
+</ngx-spinner>

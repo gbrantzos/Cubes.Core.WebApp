@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { timer, merge } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
+import { timer, merge, of } from 'rxjs';
+import { delay, map, tap, finalize, flatMap } from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'cubes-home',
@@ -9,16 +10,51 @@ import { delay, map } from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    console.log('On init');
-    const apiCall$ = timer(500).pipe(map(d => 'Api call ' + d));
-    const loaderDelay$ = timer(1200).pipe(map(d => 'Show loader ' + d));
 
-    const call$ = merge(apiCall$, loaderDelay$);
+    const apiCall$ = of('API Result')
+      .pipe(
+        delay(1300),
+      );
+    const loaderDelay = 500;
 
-    apiCall$.subscribe(v => console.log(v));
+    let callFinished: boolean;
+    let loaderVisible: boolean;
+
+    const call$ = of({})
+      .pipe(
+        tap(_ => {
+          callFinished = false;
+          loaderVisible = false;
+          console.log('Starting API call');
+
+          setTimeout(() => {
+            if (!callFinished) {
+              console.log('Show loader');
+              this.spinner.show();
+              loaderVisible = true;
+            }
+          }, loaderDelay);
+        }),
+        flatMap(() => apiCall$),
+        map(v => {
+          console.log(v);
+        }),
+        finalize(() => {
+          callFinished = true;
+          if (loaderVisible) {
+            console.log('Hide loader');
+            this.spinner.hide();
+          }
+
+          console.log('API call finished');
+        })
+      );
+
+
+    call$.subscribe();
   }
 
 }
