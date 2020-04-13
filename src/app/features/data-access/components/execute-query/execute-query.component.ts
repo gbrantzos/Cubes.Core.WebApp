@@ -4,10 +4,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { ExportSettingsComponent } from '../export-settings/export-settings.component';
-import { Query } from 'src/app/core/services/settings.service';
-import { ExportSettings, DataAccessService } from 'src/app/core/services/data-access.service';
+
 import { DialogService } from '@shared/services/dialog.service';
 import { ColumnDefinition } from '@shared/components/dynamic-table/dynamic-table.component';
+import { DataAccessService, ExportSettings } from '@core/services/data-access.service';
+import { Query } from '@core/services/settings.service';
 
 @Component({
   selector: 'cubes-execute-query',

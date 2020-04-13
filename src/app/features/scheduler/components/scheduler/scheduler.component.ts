@@ -2,10 +2,10 @@ import { Component, OnInit, HostBinding } from '@angular/core';
 import { catchError, delay, map } from 'rxjs/operators';
 import { empty, forkJoin, Observable } from 'rxjs';
 
-import { SchedulerService, SchedulerJob } from 'src/app/core/services/scheduler.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LookupService } from '@shared/services/lookup.service';
 import { JobModifyEvent } from '@features/scheduler/components/job-list/job-list.component';
+import { SchedulerService, SchedulerJob } from '@core/services/scheduler.service';
 
 
 @Component({

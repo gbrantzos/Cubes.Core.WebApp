@@ -3,9 +3,9 @@ import { Observable, forkJoin, empty } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SmtpEditorComponent } from '@features/settings/components/smtp-editor/smtp-editor.component';
-import { SettingsService, SmtpSettings } from 'src/app/core/services/settings.service';
 import { DialogService } from '@shared/services/dialog.service';
 import { SchemaService, CoreSchemas } from '@shared/services/schema.service';
+import { SmtpSettings, SettingsService } from '@core/services/settings.service';
 
 
 @Component({

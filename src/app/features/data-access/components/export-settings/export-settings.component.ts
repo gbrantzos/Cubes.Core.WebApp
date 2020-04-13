@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ExportSettings } from 'src/app/core/services/data-access.service';
+import { ExportSettings } from '@core/services/data-access.service';
 
 @Component({
   selector: 'cubes-export-settings',

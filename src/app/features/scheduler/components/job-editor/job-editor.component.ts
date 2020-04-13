@@ -1,12 +1,12 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SchedulerJob } from 'src/app/core/services/scheduler.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import cronstrue from 'cronstrue';
 import { ParametersEditor } from '@features/scheduler/components/execution-params-editors/execution-params-editors';
 import { Lookup } from '@shared/services/lookup.service';
 import { DialogService } from '@shared/services/dialog.service';
 import { CustomValidators } from '@features/scheduler/custom-validators';
+import { SchedulerJob } from '@core/services/scheduler.service';
 
 
 @Component({

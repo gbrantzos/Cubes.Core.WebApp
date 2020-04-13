@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Injectable, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Schema } from '@shared/services/schema.service';
 import { DynamicForm } from '@shared/components/dynamic-form/dynamic-form.component';
-import { SmtpSettings } from 'src/app/core/services/settings.service';
+import { SmtpSettings } from '@core/services/settings.service';
 
 
 @Component({

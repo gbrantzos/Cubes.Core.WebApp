@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { SchedulerJob } from 'src/app/core/services/scheduler.service';
 import cronstrue from 'cronstrue';
+import { SchedulerJob } from '@core/services/scheduler.service';
 
 @Component({
   selector: 'cubes-job-row',

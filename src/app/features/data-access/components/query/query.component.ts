@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewChildren, QueryList, AfterViewInit, ViewChild } from '@angular/core';
 import { MatExpansionPanel } from '@angular/material/expansion';
-import { Query } from 'src/app/core/services/settings.service';
 import { Schema } from '@shared/services/schema.service';
 import { DynamicForm } from '@shared/components/dynamic-form/dynamic-form.component';
 import { DialogService } from '@shared/services/dialog.service';
+import { Query } from '@core/services/settings.service';
 
 @Component({
   selector: 'cubes-query',

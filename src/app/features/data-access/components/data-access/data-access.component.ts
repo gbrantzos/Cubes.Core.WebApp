@@ -6,9 +6,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ExecuteQueryComponent } from '../execute-query/execute-query.component';
 import { QueryComponent } from '../query/query.component';
 import { SchemaService, CoreSchemas } from '@shared/services/schema.service';
-import { DataAccessService } from 'src/app/core/services/data-access.service';
 import { DialogService } from '@shared/services/dialog.service';
-import { SettingsService, DataAccessSettings, Connection, Query } from 'src/app/core/services/settings.service';
+import { SettingsService, DataAccessSettings, Connection, Query } from '@core/services/settings.service';
+import { DataAccessService } from '@core/services/data-access.service';
 
 
 @Component({
