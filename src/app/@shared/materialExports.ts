@@ -20,7 +20,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatBadgeModule } from '@angular/material/badge';
-
+import { MatDividerModule } from '@angular/material/divider';
 
 export const materialExports = [
   MatButtonModule,
@@ -43,5 +43,7 @@ export const materialExports = [
   MatTableModule,
   MatIconModule,
   MatProgressSpinnerModule,
-  MatBadgeModule
+  MatBadgeModule,
+  MatDividerModule
 ];
+

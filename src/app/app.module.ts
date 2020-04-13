@@ -8,7 +8,7 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { MainLayoutComponent } from '@core/components/main-layout/main-layout.component';
 import { NavBarComponent } from '@core/components/nav-bar/nav-bar.component';
-import { SideBarComponent } from '@core/components/side-bar/side-bar.component';
+import { SideNavComponent } from '@core/components/side-nav/side-nav.component';
 import { loadConfiguration } from '@core/helpers/load-configuration';
 import { LoginComponent } from '@core/components/login/login.component';
 import { NotFoundComponent } from '@core/components/not-found/not-found.component';
@@ -30,7 +30,7 @@ import { ConfigurationService } from '@core/services/configuration.service';
     AppComponent,
     MainLayoutComponent,
     NavBarComponent,
-    SideBarComponent,
+    SideNavComponent,
     LoginComponent,
     NotFoundComponent
   ],
