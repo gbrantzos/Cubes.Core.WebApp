@@ -5,8 +5,9 @@ import { NotFoundComponent } from '@core/components/not-found/not-found.componen
 import { MainLayoutComponent } from '@core/components/main-layout/main-layout.component';
 import { AuthGuard } from '@core/guards/auth.guard';
 
+
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
 
   // Lazy loaded modules
   {
@@ -30,7 +31,7 @@ const routes: Routes = [
         {
           path: 'settings',
           loadChildren: () => import('./features/settings/settings.module').then(m => m.SettingsModule)
-        }
+        },
       ]
   },
 
@@ -42,7 +43,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

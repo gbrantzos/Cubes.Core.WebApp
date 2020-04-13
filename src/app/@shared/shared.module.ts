@@ -11,6 +11,7 @@ import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-fo
 import { DynamicTableComponent } from '@shared/components/dynamic-table/dynamic-table.component';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
 import { MaterialModule } from '@shared/material.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { MaterialModule } from '@shared/material.module';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    HttpClientModule,
 
     NgxJsonViewerModule
   ],
@@ -33,6 +35,8 @@ import { MaterialModule } from '@shared/material.module';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    HttpClientModule,
+
     WaitingDataComponent,
     DynamicFormComponent,
     DynamicTableComponent,
