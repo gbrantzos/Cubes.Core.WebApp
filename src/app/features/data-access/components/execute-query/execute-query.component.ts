@@ -8,7 +8,7 @@ import { ExportSettingsComponent } from '../export-settings/export-settings.comp
 import { DialogService } from '@shared/services/dialog.service';
 import { ColumnDefinition } from '@shared/components/dynamic-table/dynamic-table.component';
 import { DataAccessService, ExportSettings } from '@core/services/data-access.service';
-import { Query } from '@core/services/settings.service';
+import { Query } from '@features/data-access/services/data-access.store';
 
 @Component({
   selector: 'cubes-execute-query',

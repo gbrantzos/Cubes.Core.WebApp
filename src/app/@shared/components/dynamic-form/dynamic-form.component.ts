@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Schema, Validator } from '@shared/services/schema.service';
 
@@ -8,7 +8,7 @@ import { Schema, Validator } from '@shared/services/schema.service';
   templateUrl: './dynamic-form.component.html',
   styleUrls: ['./dynamic-form.component.scss']
 })
-export class DynamicFormComponent implements OnInit, DynamicForm {
+export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
   @Input() schema: Schema;
   @Input() model: any;
   @Output() isValid = new EventEmitter<boolean>();
@@ -28,6 +28,11 @@ export class DynamicFormComponent implements OnInit, DynamicForm {
     this.form.valueChanges.subscribe(model => this.modelChanged.next(model));
 
     if (this.model) { this.form.patchValue(this.model); }
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes['model']) {
+      this.form?.patchValue(this.model);
+    }
   }
 
   private mapValidators(validators: Validator[]) {

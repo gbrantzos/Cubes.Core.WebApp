@@ -1,0 +1,22 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content {
+  margin: 12px 0 24px;
+  flex: 1;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.divider {
+  margin: 0 8px;
+}
+
+.header {
+  margin-bottom: 4px;
+}

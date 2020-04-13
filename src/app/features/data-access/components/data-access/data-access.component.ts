@@ -7,8 +7,9 @@ import { ExecuteQueryComponent } from '../execute-query/execute-query.component'
 import { QueryComponent } from '../query/query.component';
 import { SchemaService, CoreSchemas } from '@shared/services/schema.service';
 import { DialogService } from '@shared/services/dialog.service';
-import { SettingsService, DataAccessSettings, Connection, Query } from '@core/services/settings.service';
 import { DataAccessService } from '@core/services/data-access.service';
+import { SettingsService } from '@core/services/settings.service';
+import { DataAccessSettings, Connection, Query } from '@features/data-access/services/data-access.store';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { DataAccessService } from '@core/services/data-access.service';
   templateUrl: './data-access.component.html',
   styleUrls: ['./data-access.component.scss']
 })
-export class DataAccessComponent implements OnInit {
+export class DataAccessSafeComponent implements OnInit {
   @HostBinding('class') class = 'base-component';
   @ViewChild('queries') queries: QueryComponent;
 

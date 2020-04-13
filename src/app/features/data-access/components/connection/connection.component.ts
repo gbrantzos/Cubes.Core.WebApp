@@ -2,8 +2,7 @@ import { Component, OnInit, Input, ViewChildren, QueryList, Output, EventEmitter
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Schema } from '@shared/services/schema.service';
 import { DialogService } from '@shared/services/dialog.service';
-import { Connection } from '@core/services/settings.service';
-
+import { Connection } from '@features/data-access/services/data-access.store';
 
 @Component({
   selector: 'cubes-connection',

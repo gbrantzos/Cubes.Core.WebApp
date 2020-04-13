@@ -8,11 +8,11 @@ import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confir
 import { WaitingDataComponent } from '@shared/components/waiting-data/waiting-data.component';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { DynamicTableComponent } from '@shared/components/dynamic-table/dynamic-table.component';
-import { LoaderComponent } from '@shared/components/loader/loader.component';
 import { MaterialModule } from '@shared/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ConfirmDialogComponent,
     WaitingDataComponent,
     DynamicFormComponent,
-    LoaderComponent,
     DynamicTableComponent
   ],
   imports: [
@@ -28,6 +27,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    FlexLayoutModule,
     HttpClientModule,
 
     NgxSpinnerModule,
@@ -37,12 +37,12 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    FlexLayoutModule,
     HttpClientModule,
 
     WaitingDataComponent,
     DynamicFormComponent,
     DynamicTableComponent,
-    LoaderComponent,
     NgxJsonViewerModule,
     NgxSpinnerModule
   ],

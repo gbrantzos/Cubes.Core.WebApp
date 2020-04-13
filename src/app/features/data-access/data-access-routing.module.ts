@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DataAccessComponent } from './components/data-access/data-access.component';
+import { DataAccessComponent } from '@features/data-access/data-access.component';
 
 const routes: Routes = [
   { path: '', component: DataAccessComponent, data: { Title: 'Data Access'} }

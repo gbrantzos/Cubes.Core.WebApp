@@ -3,7 +3,7 @@ import { MatExpansionPanel } from '@angular/material/expansion';
 import { Schema } from '@shared/services/schema.service';
 import { DynamicForm } from '@shared/components/dynamic-form/dynamic-form.component';
 import { DialogService } from '@shared/services/dialog.service';
-import { Query } from '@core/services/settings.service';
+import { Query } from '@features/data-access/services/data-access.store';
 
 @Component({
   selector: 'cubes-query',

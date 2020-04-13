@@ -10,9 +10,12 @@
 }
 
 .content {
-  padding: 8px 16px;
+  padding: 8px;
   height: 100%;
   overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .mat-list-item {

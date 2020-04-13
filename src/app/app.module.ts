@@ -13,10 +13,9 @@ import { loadConfiguration } from '@core/helpers/load-configuration';
 import { LoginComponent } from '@core/components/login/login.component';
 import { NotFoundComponent } from '@core/components/not-found/not-found.component';
 
-import { ApiResultWrapperInterceptor } from '@core/helpers/api-result-wrapper.interceptor';
-import { LoaderInterceptor } from '@core/helpers/loader.interceptor';
-
 import { ConfigurationService } from '@core/services/configuration.service';
+
+import { ApiResultWrapperInterceptor } from '@core/helpers/api-result-wrapper.interceptor';
 
 
 @NgModule({
@@ -43,11 +42,6 @@ import { ConfigurationService } from '@core/services/configuration.service';
         HttpClient,
         ConfigurationService
       ]
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoaderInterceptor,
-      multi: true
     },
     {
       provide: HTTP_INTERCEPTORS,

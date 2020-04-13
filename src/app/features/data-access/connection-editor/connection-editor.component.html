@@ -1,0 +1,22 @@
+<div class="editor">
+  <div mat-subheader>Connections Editor</div>
+
+  <div *ngIf="connection$ | async as connection; else empty">
+    <div class="form">
+      <cubes-dynamic-form [schema]="formSchema" [model]="connection">
+        <!-- (modelChanged)="onEditorChanges($event, i)" -->
+      </cubes-dynamic-form>
+
+      <button mat-button color="primary" (click)="onTest(c)">Test Connection</button>
+      <button mat-button color="warn" (click)="onDelete(c)">Delete</button>
+      <!-- TODO Add save button -->
+    </div>
+  </div>
+
+  <ng-template #empty>
+    <div class="no-data">
+      <img src="assets/images/nodata.png" width="128px">
+      <p>Select a connection from the list!</p>
+    </div>
+  </ng-template>
+</div>

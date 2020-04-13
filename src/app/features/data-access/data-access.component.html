@@ -1,0 +1,32 @@
+<div class="header" fxLayout="row" fxLayoutAlign="space-between">
+  <h2 class="title">Data Access</h2>
+  <button mat-button color="primary" (click)="reload()">
+    Reload
+  </button>
+</div>
+<mat-divider></mat-divider>
+
+<div class="content">
+  <mat-tab-group [dynamicHeight]="true">
+
+    <!-- Connections -->
+    <mat-tab label="Connections">
+      <div fxLayout="row">
+        <cubes-connection-list fxFlex="50%">
+        </cubes-connection-list>
+
+        <mat-divider class="divider" [vertical]="true">
+        </mat-divider>
+
+        <cubes-connection-editor fxFlex="50%">
+        </cubes-connection-editor>
+      </div>
+    </mat-tab>
+
+    <!-- Queries -->
+    <mat-tab label="Queries">
+      Queries
+    </mat-tab>
+
+  </mat-tab-group>
+</div>
