@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { DataAccessStore, Connection } from '@features/data-access/services/data-access.store';
 import { Observable, Subscription } from 'rxjs';
 
@@ -9,6 +9,8 @@ import { Observable, Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConnectionListComponent implements OnInit, OnDestroy {
+  @Output() connectionSelected = new EventEmitter<Connection>();
+
   public connections$: Observable<Connection[]>;
   public selectedIndex = 0;
   private selectedConnectionSub: Subscription;
@@ -28,8 +30,12 @@ export class ConnectionListComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectConnection(id: number) {
-    this.selectedIndex = id;
-    this.store.selectConnection(id);
+  selectConnection(cnx: Connection) {
+    this.connectionSelected.emit(cnx);
+  }
+
+  addConnection() {
+    // TODO Check for pending changes ??
+    this.store.addConnection();
   }
 }

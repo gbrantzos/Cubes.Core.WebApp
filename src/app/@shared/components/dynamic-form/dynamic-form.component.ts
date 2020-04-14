@@ -14,25 +14,47 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
   @Output() isValid = new EventEmitter<boolean>();
   @Output() modelChanged = new EventEmitter<any>();
 
+  private _dirty = false;
+  private _pristine = true;
+  get dirty() { return this._dirty; }
+  get pristine() { return this._pristine; }
+
   public form: FormGroup;
 
   constructor() { }
   ngOnInit() {
+    this.prepareFormGroup();
+    if (this.model) { this.loadModel(this.model); }
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!!changes['schema']) { this.prepareFormGroup(); }
+    if (!!changes['model']) { this.loadModel(this.model); }
+  }
+
+  private loadModel(model: any) {
+    this.form?.patchValue(model);
+    this.markAsPristine();
+    this._dirty = false;
+  }
+
+  public markAsPristine() {
+    this.form?.markAsPristine();
+    this._pristine = true;
+  }
+
+  private prepareFormGroup() {
     const formGroup = {};
 
     for (const item of this.schema.items) {
-      formGroup[item.key] = new FormControl('', { validators: this.mapValidators(item.validators), updateOn: 'blur'});
+      formGroup[item.key] = new FormControl('', { validators: this.mapValidators(item.validators), updateOn: 'blur' });
     }
     this.form = new FormGroup(formGroup);
-    this.form.statusChanges.subscribe(status => this.isValid.emit(status === 'VALID'));
+    this.form.statusChanges.subscribe(status => {
+      this.isValid.emit(status === 'VALID');
+      this._dirty = this.form.dirty;
+      this._pristine = this.form.pristine;
+    });
     this.form.valueChanges.subscribe(model => this.modelChanged.next(model));
-
-    if (this.model) { this.form.patchValue(this.model); }
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!!changes['model']) {
-      this.form?.patchValue(this.model);
-    }
   }
 
   private mapValidators(validators: Validator[]) {
@@ -87,13 +109,13 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
     const keyName = label || this.toCapitalFirst(key);
 
     let errorMessage = `Errors with ${keyName}`;
-    if (control.errors.required)  { errorMessage = `${keyName} is required`; }
-    if (control.errors.min)       { errorMessage = `${keyName} must be more than ${control.errors.min.min}`; }
-    if (control.errors.max)       { errorMessage = `${keyName} must be less than ${control.errors.max.max}`; }
+    if (control.errors.required) { errorMessage = `${keyName} is required`; }
+    if (control.errors.min) { errorMessage = `${keyName} must be more than ${control.errors.min.min}`; }
+    if (control.errors.max) { errorMessage = `${keyName} must be less than ${control.errors.max.max}`; }
     if (control.errors.minLength) { errorMessage = `${keyName} must be more than ${control.errors.min.minLength} characters`; }
     if (control.errors.maxLength) { errorMessage = `${keyName} must be less than ${control.errors.max.maxLength} characters`; }
-    if (control.errors.pattern)   { errorMessage = `${keyName} does not match required pattern`; }
-    if (control.errors.email)     { errorMessage = `${keyName} is not a valid email`; }
+    if (control.errors.pattern) { errorMessage = `${keyName} does not match required pattern`; }
+    if (control.errors.email) { errorMessage = `${keyName} is not a valid email`; }
 
     return errorMessage;
   }
@@ -113,5 +135,6 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
 
 export interface DynamicForm {
   readonly currentValue: any;
+  form: FormGroup;
   setModel(value: any): void;
 }

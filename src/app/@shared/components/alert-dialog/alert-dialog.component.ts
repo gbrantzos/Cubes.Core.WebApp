@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'cubes-alert-dialog',
   templateUrl: './alert-dialog.component.html',
-  styleUrls: ['./alert-dialog.component.scss']
+  styleUrls: ['./alert-dialog.component.scss', '../dialog-common.scss']
 })
 export class AlertDialogComponent implements OnInit {
 

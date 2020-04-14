@@ -2,7 +2,7 @@
   <mat-list>
     <div mat-subheader>Connections List</div>
 
-    <mat-list-item *ngFor="let cnx of connections" (click)="selectConnection(cnx.id)"
+    <mat-list-item *ngFor="let cnx of connections" (click)="selectConnection(cnx)"
       [ngClass]='{selected: selectedIndex === cnx.id}'>
       <mat-icon mat-list-icon fontSet="fa" fontIcon="fa-plug" class="fa-fw"> </mat-icon>
       <div mat-line>{{cnx.name}}</div>
@@ -15,7 +15,7 @@
     </div>
 
     <div class="add-button">
-      <button mat-button color="primary"> New Connection </button>
+      <button mat-button color="primary" (click)="addConnection()"> New Connection </button>
     </div>
 
   </mat-list>

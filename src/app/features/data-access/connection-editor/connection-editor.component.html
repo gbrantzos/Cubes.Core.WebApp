@@ -1,15 +1,20 @@
 <div class="editor">
   <div mat-subheader>Connections Editor</div>
 
-  <div *ngIf="connection$ | async as connection; else empty">
-    <div class="form">
-      <cubes-dynamic-form [schema]="formSchema" [model]="connection">
-        <!-- (modelChanged)="onEditorChanges($event, i)" -->
-      </cubes-dynamic-form>
+  <div *ngIf="formSchema$ | async as formSchema; else empty">
+    <div *ngIf="connection$ | async as connection; else empty">
+      <div class="form">
+        <cubes-dynamic-form #f [schema]="formSchema" [model]="connection" (isValid)="save.disabled=!$event">
+          <!-- (modelChanged)="onEditorChanges($event, i)" -->
+        </cubes-dynamic-form>
 
-      <button mat-button color="primary" (click)="onTest(c)">Test Connection</button>
-      <button mat-button color="warn" (click)="onDelete(c)">Delete</button>
-      <!-- TODO Add save button -->
+        <div class="buttons" fxLayout="row">
+          <button mat-button color="primary" (click)="onTest()">Test Connection</button>
+          <div class="filler"></div>
+          <button #delete mat-button color="warn" (click)="onDelete()">{{isNew ? 'Cancel' : 'Delete'}}</button>
+          <button #save mat-button color="primary" (click)="onSave()">Save</button>
+        </div>
+      </div>
     </div>
   </div>
 

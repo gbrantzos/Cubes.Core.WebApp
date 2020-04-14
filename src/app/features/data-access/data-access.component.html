@@ -12,13 +12,13 @@
     <!-- Connections -->
     <mat-tab label="Connections">
       <div fxLayout="row">
-        <cubes-connection-list fxFlex="50%">
+        <cubes-connection-list fxFlex="50%" (connectionSelected)="connectionSelected($event)">
         </cubes-connection-list>
 
         <mat-divider class="divider" [vertical]="true">
         </mat-divider>
 
-        <cubes-connection-editor fxFlex="50%">
+        <cubes-connection-editor #form fxFlex="50%">
         </cubes-connection-editor>
       </div>
     </mat-tab>
