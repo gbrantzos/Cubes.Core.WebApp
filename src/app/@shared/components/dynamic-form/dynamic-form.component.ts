@@ -31,7 +31,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
     if (!!changes['model']) { this.loadModel(this.model); }
   }
 
-  private loadModel(model: any) {
+  public loadModel(model: any) {
     this.form?.patchValue(model);
     this.markAsPristine();
     this._dirty = false;
@@ -125,16 +125,10 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
   }
 
   public currentValue() { return this.form.getRawValue(); }
-  public setModel(value: any) {
-    this.model = value;
-    this.form.patchValue(this.model);
-    // TODO Maybe this is needed >>
-    // this.form.markAllAsTouched();
-  }
 }
 
 export interface DynamicForm {
   readonly currentValue: any;
   form: FormGroup;
-  setModel(value: any): void;
+  loadModel(value: any): void;
 }

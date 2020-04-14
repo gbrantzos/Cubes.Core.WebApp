@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { DataAccessStore, Connection } from '@features/data-access/services/data-access.store';
 import { Observable, Subscription } from 'rxjs';
 
@@ -10,19 +10,23 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class ConnectionListComponent implements OnInit, OnDestroy {
   @Output() connectionSelected = new EventEmitter<Connection>();
+  @Output() addConnection = new EventEmitter<void>();
 
   public connections$: Observable<Connection[]>;
-  public selectedIndex = 0;
+  public selectedIndex = -1;
   private selectedConnectionSub: Subscription;
 
-  constructor(private store: DataAccessStore) { }
+  constructor(private store: DataAccessStore, private changeDetectorRef: ChangeDetectorRef) { }
   ngOnInit(): void {
     this.store.load();
 
     this.connections$ = this.store.connections;
     this.selectedConnectionSub = this.store
       .selectedConnection
-      .subscribe(cnx => this.selectedIndex = (cnx?.id) ?? 0);
+      .subscribe(cnx => {
+        this.selectedIndex = (cnx?.id) ?? -1;
+        this.changeDetectorRef.detectChanges();
+      });
   }
   ngOnDestroy(): void {
     if (this.selectedConnectionSub) {
@@ -34,8 +38,5 @@ export class ConnectionListComponent implements OnInit, OnDestroy {
     this.connectionSelected.emit(cnx);
   }
 
-  addConnection() {
-    // TODO Check for pending changes ??
-    this.store.addConnection();
-  }
+  onAddConnection() { this.addConnection.emit(); }
 }

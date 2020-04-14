@@ -1,11 +1,18 @@
 <div class="editor">
-  <div mat-subheader>Connections Editor</div>
+  <div mat-subheader fxLayout="row" fxLayoutAlign="space-between center">
+    <span>Connections Editor</span>
+    <div class="chip-list">
+      <mat-chip-list [hidden]="!isNew">
+        <mat-chip color="accent" selected>New Connection</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
 
   <div *ngIf="formSchema$ | async as formSchema; else empty">
     <div *ngIf="connection$ | async as connection; else empty">
       <div class="form">
+
         <cubes-dynamic-form #f [schema]="formSchema" [model]="connection" (isValid)="save.disabled=!$event">
-          <!-- (modelChanged)="onEditorChanges($event, i)" -->
         </cubes-dynamic-form>
 
         <div class="buttons" fxLayout="row">
@@ -14,6 +21,7 @@
           <button #delete mat-button color="warn" (click)="onDelete()">{{isNew ? 'Cancel' : 'Delete'}}</button>
           <button #save mat-button color="primary" (click)="onSave()">Save</button>
         </div>
+
       </div>
     </div>
   </div>

@@ -16,16 +16,33 @@ export class DataAccessComponent implements OnInit {
     private dialogService: DialogService) { }
   ngOnInit(): void { }
 
-  reload() { this.store.load(); }
-  connectionSelected(cnx: Connection) {
+  async reload() {
     if (this.form.pendingChanges()) {
-      this.dialogService
+      const dialogResult = await this.dialogService
         .confirm('There are unsaved changes on selected connection.\nDiscard and continue?')
-        .subscribe(r => {
-          if (r) { this.store.selectConnection(cnx.id); }
-        });
-    } else {
-      this.store.selectConnection(cnx.id);
+        .toPromise();
+      if (!dialogResult) { return; }
     }
+    this.store.load();
+  }
+
+  async connectionSelected(cnx: Connection) {
+    if (this.form.pendingChanges()) {
+      const dialogResult = await this.dialogService
+        .confirm('There are unsaved changes on selected connection.\nDiscard and continue?')
+        .toPromise();
+      if (!dialogResult) { return; }
+    }
+    this.store.selectConnection(cnx.id);
+  }
+
+  async addConnection() {
+    if (this.form.pendingChanges()) {
+      const dialogResult = await this.dialogService
+        .confirm('There are unsaved changes on new connection.\nDiscard and continue?')
+        .toPromise();
+      if (!dialogResult) { return; }
+    }
+    this.store.addConnection();
   }
 }

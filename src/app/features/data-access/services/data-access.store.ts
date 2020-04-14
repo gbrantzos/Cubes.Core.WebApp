@@ -26,17 +26,13 @@ export class DataAccessStore {
 
   constructor() { }
   load = () => {
-    const selectedConnectionIndex = this.selectedConnection$?.value?.id ?? 0;
-
     console.log('Loading connections...');
     // TODO Actual api call OR service call!
 
     // Simulate call delay
     setTimeout(() => {
       this.connections$.next(initial);
-
-      const selected = this.connections$.value.find(cnx => cnx.id === selectedConnectionIndex);
-      this.selectedConnection$.next(selected);
+      this.selectedConnection$.next(undefined);
     }, 400);
   }
 
@@ -84,12 +80,10 @@ export class DataAccessStore {
     this.selectedConnection$.next(undefined);
   }
 
-  private nextId = () => Math.max(...this.connections$.value.map(cnx => cnx.id ?? 0));
+  private nextId = () => Math.max(...this.connections$.value.map(cnx => cnx.id ?? 0)) + 1;
 }
 
 
-// ----------------------------------------------------------------------
-// DataAccess models
 export interface Connection {
   id?: number;
   name: string;
@@ -111,5 +105,3 @@ export interface DataAccessSettings {
   connections: Connection[];
   queries: Query[];
 }
-// ----------------------------------------------------------------------
-

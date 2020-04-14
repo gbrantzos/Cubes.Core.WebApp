@@ -31,7 +31,7 @@ export class SmtpEditorComponent implements OnInit {
     this.isNew = model.name === 'NEW';
     if (model.name === 'NEW') { model.name = 'New profile'; }
     this.originalName = model.name;
-    this.f.setModel(model);
+    this.f.loadModel(model);
     this.model = model;
   }
 }

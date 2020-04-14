@@ -19,6 +19,7 @@ export class ConnectionEditorComponent implements OnInit {
   public formSchema$: Observable<Schema>;
   public isNew = false;
   private originalName: string;
+  private originalId: number;
 
   constructor(
     private store: DataAccessStore,
@@ -31,6 +32,7 @@ export class ConnectionEditorComponent implements OnInit {
       .pipe(
         map(cnx => {
           this.originalName = cnx?.name;
+          this.originalId = cnx?.id;
           this.isNew = cnx?.isNew ?? false;
           return cnx;
         })
@@ -60,7 +62,7 @@ export class ConnectionEditorComponent implements OnInit {
   onSave() {
     const currentValue: any = this.form.currentValue();
     const connection: Connection = {
-      id: currentValue.id,
+      id: this.originalId,
       name: currentValue.name,
       comments: currentValue.comments,
       connectionString: currentValue.connectionString,

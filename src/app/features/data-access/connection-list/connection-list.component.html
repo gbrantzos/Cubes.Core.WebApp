@@ -1,6 +1,5 @@
 <div *ngIf="connections$ | async as connections">
   <mat-list>
-    <div mat-subheader>Connections List</div>
 
     <mat-list-item *ngFor="let cnx of connections" (click)="selectConnection(cnx)"
       [ngClass]='{selected: selectedIndex === cnx.id}'>
@@ -15,8 +14,13 @@
     </div>
 
     <div class="add-button">
-      <button mat-button color="primary" (click)="addConnection()"> New Connection </button>
+      <button mat-button color="primary" (click)="onAddConnection()"> New Connection </button>
     </div>
+
+    <!--
+    <p>Selected index: {{selectedIndex}}</p>
+    <pre> {{ connections | json }} </pre>
+    -->
 
   </mat-list>
 </div>

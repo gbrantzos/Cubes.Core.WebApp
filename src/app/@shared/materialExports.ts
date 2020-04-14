@@ -21,6 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatChipsModule } from '@angular/material/chips';
 
 export const materialExports = [
   MatButtonModule,
@@ -44,6 +45,7 @@ export const materialExports = [
   MatIconModule,
   MatProgressSpinnerModule,
   MatBadgeModule,
-  MatDividerModule
+  MatDividerModule,
+  MatChipsModule
 ];
 

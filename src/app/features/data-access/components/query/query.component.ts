@@ -86,7 +86,7 @@ export class QueryComponent implements OnInit, AfterViewInit {
     const toUpdate = this.model.find(q => q.id === id);
     toUpdate.queryCommand = queryCommand;
 
-    this.currentEditor.setModel(toUpdate);
+    this.currentEditor.loadModel(toUpdate);
   }
 
   private raiseSelectionChanged(query: string) { setTimeout(() => this.selectionChanged.next(query)); }
