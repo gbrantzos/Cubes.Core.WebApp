@@ -32,6 +32,10 @@ const routes: Routes = [
           path: 'settings',
           loadChildren: () => import('./features/settings/settings.module').then(m => m.SettingsModule)
         },
+        {
+          path: 'about',
+          loadChildren: () => import('./features/about/about.module').then(m => m.AboutModule)
+        }
       ]
   },
 

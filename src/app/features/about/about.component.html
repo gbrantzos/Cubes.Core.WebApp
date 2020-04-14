@@ -1,0 +1,34 @@
+<div class="about" fxLayout="column" fxLayoutAlign=" center">
+
+  <div class="logo" fxFlex="auto">
+    <img src="assets/images/cubes.logo.svg" alt="Cubes Server">
+    <p class="cubes-server">Cubes Server</p>
+    <p>Using Angular v{{ngVersion}}</p>
+  </div>
+
+  <div class="server-info" *ngIf="pingData$ | async as pingData; else loading" fxFlex="grow">
+    <div *ngIf="!error">
+
+      <div class="json">
+        <ngx-json-viewer [json]="pingData" [expanded]="false"></ngx-json-viewer>
+      </div>
+
+    </div>
+    <span class="refresh" (click)="pingServer()"><i class="fa fa-refresh"></i></span>
+  </div>
+  <br><br>
+
+  <ng-template #loading>
+    <p class="link" *ngIf="!error">Waiting for server details ...</p>
+    <div *ngIf="error" class="server-info" fxFlex="grow">
+      <p class="error">{{error.message}}</p>
+
+      <div class="json">
+        <ngx-json-viewer [json]="error" [expanded]="false"></ngx-json-viewer>
+      </div>
+
+      <span class="refresh" (click)="pingServer()"><i class="fa fa-refresh"></i></span>
+    </div>
+  </ng-template>
+
+</div>

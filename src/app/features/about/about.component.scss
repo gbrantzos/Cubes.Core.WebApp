@@ -1,0 +1,61 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.about {
+  margin: 20px auto 0;
+  text-align: center;
+  height: 100%;
+  overflow: hidden;
+
+  p {
+    font-size: 1.12em;
+    margin-top: 20px;
+  }
+  p.cubes-server {
+    margin-top: 40px;
+    font-size: 2.6em;
+    font-weight: bold;
+    color: #6b6b6b;
+    text-shadow: 2px 2px #aeaeae
+  }
+}
+
+.json {
+  max-width: 780px;
+}
+
+.server-info {
+  margin: 20px auto;
+  padding: 0 100px;
+  position: relative;
+  text-align: left;
+
+  border: 1px solid #777777;
+  background-color: whitesmoke;
+  margin: 12px;
+  overflow-y: auto;
+}
+
+.link {
+  cursor: pointer;
+  color: blue;
+  font-size: 1.12em;
+}
+
+.refresh {
+  cursor: pointer;
+  color: gray;
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-size: 1.4em;
+}
+
+.error {
+  color: red;
+  font-size: 1.18em;
+  margin-top: 8px !important;
+}
