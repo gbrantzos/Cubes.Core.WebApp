@@ -11,6 +11,7 @@ import { DataAccessComponent } from '@features/data-access/data-access.component
 import { ConnectionListComponent } from './connection-list/connection-list.component';
 import { ConnectionEditorComponent } from './connection-editor/connection-editor.component';
 import { DataAccessStore } from '@features/data-access/services/data-access.store';
+import { DataAccessApiClient } from '@features/data-access/services/data-access.api-client';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { DataAccessStore } from '@features/data-access/services/data-access.stor
     ExportSettingsComponent
   ],
   providers: [
-    DataAccessStore
+    DataAccessStore,
+    DataAccessApiClient
   ]
 })
 export class DataAccessModule { }

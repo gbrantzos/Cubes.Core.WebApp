@@ -1,22 +1,10 @@
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of, Observable } from 'rxjs';
+import { DataAccessApiClient } from '@features/data-access/services/data-access.api-client';
+import { Injectable } from '@angular/core';
+import { tap, flatMap, finalize, map } from 'rxjs/operators';
+import { NgxSpinnerService } from 'ngx-spinner';
 
-const initial = [
-  {
-    id: 1,
-    name: 'Sample.Connection',
-    comments: 'Sample connection',
-    connectionString: 'Connection string',
-    dbProvider: 'mssql'
-  },
-  {
-    id: 2,
-    name: 'Sample.Connection.#2',
-    comments: 'Second sample connection',
-    connectionString: 'Connection string',
-    dbProvider: 'oracle'
-  }
-];
-
+@Injectable()
 export class DataAccessStore {
   private readonly connections$ = new BehaviorSubject<Connection[]>([]);
   private readonly selectedConnection$ = new BehaviorSubject<Connection>(undefined);
@@ -24,16 +12,32 @@ export class DataAccessStore {
   readonly connections = this.connections$.asObservable();
   readonly selectedConnection = this.selectedConnection$.asObservable();
 
-  constructor() { }
-  load = () => {
-    console.log('Loading connections...');
-    // TODO Actual api call OR service call!
+  private readonly loaderDelay = 500;
 
-    // Simulate call delay
-    setTimeout(() => {
-      this.connections$.next(initial);
-      this.selectedConnection$.next(undefined);
-    }, 400);
+  constructor(
+    private apiClient: DataAccessApiClient,
+    private spinner: NgxSpinnerService
+  ) { }
+
+  loadData = () => {
+    const call$ = this.apiCallWrapper(
+      this.apiClient.loadData(),
+      data => {
+        this.connections$.next(data.connections);
+        this.selectedConnection$.next(undefined);
+      }
+    );
+    call$.subscribe();
+  }
+
+  saveData = () => {
+    const call$ = this.apiCallWrapper(
+      this.apiClient.saveData({
+        connections: this.connections$.value,
+        queries: []
+      })
+    );
+    call$.subscribe();
   }
 
   selectConnection(id: number) {
@@ -68,6 +72,7 @@ export class DataAccessStore {
     ].sort((a, b) => a.name.localeCompare(b.name));
 
     this.connections$.next(newCnxArray);
+    this.saveData();
   }
 
   deleteConnection(name: string) {
@@ -78,9 +83,51 @@ export class DataAccessStore {
 
     this.connections$.next(temp);
     this.selectedConnection$.next(undefined);
+    this.saveData();
   }
 
   private nextId = () => Math.max(...this.connections$.value.map(cnx => cnx.id ?? 0)) + 1;
+
+  private apiCallWrapper<T>(
+    apiCall: Observable<T>,
+    processor: (response: any) => void = null
+  ): Observable<T> {
+    let callFinished: boolean;
+    let loaderVisible: boolean;
+
+    const call$ = of<T>(null)
+      .pipe(
+        tap(_ => {
+          callFinished = false;
+          loaderVisible = false;
+          // console.log('Starting API call');
+
+          setTimeout(() => {
+            if (!callFinished) {
+              // console.log('Showing loader');
+              this.spinner.show();
+              loaderVisible = true;
+            }
+          }, this.loaderDelay);
+        }),
+        flatMap(() => apiCall),
+        map(data => {
+          if (processor) { processor(data); }
+          return data;
+        }),
+        finalize(() => {
+          callFinished = true;
+          if (loaderVisible) {
+            // console.log('Hide loader');
+            this.spinner.hide();
+          }
+
+          // console.log('API call finished');
+        })
+      );
+
+    return call$;
+  }
 }
 
 

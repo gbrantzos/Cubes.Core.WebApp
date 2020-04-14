@@ -19,7 +19,7 @@
         <mat-divider class="divider" [vertical]="true">
         </mat-divider>
 
-        <cubes-connection-editor #form fxFlex="50%">
+        <cubes-connection-editor #form fxFlex="50%" (testConnection)="testConnection($event)">
         </cubes-connection-editor>
       </div>
     </mat-tab>

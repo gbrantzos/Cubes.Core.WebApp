@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './@shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -23,6 +24,7 @@ import { ApiResultWrapperInterceptor } from '@core/helpers/api-result-wrapper.in
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   declarations: [

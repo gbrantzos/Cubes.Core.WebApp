@@ -1,9 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
-import { DataAccessStore, Connection } from '@features/data-access/services/data-access.store';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SchemaService, CoreSchemas, Schema } from '@shared/services/schema.service';
-import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { map } from 'rxjs/operators';
+import { SchemaService, CoreSchemas, Schema } from '@shared/services/schema.service';
+import { DataAccessStore, Connection } from '@features/data-access/services/data-access.store';
+import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { DialogService } from '@shared/services/dialog.service';
 
 @Component({
@@ -14,6 +14,7 @@ import { DialogService } from '@shared/services/dialog.service';
 })
 export class ConnectionEditorComponent implements OnInit {
   @ViewChild('f', { static: false }) form: DynamicFormComponent;
+  @Output() testConnection = new EventEmitter<Connection>();
 
   public connection$: Observable<Connection>;
   public formSchema$: Observable<Schema>;
@@ -41,8 +42,8 @@ export class ConnectionEditorComponent implements OnInit {
   }
 
   onTest() {
-    // TODO Make call to API
-    console.log('Testing');
+    const connection = this.connectionFromForm();
+    this.testConnection.emit(connection);
   }
   onDelete() {
     if (this.isNew) {
@@ -60,17 +61,24 @@ export class ConnectionEditorComponent implements OnInit {
     }
   }
   onSave() {
+    const connection = this.connectionFromForm();
+    this.store.saveConnection(this.originalName, connection);
+    this.form.markAsPristine();
+    this.isNew = false;
+  }
+
+  pendingChanges(): boolean { return this.form ? !this.form.pristine : false; }
+
+  private connectionFromForm(): Connection {
     const currentValue: any = this.form.currentValue();
-    const connection: Connection = {
+    return {
       id: this.originalId,
       name: currentValue.name,
       comments: currentValue.comments,
       connectionString: currentValue.connectionString,
-      dbProvider: currentValue.dbProvider
+      dbProvider: currentValue.dbProvider,
+      isNew: false
     };
-    this.form.markAsPristine();
-    this.store.saveConnection(this.originalName, connection);
   }
 
-  pendingChanges(): boolean { return this.form ? !this.form.pristine : false; }
 }

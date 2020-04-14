@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataAccessStore, Connection } from '@features/data-access/services/data-access.store';
 import { ConnectionEditorComponent } from '@features/data-access/connection-editor/connection-editor.component';
 import { DialogService } from '@shared/services/dialog.service';
+import { DataAccessApiClient } from '@features/data-access/services/data-access.api-client';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'cubes-data-access',
@@ -13,7 +16,10 @@ export class DataAccessComponent implements OnInit {
 
   constructor(
     public store: DataAccessStore,
-    private dialogService: DialogService) { }
+    private dialogService: DialogService,
+    private snackBar: MatSnackBar,
+    private apiClient: DataAccessApiClient,
+    private spinner: NgxSpinnerService) { }
   ngOnInit(): void { }
 
   async reload() {
@@ -23,7 +29,7 @@ export class DataAccessComponent implements OnInit {
         .toPromise();
       if (!dialogResult) { return; }
     }
-    this.store.load();
+    this.store.loadData();
   }
 
   async connectionSelected(cnx: Connection) {
@@ -44,5 +50,28 @@ export class DataAccessComponent implements OnInit {
       if (!dialogResult) { return; }
     }
     this.store.addConnection();
+  }
+
+  testConnection(connection: Connection) {
+    this.spinner.show();
+    this.apiClient
+      .testConnection(connection)
+      .subscribe(result => {
+        this.spinner.hide();
+        this.displayMessage(result);
+      }, error => {
+        console.error(error);
+        this.spinner.hide();
+        this.displayMessage(error.error.message + '.');
+      });
+  }
+
+  private displayMessage(message: string) {
+    const snackRef = this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      panelClass: 'snack-bar',
+      horizontalPosition: 'right'
+    });
+    snackRef.onAction().subscribe(() => snackRef.dismiss());
   }
 }

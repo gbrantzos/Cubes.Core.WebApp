@@ -9,7 +9,6 @@ import { WaitingDataComponent } from '@shared/components/waiting-data/waiting-da
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { DynamicTableComponent } from '@shared/components/dynamic-table/dynamic-table.component';
 import { MaterialModule } from '@shared/material.module';
-import { HttpClientModule } from '@angular/common/http';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -28,7 +27,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    HttpClientModule,
 
     NgxSpinnerModule,
     NgxJsonViewerModule
@@ -38,7 +36,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    HttpClientModule,
 
     WaitingDataComponent,
     DynamicFormComponent,

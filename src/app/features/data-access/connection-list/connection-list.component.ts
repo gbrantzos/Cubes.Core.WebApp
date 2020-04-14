@@ -18,7 +18,7 @@ export class ConnectionListComponent implements OnInit, OnDestroy {
 
   constructor(private store: DataAccessStore, private changeDetectorRef: ChangeDetectorRef) { }
   ngOnInit(): void {
-    this.store.load();
+    this.store.loadData();
 
     this.connections$ = this.store.connections;
     this.selectedConnectionSub = this.store
