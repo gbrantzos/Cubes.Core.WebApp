@@ -11,6 +11,7 @@ export function loadConfiguration(http: HttpClient, configuration: Configuration
     const configDevelopment$ = http
       .get('assets/config.json')
       .pipe(
+        delay(1000),
         catchError((x: HttpErrorResponse, _): Observable<any> => {
           console.error('Development config file not found on assets folder!', x.status, x.statusText);
           return of({});
