@@ -1,0 +1,27 @@
+<div *ngIf="queries$ | async as queries">
+  <mat-list>
+    <div mat-subheader>Queries List</div>
+
+    <mat-list-item *ngFor="let qry of queries" (click)="selectQuery(qry)"
+      [ngClass]='{selected: selectedIndex === qry.id}'>
+      <mat-icon mat-list-icon fontSet="fa" fontIcon="fa-file-text-o" class="fa-fw"> </mat-icon>
+      <div mat-line>{{qry.name}}</div>
+      <div mat-line>{{qry.comments}}</div>
+    </mat-list-item>
+
+    <div class="no-data" *ngIf="!queries.length">
+      <mat-icon mat-list-icon fontSet="fa" fontIcon="fa-file-text-o" class="fa-fw fa-3x"> </mat-icon>
+      <p class="message">No queries found!</p>
+    </div>
+
+    <div class="new-button">
+      <button mat-button color="primary" (click)="onNew()"> New Query </button>
+    </div>
+
+    <!--
+    <p>Selected index: {{selectedIndex}}</p>
+    <pre> {{ queries | json }} </pre>
+    -->
+
+  </mat-list>
+</div>

@@ -3,7 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 import { DataAccessComponent } from '@features/data-access/data-access.component';
 
 const routes: Routes = [
-  { path: '', component: DataAccessComponent, data: { Title: 'Data Access'} }
+  {
+    path: '',
+    redirectTo: 'connections',
+    pathMatch: 'full'
+  },
+  {
+    path: ':view',
+    component: DataAccessComponent,
+    data: { Title: 'Data Access' }
+  }
 ];
 
 @NgModule({

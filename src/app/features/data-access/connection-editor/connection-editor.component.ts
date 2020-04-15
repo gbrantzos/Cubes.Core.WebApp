@@ -9,7 +9,7 @@ import { DialogService } from '@shared/services/dialog.service';
 @Component({
   selector: 'cubes-connection-editor',
   templateUrl: './connection-editor.component.html',
-  styleUrls: ['./connection-editor.component.scss'],
+  styleUrls: ['./connection-editor.component.scss', '../data-access.common.editor.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConnectionEditorComponent implements OnInit {
@@ -50,7 +50,7 @@ export class ConnectionEditorComponent implements OnInit {
       this.dialogService
         .confirm('Discard new connection?')
         .subscribe(r => {
-          if (r) { this.store.discardNew(); }
+          if (r) { this.store.discardNewConnection(); }
         });
     } else {
       this.dialogService

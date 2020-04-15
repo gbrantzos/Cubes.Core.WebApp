@@ -11,6 +11,7 @@ export class DataAccessApiClient {
 
   constructor(private http: HttpClient) { }
 
+  // TODO catchError and display
   loadData(): Observable<DataAccessSettings> {
     return this
       .http

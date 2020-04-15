@@ -8,6 +8,7 @@
   margin: 20px auto 0;
   text-align: center;
   height: 100%;
+  width: 100%;
   overflow: hidden;
 
   p {
@@ -32,6 +33,8 @@
   padding: 0 100px;
   position: relative;
   text-align: left;
+  width: 100%;
+  max-width: 930px;
 
   border: 1px solid #777777;
   background-color: whitesmoke;
@@ -56,6 +59,7 @@
 
 .error {
   color: red;
-  font-size: 1.18em;
+  font-size: 1.1em;
+  font-weight: bold;
   margin-top: 8px !important;
 }

@@ -1,35 +1,35 @@
 <div class="editor">
   <div mat-subheader fxLayout="row" fxLayoutAlign="space-between center">
-    <span>Connections Editor</span>
+    <span>Queries Editor</span>
     <div class="chip-list">
       <mat-chip-list [hidden]="!isNew">
-        <mat-chip color="accent" selected>New Connection</mat-chip>
+        <mat-chip color="accent" selected>New Query</mat-chip>
       </mat-chip-list>
     </div>
   </div>
 
   <div *ngIf="formSchema$ | async as formSchema; else empty">
-    <div *ngIf="connection$ | async as connection; else empty">
-      <div class="form">
+    <div *ngIf="query$ | async as query; else empty">
 
-        <cubes-dynamic-form #f [schema]="formSchema" [model]="connection" (isValid)="save.disabled=!$event">
+      <div class="form">
+        <cubes-dynamic-form #f [schema]="formSchema" [model]="query" (isValid)="save.disabled=!$event">
         </cubes-dynamic-form>
 
         <div class="buttons" fxLayout="row">
-          <button mat-button color="primary" (click)="onTest()"> Test Connection </button>
+          <button mat-button color="primary" (click)="onExecute()"> Execute Query </button>
           <div class="filler"></div>
           <button #delete mat-button color="warn" (click)="onDelete()"> {{isNew ? 'Cancel' : 'Delete'}} </button>
           <button #save mat-button color="primary" (click)="onSave()"> Save </button>
         </div>
-
       </div>
+
     </div>
   </div>
 
   <ng-template #empty>
     <div class="no-data">
       <img src="assets/images/nodata.png" width="128px">
-      <p>Select a connection from the list!</p>
+      <p>Select a query from the list!</p>
     </div>
   </ng-template>
 </div>

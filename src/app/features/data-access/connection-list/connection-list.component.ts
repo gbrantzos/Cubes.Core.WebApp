@@ -5,12 +5,12 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cubes-connection-list',
   templateUrl: './connection-list.component.html',
-  styleUrls: ['./connection-list.component.scss'],
+  styleUrls: ['./connection-list.component.scss', '../data-access.common.list.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConnectionListComponent implements OnInit, OnDestroy {
   @Output() connectionSelected = new EventEmitter<Connection>();
-  @Output() addConnection = new EventEmitter<void>();
+  @Output() newConnection = new EventEmitter<void>();
 
   public connections$: Observable<Connection[]>;
   public selectedIndex = -1;
@@ -18,8 +18,6 @@ export class ConnectionListComponent implements OnInit, OnDestroy {
 
   constructor(private store: DataAccessStore, private changeDetectorRef: ChangeDetectorRef) { }
   ngOnInit(): void {
-    this.store.loadData();
-
     this.connections$ = this.store.connections;
     this.selectedConnectionSub = this.store
       .selectedConnection
@@ -38,5 +36,5 @@ export class ConnectionListComponent implements OnInit, OnDestroy {
     this.connectionSelected.emit(cnx);
   }
 
-  onAddConnection() { this.addConnection.emit(); }
+  onNew() { this.newConnection.emit(); }
 }

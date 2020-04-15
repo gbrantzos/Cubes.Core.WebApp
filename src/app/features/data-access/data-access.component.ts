@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DataAccessStore, Connection } from '@features/data-access/services/data-access.store';
+import { DataAccessStore, Connection, Query } from '@features/data-access/services/data-access.store';
 import { ConnectionEditorComponent } from '@features/data-access/connection-editor/connection-editor.component';
 import { DialogService } from '@shared/services/dialog.service';
 import { DataAccessApiClient } from '@features/data-access/services/data-access.api-client';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ActivatedRoute } from '@angular/router';
+import { QueryEditorComponent } from '@features/data-access/query-editor/query-editor.component';
 
 @Component({
   selector: 'cubes-data-access',
@@ -12,18 +14,29 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./data-access.component.scss']
 })
 export class DataAccessComponent implements OnInit {
-  @ViewChild('form') form: ConnectionEditorComponent;
+  @ViewChild('connectionForm') connectionForm: ConnectionEditorComponent;
+  @ViewChild('queryForm') queryForm: QueryEditorComponent;
+  public tabIndex = 0;
 
   constructor(
     public store: DataAccessStore,
     private dialogService: DialogService,
     private snackBar: MatSnackBar,
     private apiClient: DataAccessApiClient,
-    private spinner: NgxSpinnerService) { }
-  ngOnInit(): void { }
+    private spinner: NgxSpinnerService,
+    private route: ActivatedRoute
+  ) { }
+
+  ngOnInit(): void {
+    const view = this.route.snapshot.paramMap.get('view') ?? 'connections';
+    this.tabIndex =
+      view === 'connections' ? 0 :
+        view === 'queries' ? 1 : 0;
+    this.store.loadData();
+  }
 
   async reload() {
-    if (this.form.pendingChanges()) {
+    if (this.connectionForm.pendingChanges()) {
       const dialogResult = await this.dialogService
         .confirm('There are unsaved changes on selected connection.\nDiscard and continue?')
         .toPromise();
@@ -33,7 +46,7 @@ export class DataAccessComponent implements OnInit {
   }
 
   async connectionSelected(cnx: Connection) {
-    if (this.form.pendingChanges()) {
+    if (this.connectionForm.pendingChanges()) {
       const dialogResult = await this.dialogService
         .confirm('There are unsaved changes on selected connection.\nDiscard and continue?')
         .toPromise();
@@ -42,14 +55,14 @@ export class DataAccessComponent implements OnInit {
     this.store.selectConnection(cnx.id);
   }
 
-  async addConnection() {
-    if (this.form.pendingChanges()) {
+  async newConnection() {
+    if (this.connectionForm.pendingChanges()) {
       const dialogResult = await this.dialogService
         .confirm('There are unsaved changes on new connection.\nDiscard and continue?')
         .toPromise();
       if (!dialogResult) { return; }
     }
-    this.store.addConnection();
+    this.store.newConnection();
   }
 
   testConnection(connection: Connection) {
@@ -65,6 +78,47 @@ export class DataAccessComponent implements OnInit {
         this.displayMessage(error.error.message + '.');
       });
   }
+
+  async querySelected(qry: Query) {
+    if (this.queryForm.pendingChanges()) {
+      const dialogResult = await this.dialogService
+        .confirm('There are unsaved changes on selected query.\nDiscard and continue?')
+        .toPromise();
+      if (!dialogResult) { return; }
+    }
+    this.store.selectQuery(qry.id);
+  }
+
+  async newQuery() {
+    if (this.queryForm.pendingChanges()) {
+      const dialogResult = await this.dialogService
+        .confirm('There are unsaved changes on new query.\nDiscard and continue?')
+        .toPromise();
+      if (!dialogResult) { return; }
+    }
+    this.store.newQuery();
+  }
+
+  // It sucks since change has already occurred, but WTF?
+  // async tabChanged(event: MatTabChangeEvent) {
+  //   console.log(event);
+  //   if (event.index === 1) {
+  //     if (this.connectionForm.pendingChanges()) {
+  //       const dialogResult = await this.dialogService
+  //         .confirm('There are unsaved changes on current connection.\nDiscard and continue?')
+  //         .toPromise();
+  //       if (!dialogResult) { this.tabIndex = 0; }
+  //     }
+  //   }
+  //   if (event.index === 0) {
+  //     if (this.queryForm.pendingChanges()) {
+  //       const dialogResult = await this.dialogService
+  //         .confirm('There are unsaved changes on current query.\nDiscard and continue?')
+  //         .toPromise();
+  //       if (!dialogResult) { this.tabIndex = 1; }
+  //     }
+  //   }
+  // }
 
   private displayMessage(message: string) {
     const snackRef = this.snackBar.open(message, 'Close', {

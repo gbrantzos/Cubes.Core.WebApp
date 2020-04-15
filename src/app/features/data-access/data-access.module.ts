@@ -12,6 +12,8 @@ import { ConnectionListComponent } from './connection-list/connection-list.compo
 import { ConnectionEditorComponent } from './connection-editor/connection-editor.component';
 import { DataAccessStore } from '@features/data-access/services/data-access.store';
 import { DataAccessApiClient } from '@features/data-access/services/data-access.api-client';
+import { QueryListComponent } from './query-list/query-list.component';
+import { QueryEditorComponent } from './query-editor/query-editor.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { DataAccessApiClient } from '@features/data-access/services/data-access.
     ExecuteQueryComponent,
     ExportSettingsComponent,
     ConnectionListComponent,
-    ConnectionEditorComponent
+    ConnectionEditorComponent,
+    QueryListComponent,
+    QueryEditorComponent
   ],
   imports: [
     CommonModule,
