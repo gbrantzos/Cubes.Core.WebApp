@@ -34,7 +34,7 @@ export class AboutComponent implements OnInit {
   }
 
   saveDetails(details: any, source: 'ping-info' | 'error-details') {
-    const dateStr = format(new Date(), 'yyyyMMdd-HHmm');
+    const dateStr = format(new Date(), 'yyyyMMddHHmm');
     const fileName = `${source}.${dateStr}.json`;
     const content = JSON.stringify(details, null, 2);
     const a = document.createElement('a');

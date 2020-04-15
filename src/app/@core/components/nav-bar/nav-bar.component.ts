@@ -1,8 +1,6 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
-import { Router, ActivationEnd } from '@angular/router';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService, UserDetails } from '@core/services/auth.service';
-import { MatSidenav } from '@angular/material/sidenav';
-import { filter, tap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cubes-nav-bar',
@@ -15,24 +13,10 @@ export class NavBarComponent implements OnInit {
 
   public user: UserDetails;
 
-  private onDebug = false; // Enable this for debugging!
-
   constructor(
     private authService: AuthService,
     private router: Router) {
-    // Also see: https://stackoverflow.com/a/52355983
-    this.router.events
-      .pipe(
-        filter(event => event instanceof ActivationEnd && event.snapshot.component !== undefined),
-        tap(event => { if (this.onDebug) { console.log(event); } }),
-        map(event => (<ActivationEnd>event).snapshot.data)
-      )
-      .subscribe(event => {
-        // TODO Check if needed
-        // this.title = event.Title;
-        // const title = this.title ? 'Cubes - ' + (this.title.trim() || 'Home') : 'Cubes';
-        // if (this.title) { this.titleService.setTitle(title); }
-      });
+
   }
 
   ngOnInit(): void {
@@ -45,5 +29,4 @@ export class NavBarComponent implements OnInit {
   }
 
   onToggleSidenav() { this.toggleSidenav.emit(); }
-
 }

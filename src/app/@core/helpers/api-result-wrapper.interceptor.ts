@@ -12,7 +12,9 @@ export class ApiResultWrapperInterceptor implements HttpInterceptor {
           if (resp instanceof HttpResponse) {
             if (isApiResponse(resp.body)) {
               const apiResponse = resp.body as ApiResponse;
-              // TODO We should handle hasErrors!
+              if (apiResponse.hasErrors) {
+                throw new Error(apiResponse.message);
+              }
               resp = resp.clone<any>({ body: apiResponse.response });
             }
             return resp;

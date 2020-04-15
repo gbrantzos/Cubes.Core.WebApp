@@ -8,10 +8,5 @@ import { Component, OnInit } from '@angular/core';
 export class NotFoundComponent implements OnInit {
 
   constructor() { }
-
-  ngOnInit(): void {
-    // TODO
-    // Check if mobile view to make Daffy shorter!
-  }
-
+  ngOnInit(): void { }
 }

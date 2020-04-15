@@ -1,6 +1,6 @@
 <mat-sidenav-container class="wrapper">
 
-  <mat-sidenav #sidenav class="sidenav" [opened]="!isHidden" [mode]="isHidden ? 'over' : 'side'">
+  <mat-sidenav #sidenav class="sidenav" [disableClose]="!isHidden" [opened]="!isHidden" [mode]="isHidden ? 'over' : 'side'">
     <mat-nav-list>
       <mat-list-item *ngFor="let item of navItems" routerLinkActive="active-menu">
         <div class="nav-item" [routerLink]="item.link">

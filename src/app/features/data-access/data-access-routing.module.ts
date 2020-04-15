@@ -10,8 +10,7 @@ const routes: Routes = [
   },
   {
     path: ':view',
-    component: DataAccessComponent,
-    data: { Title: 'Data Access' }
+    component: DataAccessComponent
   }
 ];
 

@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { DataAccessSettings, Connection } from '@features/data-access/services/data-access.store';
+import { DialogService } from '@shared/services/dialog.service';
 
 @Injectable()
 export class DataAccessApiClient {
   private readonly configUrl: String = 'api/configuration';
   private readonly dataUrl: String = 'api/data';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private dialog: DialogService
+  ) { }
 
-  // TODO catchError and display
   loadData(): Observable<DataAccessSettings> {
     return this
       .http
@@ -33,6 +36,14 @@ export class DataAccessApiClient {
               })
           } as DataAccessSettings;
           return toReturn;
+        }),
+        catchError((error, _) => {
+          this.dialog.alert(error.error);
+          const empty: DataAccessSettings = {
+            connections: [],
+            queries: []
+          };
+          return of(empty);
         })
       );
   }
