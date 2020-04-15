@@ -1,0 +1,27 @@
+<div *ngIf="smtpProfiles$ | async as smtpProfiles">
+  <mat-list>
+    <div mat-subheader>SMTP Profiles List</div>
+
+    <mat-list-item *ngFor="let smtp of smtpProfiles" (click)="selectProfile(smtp)"
+      [ngClass]='{selected: selectedProfile === smtp.name}'>
+      <mat-icon mat-list-icon fontSet="fa" fontIcon="fa-paper-plane-o" class="fa-fw"> </mat-icon>
+      <div mat-line>{{smtp.name}}</div>
+      <div mat-line small>{{smtp.comments}}</div>
+    </mat-list-item>
+
+    <div class="no-data" *ngIf="!smtpProfiles.length">
+      <mat-icon mat-list-icon fontSet="fa" fontIcon="fa-paper-plane-o" class="fa-fw fa-3x"> </mat-icon>
+      <p class="message">No SMTP profiles found!</p>
+    </div>
+
+    <div class="new-button">
+      <button mat-button color="primary" (click)="onNew()"> New SMTP profile </button>
+    </div>
+
+    <!--
+    <p>Selected index: {{selectedIndex}}</p>
+    <pre> {{ connections | json }} </pre>
+    -->
+
+  </mat-list>
+</div>

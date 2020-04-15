@@ -7,7 +7,7 @@ import { DialogService } from '@shared/services/dialog.service';
 export enum CoreSchemas {
   SettingsSMTP = 'Cubes.Core.Email.SmtpSettingsProfiles',
   DataConnection = 'Cubes.Core.DataAccess.Connection',
-  DataQueries = 'Cubes.Core.DataAccess.Query'
+  DataQuery = 'Cubes.Core.DataAccess.Query'
 }
 
 @Injectable({

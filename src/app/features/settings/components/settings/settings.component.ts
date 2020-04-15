@@ -13,7 +13,7 @@ import { SmtpSettings, SettingsService } from '@core/services/settings.service';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsSafeComponent implements OnInit {
   @HostBinding('class') class = 'base-component';
   @ViewChild('editor') editor: SmtpEditorComponent;
 

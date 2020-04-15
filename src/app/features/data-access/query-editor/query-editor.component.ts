@@ -40,7 +40,7 @@ export class QueryEditorComponent implements OnInit {
           return qry;
         })
       );
-    this.formSchema$ = this.schemaService.getSchema(CoreSchemas.DataQueries);
+    this.formSchema$ = this.schemaService.getSchema(CoreSchemas.DataQuery);
   }
 
   pendingChanges(): boolean { return this.form ? !this.form.pristine : false; }

@@ -5,11 +5,11 @@ import { SmtpSettings } from '@core/services/settings.service';
 
 
 @Component({
-  selector: 'cubes-smtp-editor',
+  selector: 'cubes-smtp-safe-editor',
   templateUrl: './smtp-editor.component.html',
   styleUrls: ['./smtp-editor.component.scss']
 })
-export class SmtpEditorComponent implements OnInit {
+export class SmtpEditorSafeComponent implements OnInit {
   @Input() schema: Schema;
   @Input() model: any;
 

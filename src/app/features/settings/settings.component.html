@@ -1,0 +1,25 @@
+<div class="header" fxLayout="row" fxLayoutAlign="space-between">
+  <h2 class="title">Settings</h2>
+  <button mat-button color="primary" (click)="reload()">
+    Reload
+  </button>
+</div>
+<mat-divider></mat-divider>
+
+<div class="content">
+  <mat-tab-group #tabs [dynamicHeight]="true">
+    <mat-tab label="SMTP Profiles">
+
+      <div class="inner" fxLayout="row">
+        <cubes-smtp-list fxFlex="50%">
+        </cubes-smtp-list>
+
+        <mat-divider class="divider" [vertical]="true">
+        </mat-divider>
+
+        <cubes-smtp-editor #connectionForm fxFlex="50%">
+        </cubes-smtp-editor>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

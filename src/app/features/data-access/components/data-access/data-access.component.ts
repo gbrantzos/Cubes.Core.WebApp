@@ -43,7 +43,7 @@ export class DataAccessSafeComponent implements OnInit {
   public loadData() {
     this.data$ = forkJoin(
       this.schemaService.getSchema(CoreSchemas.DataConnection),
-      this.schemaService.getSchema(CoreSchemas.DataQueries),
+      this.schemaService.getSchema(CoreSchemas.DataQuery),
       this.settingsService.getDataAccess()
     ).pipe(
       map(([schemaConnection, schemaQuery, model]) => {
