@@ -48,13 +48,24 @@
   font-size: 1.12em;
 }
 
-.refresh {
+.button {
   cursor: pointer;
   color: gray;
   position: absolute;
+  font-size: 1.4em;
+}
+.button:hover {
+  color: #454545;
+}
+
+.refresh {
   top: 6px;
   left: 6px;
-  font-size: 1.4em;
+}
+
+.save {
+  top: 6px;
+  left: 36px;
 }
 
 .error {

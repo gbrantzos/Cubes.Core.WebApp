@@ -14,7 +14,8 @@
       </div>
 
     </div>
-    <span class="refresh" (click)="pingServer()"><i class="fa fa-refresh"></i></span>
+    <span class="button refresh" (click)="pingServer()"><i class="fa fa-refresh"></i></span>
+    <span class="button save" (click)="saveDetails(pingData, 'ping-info')"><i class="fa fa-floppy-o"></i></span>
   </div>
   <br><br>
 
@@ -27,7 +28,8 @@
         <ngx-json-viewer [json]="error" [expanded]="false"></ngx-json-viewer>
       </div>
 
-      <span class="refresh" (click)="pingServer()"><i class="fa fa-refresh"></i></span>
+      <span class="button refresh" (click)="pingServer()"><i class="fa fa-refresh"></i></span>
+      <span class="button save" (click)="saveDetails(error, 'error-details')"><i class="fa fa-floppy-o"></i></span>
     </div>
   </ng-template>
 
