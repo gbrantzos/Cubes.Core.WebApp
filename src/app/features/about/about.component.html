@@ -4,6 +4,8 @@
     <img src="assets/images/cubes.logo.svg" alt="Cubes Server">
     <p class="cubes-server">Cubes Server</p>
     <p>Using Angular v{{ngVersion}}</p>
+    <p class="git">Git version <span class="git-info">{{gitVersion.revision}}</span> branch <span
+        class="git-info">{{gitVersion.branch}}</span>, build at {{gitVersion.buildDate}}</p>
   </div>
 
   <div class="server-info" *ngIf="pingData$ | async as pingData; else loading" fxFlex="grow">

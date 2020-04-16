@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, delay } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { format } from 'date-fns';
+import { GitVersion } from 'src/environments/versions';
 
 @Component({
   selector: 'cubes-about',
@@ -13,6 +14,7 @@ export class AboutComponent implements OnInit {
   public ngVersion = VERSION.full;
   public pingData$: any;
   public error: any;
+  public gitVersion = GitVersion;
 
   constructor(private http: HttpClient) { }
 
