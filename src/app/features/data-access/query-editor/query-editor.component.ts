@@ -5,6 +5,8 @@ import { Query, DataAccessStore } from '@features/data-access/services/data-acce
 import { DialogService } from '@shared/services/dialog.service';
 import { map } from 'rxjs/operators';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
+import { QueryExecutorComponent } from '@features/data-access/query-executor/query-executor.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'cubes-query-editor',
@@ -25,7 +27,8 @@ export class QueryEditorComponent implements OnInit {
   constructor(
     private store: DataAccessStore,
     private dialogService: DialogService,
-    private schemaService: SchemaService
+    private schemaService: SchemaService,
+    private matDialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -66,7 +69,34 @@ export class QueryEditorComponent implements OnInit {
     this.form.markAsPristine();
     this.isNew = false;
   }
-  onExecute() { }
+  onExecute() {
+    const query = this.queryFromForm();
+    this.matDialog
+      .open(QueryExecutorComponent, {
+        panelClass: 'full-width-dialog',
+        width: '100vw',
+        maxWidth: '100vw',
+        height: '100vh',
+        minHeight: '100vh',
+        hasBackdrop: true,
+        disableClose: true,
+        data: {
+          query: this.clone(query),
+          connections: this.store.connectionsValue,
+          selectedConnection: this.store.selectedConnectionValue
+        }
+      })
+      .afterClosed()
+      .subscribe(result => {
+        if (result !== query.queryCommand) {
+          this.dialogService
+            .confirm('Query command has changed. Update command on query <strong>' + query.name + '</strong>?')
+            .subscribe(resultOk => {
+              if (resultOk) { this.form.loadModel({ queryCommand: result }, true); }
+            });
+        }
+      });
+  }
 
   private queryFromForm(): Query {
     const currentValue: any = this.form.currentValue();
@@ -79,4 +109,6 @@ export class QueryEditorComponent implements OnInit {
       isNew: false
     } as Query;
   }
+
+  private clone(object: any): any { return (JSON.parse(JSON.stringify(object))); }
 }

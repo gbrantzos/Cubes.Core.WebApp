@@ -17,6 +17,9 @@ export class DataAccessStore {
   readonly queries = this.queries$.asObservable();
   readonly selectedQuery = this.selectedQuery$.asObservable();
 
+  get connectionsValue() { return this.connections$.value.map(c => c.name); }
+  get selectedConnectionValue() { return this.selectedConnection$.value?.name; }
+
   private readonly loaderDelay = 500;
 
   constructor(

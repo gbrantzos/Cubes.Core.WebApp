@@ -32,10 +32,15 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
     if (!!changes['model']) { this.loadModel(this.model); }
   }
 
-  public loadModel(model: any) {
+  public loadModel(model: any, leaveDirty = false) {
     this.form?.patchValue(model);
-    this.markAsPristine();
-    this._dirty = false;
+    if (!leaveDirty) {
+      this.markAsPristine();
+      this._dirty = false;
+    } else {
+      this.form.markAsTouched();
+      this._pristine = false;
+    }
     this.hidePassword = true;
   }
 

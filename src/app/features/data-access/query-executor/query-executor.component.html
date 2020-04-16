@@ -1,0 +1,56 @@
+<div class="dialog-wrapper" fxLayout="column">
+
+  <!-- Toolbar -->
+  <div class="toolbar" fxLayout="row" fxLayoutAlign="start end">
+    <h3 mat-dialog-title>Query <span class="query-name">{{query.name}}</span></h3>
+    <mat-form-field class="connection-selector">
+      <mat-label>Connection</mat-label>
+      <mat-select [(ngModel)]="selectedConnection" name="selectedConnection" id="selectedConnection">
+        <mat-option *ngFor="let cnx of connections" [value]="cnx">
+          {{cnx}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="filler"></div>
+    <div class="buttons">
+      <button mat-button color="primary" (click)="onExecute()">Execute</button>
+      <button mat-icon-button (click)="onExportResults()" [disabled]="!resultDetails">
+        <i class="fa fa-download"></i>
+      </button>
+      <button mat-icon-button (click)="onExecute()" [disabled]="!resultDetails">
+        <i class="fa fa-sliders"></i>
+      </button>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+
+  <!-- Query -->
+  <mat-form-field>
+    <mat-label>Query Command</mat-label>
+    <textarea class="queryEditor" matInput cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="30"
+      placeholder="Query Command" [(ngModel)]="query.queryCommand" spellcheck="false" name="queryCommand"
+      id="queryCommand"></textarea>
+  </mat-form-field>
+
+  <!-- Results -->
+  <div class="results">
+    <div *ngIf="resultDetails">
+      <cubes-dynamic-table [tableClass]="resultDetails.tableClass" [columns]="resultDetails.columns"
+        [displayedColumns]="resultDetails.displayedColumns" [data]="resultDetails.data">
+      </cubes-dynamic-table>
+    </div>
+
+    <div class="no-rows" *ngIf="!resultDetails || resultDetails.data.length === 0">
+      <img src="assets/images/nodata.png" width="128px">
+      <p><strong>No data to display!</strong></p>
+    </div>
+  </div>
+
+  <!-- Buttons - Actions -->
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button [mat-dialog-close]="false"> Cancel </button>
+    <button mat-button (click)="onAcceptChanges()" color="primary"> Accept Changes </button>
+  </mat-dialog-actions>
+
+</div>

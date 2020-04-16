@@ -1,0 +1,57 @@
+.dialog-wrapper {
+  height: 100%;
+}
+
+.query-name {
+  font-weight: bold;
+}
+
+.editor > * {
+  width: 100%;
+}
+
+.queryEditor {
+  width: 100%;
+
+  font-family: monospace;
+  font-size: 0.9em;
+}
+h3 {
+  padding-right: 24px;
+}
+
+.connection-selector {
+  border-left: rgba(0, 0, 0, 0.21) 1px solid;
+  border-right: rgba(0, 0, 0, 0.21) 1px solid;
+  padding: 0 24px;
+}
+
+.mat-divider {
+  margin-bottom: 16px;
+}
+
+.buttons {
+  margin-bottom: 16px;
+}
+
+.mat-button-base {
+  margin-left: 4px;
+}
+
+.results {
+  overflow-y: auto;
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.no-rows {
+  display: flex;
+  flex-direction: column;
+  margin-top: 128px;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    margin-top: 16px;
+  }
+}

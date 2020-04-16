@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { DataAccessSettings, Connection } from '@features/data-access/services/data-access.store';
+import { DataAccessSettings, Connection, Query } from '@features/data-access/services/data-access.store';
 import { DialogService } from '@shared/services/dialog.service';
 
 @Injectable()
@@ -63,4 +63,26 @@ export class DataAccessApiClient {
       .http
       .post<string>(url, connection);
   }
+
+  executeQuery(query: Query, connectionName: string): Observable<any> {
+    const url = `${this.dataUrl}/queries/${connectionName}`;
+    return this.http.post<any>(url, query);
+  }
+
+  getExportSettings(): Observable<ExportSettings> {
+    return this
+      .http
+      .get<ExportSettings>(`${this.dataUrl}/exportSettings`);
+  }
+
+  setExportSettings(settings: ExportSettings): Observable<string> {
+    return this
+      .http
+      .post<string>(`${this.dataUrl}/exportSettings`, settings);
+  }
+}
+
+export interface ExportSettings {
+  separator: string;
+  includeHeaders: boolean;
 }
