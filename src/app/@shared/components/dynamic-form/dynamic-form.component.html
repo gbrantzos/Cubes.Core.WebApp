@@ -8,15 +8,17 @@
 
       <!-- Simple input -->
       <mat-form-field *ngSwitchCase="'text'">
-        <input matInput type="text" placeholder="{{item.label}}" [formControlName]="item.key" [ngClass]="item.className" />
+        <input matInput type="text" placeholder="{{item.label}}" [formControlName]="item.key"
+          [ngClass]="item.className" />
         <mat-error *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
       </mat-form-field>
       <!-- Simple input -->
 
       <!-- Text area -->
       <mat-form-field *ngSwitchCase="'textarea'">
-        <textarea matInput placeholder="{{item.label}}" [formControlName]="item.key"
-          [rows]="item.textareaRows || 4" [ngClass]="item.className"></textarea>
+        <textarea matInput placeholder="{{item.label}}" [formControlName]="item.key" [rows]="item.textareaRows || 4"
+          [ngClass]="item.className" cdkTextareaAutosize
+          [cdkAutosizeMaxRows]="item.textareaMaxRows || item.textareaRows || 4"></textarea>
         <mat-error *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
       </mat-form-field>
       <!-- Text area -->
@@ -44,12 +46,24 @@
 
       <!-- Datepicker -->
       <mat-form-field *ngSwitchCase="'datepicker'">
-        <input matInput [matDatepicker]="picker" placeholder="{{item.label}}" [formControlName]="item.key" [ngClass]="item.className">
+        <input matInput [matDatepicker]="picker" placeholder="{{item.label}}" [formControlName]="item.key"
+          [ngClass]="item.className">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
       </mat-form-field>
       <!-- Datepicker -->
+
+      <!-- Password -->
+      <mat-form-field *ngSwitchCase="'password'">
+        <mat-error *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
+        <input matInput placeholder={{item.label}} [type]="hidePassword ? 'password' : 'text'"
+          [formControlName]="item.key" [ngClass]="item.className">
+        <mat-icon fontSet="fa" [fontIcon]="hidePassword ? 'fa-eye' : 'fa-eye-slash'" matSuffix
+          (click)="hidePassword = !hidePassword">
+        </mat-icon>
+      </mat-form-field>
+      <!-- Password -->
 
     </ng-container>
     <!-- Switch based on item type-->

@@ -43,9 +43,10 @@ export interface Schema {
 export interface SchemaItem {
   key: string;
   label: string;
-  type: 'text' | 'textarea' | 'select' | 'checkbox' | 'datepicker';
+  type: 'text' | 'textarea' | 'select' | 'checkbox' | 'datepicker' | 'password';
   className?: string;
   textareaRows?: number;
+  textareaMaxRows?: number;
   options?: Options;
   validators?: Validator[];
 }

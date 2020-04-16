@@ -20,6 +20,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
   get pristine() { return this._pristine; }
 
   public form: FormGroup;
+  public hidePassword: true;
 
   constructor() { }
   ngOnInit() {
@@ -35,6 +36,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
     this.form?.patchValue(model);
     this.markAsPristine();
     this._dirty = false;
+    this.hidePassword = true;
   }
 
   public markAsPristine() {
