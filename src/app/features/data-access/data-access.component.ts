@@ -3,7 +3,6 @@ import { DataAccessStore, Connection, Query } from '@features/data-access/servic
 import { ConnectionEditorComponent } from '@features/data-access/connection-editor/connection-editor.component';
 import { DialogService } from '@shared/services/dialog.service';
 import { DataAccessApiClient } from '@features/data-access/services/data-access.api-client';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { QueryEditorComponent } from '@features/data-access/query-editor/query-editor.component';
@@ -21,7 +20,6 @@ export class DataAccessComponent implements OnInit {
   constructor(
     public store: DataAccessStore,
     private dialogService: DialogService,
-    private snackBar: MatSnackBar,
     private apiClient: DataAccessApiClient,
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute
@@ -121,7 +119,7 @@ export class DataAccessComponent implements OnInit {
   // }
 
   private displayMessage(message: string) {
-    const snackRef = this.snackBar.open(message, 'Close', {
+    const snackRef = this.dialogService.snackMessage(message, 'Close', {
       duration: 3000,
       panelClass: 'snack-bar',
       horizontalPosition: 'right'
