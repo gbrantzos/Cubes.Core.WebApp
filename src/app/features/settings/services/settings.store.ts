@@ -24,7 +24,8 @@ export class SettingsStore {
       this.apiClient.loadData(),
       data => {
         this.smtpProfiles$.next(data);
-        this.selectedSmtpProfile$.next(undefined);      }
+        this.selectedSmtpProfile$.next(undefined);
+      }
     );
     call$.subscribe();
   }
@@ -53,7 +54,9 @@ export class SettingsStore {
       timeout: 300,
       sender: 'nobody@localhost',
       useSsl: false,
-      isNew: true
+      isNew: true,
+      userName: '',
+      password: ''
     };
     this.selectedSmtpProfile$.next(smtp);
   }
@@ -74,21 +77,25 @@ export class SettingsStore {
   saveProfile(originalName: string, profile: SmtpProfile) {
     const temp = this.smtpProfiles$
       .value
-      .filter(qry => qry.name !== originalName);
-      const newQryArray = [
-        ...temp,
-        profile
-      ].sort((a, b) => a.name.localeCompare(b.name));
+      .filter(s => s.name !== originalName);
+    const newQryArray = [
+      ...temp,
+      profile
+    ].sort((a, b) => a.name.localeCompare(b.name));
 
-      this.smtpProfiles$.next(newQryArray);
-      this.saveData();
+    this.smtpProfiles$.next(newQryArray);
+    this.saveData();
+
+    const prf = {...profile};
+    prf.isNew = false;
+    this.selectedSmtpProfile$.next(prf);
   }
 
   private uniqueName() {
     let name = '';
     let id = this.smtpProfiles$.value.length;
     do {
-      id ++;
+      id++;
       name = `Profile.#${id}`;
     } while (this.smtpProfiles$.value.findIndex(p => p.name === name) !== -1);
 

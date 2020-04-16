@@ -94,14 +94,18 @@ export class DataAccessStore {
 
     const temp = this.connections$
       .value
-      .filter(cnx => cnx.name !== originalName);
+      .filter(cn => cn.name !== originalName);
     const newCnxArray = [
       ...temp,
       connection
     ].sort((a, b) => a.name.localeCompare(b.name));
-
+    console.log(newCnxArray);
     this.connections$.next(newCnxArray);
     this.saveData();
+
+    const cnx = this.clone(connection) as Connection;
+    cnx.isNew = false;
+    this.selectedConnection$.next(cnx);
   }
 
   deleteConnection(name: string) {
@@ -120,14 +124,18 @@ export class DataAccessStore {
 
     const temp = this.queries$
       .value
-      .filter(qry => qry.name !== originalName);
-      const newQryArray = [
-        ...temp,
-        query
-      ].sort((a, b) => a.name.localeCompare(b.name));
+      .filter(qr => qr.name !== originalName);
+    const newQryArray = [
+      ...temp,
+      query
+    ].sort((a, b) => a.name.localeCompare(b.name));
 
-      this.queries$.next(newQryArray);
-      this.saveData();
+    this.queries$.next(newQryArray);
+    this.saveData();
+
+    const qry = this.clone(query) as Query;
+    qry.isNew = false;
+    this.selectedQuery$.next(qry);
   }
 
   deleteQuery(name: string) {
