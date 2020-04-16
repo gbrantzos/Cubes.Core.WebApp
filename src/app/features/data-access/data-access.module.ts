@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DataAccessRoutingModule } from './data-access-routing.module';
-import { ExecuteQueryComponent } from './components/execute-query/execute-query.component';
-import { ExportSettingsComponent } from './components/export-settings/export-settings.component';
 import { SharedModule } from '@shared/shared.module';
 import { DataAccessComponent } from '@features/data-access/data-access.component';
 import { ConnectionListComponent } from './connection-list/connection-list.component';
@@ -17,8 +15,6 @@ import { QueryExecutorComponent } from './query-executor/query-executor.componen
 @NgModule({
   declarations: [
     DataAccessComponent,
-    ExecuteQueryComponent,
-    ExportSettingsComponent,
     ConnectionListComponent,
     ConnectionEditorComponent,
     QueryListComponent,
@@ -31,8 +27,7 @@ import { QueryExecutorComponent } from './query-executor/query-executor.componen
     SharedModule
   ],
   entryComponents: [
-    QueryExecutorComponent,
-    ExportSettingsComponent
+    QueryExecutorComponent
   ],
   providers: [
     DataAccessStore,
