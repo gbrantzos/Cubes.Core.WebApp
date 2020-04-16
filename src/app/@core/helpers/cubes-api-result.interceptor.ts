@@ -4,14 +4,14 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 @Injectable()
-export class ApiResultWrapperInterceptor implements HttpInterceptor {
+export class CubesApiResultInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req)
       .pipe(
         map(resp => {
           if (resp instanceof HttpResponse) {
             if (isApiResponse(resp.body)) {
-              const apiResponse = resp.body as ApiResponse;
+              const apiResponse = resp.body as CubesApiResponse;
               if (apiResponse.hasErrors) {
                 throw new Error(apiResponse.message);
               }
@@ -25,7 +25,7 @@ export class ApiResultWrapperInterceptor implements HttpInterceptor {
 }
 
 
-export interface ApiResponse {
+export interface CubesApiResponse {
   version: string;
   createdAt: Date;
   statusCode: number;
@@ -34,7 +34,7 @@ export interface ApiResponse {
   response?: any;
 }
 
-export function isApiResponse(r: any): r is ApiResponse {
+export function isApiResponse(r: any): r is CubesApiResponse {
   return r
     && typeof r === 'object'
     && ('version' in r)

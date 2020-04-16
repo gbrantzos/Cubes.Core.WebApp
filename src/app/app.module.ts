@@ -16,7 +16,7 @@ import { NotFoundComponent } from '@core/components/not-found/not-found.componen
 
 import { ConfigurationService } from '@core/services/configuration.service';
 
-import { ApiResultWrapperInterceptor } from '@core/helpers/api-result-wrapper.interceptor';
+import { CubesApiResultInterceptor } from '@core/helpers/cubes-api-result.interceptor';
 
 
 @NgModule({
@@ -47,7 +47,7 @@ import { ApiResultWrapperInterceptor } from '@core/helpers/api-result-wrapper.in
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: ApiResultWrapperInterceptor,
+      useClass: CubesApiResultInterceptor,
       multi: true
     },
   ],
