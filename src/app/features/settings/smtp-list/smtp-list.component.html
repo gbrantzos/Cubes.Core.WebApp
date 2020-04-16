@@ -2,7 +2,7 @@
   <mat-list>
     <div mat-subheader>SMTP Profiles List</div>
 
-    <mat-list-item *ngFor="let smtp of smtpProfiles" (click)="selectProfile(smtp)"
+    <mat-list-item *ngFor="let smtp of smtpProfiles" (click)="onSelect(smtp)"
       [ngClass]='{selected: selectedProfile === smtp.name}'>
       <mat-icon mat-list-icon fontSet="fa" fontIcon="fa-paper-plane-o" class="fa-fw"> </mat-icon>
       <div mat-line>{{smtp.name}}</div>

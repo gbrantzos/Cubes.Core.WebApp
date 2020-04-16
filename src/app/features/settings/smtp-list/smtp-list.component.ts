@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { SmtpProfile, SettingsStore } from '@features/settings/services/settings.store';
 import { Observable, Subscription } from 'rxjs';
 
@@ -8,6 +8,8 @@ import { Observable, Subscription } from 'rxjs';
   styleUrls: ['./smtp-list.component.scss']
 })
 export class SmtpListComponent implements OnInit, OnDestroy {
+  @Output() newProfile = new EventEmitter<void>();
+  @Output() profileSelected = new EventEmitter<SmtpProfile>();
   public smtpProfiles$: Observable<SmtpProfile[]>;
   private selectedProfile$: Observable<SmtpProfile>;
   private selectedProfileSub: Subscription;
@@ -32,6 +34,6 @@ export class SmtpListComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectProfile(smtp: SmtpProfile) { this.store.selectProfile(smtp.name); }
-  onNew() {}
+  onSelect(smtp: SmtpProfile) { this.profileSelected.emit(smtp); }
+  onNew() { this.newProfile.emit(); }
 }

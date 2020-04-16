@@ -11,13 +11,13 @@
     <mat-tab label="SMTP Profiles">
 
       <div class="inner" fxLayout="row">
-        <cubes-smtp-list fxFlex="50%">
+        <cubes-smtp-list fxFlex="50%" (newProfile)="newProfile()" (profileSelected)="profileSelected($event)">
         </cubes-smtp-list>
 
         <mat-divider class="divider" [vertical]="true">
         </mat-divider>
 
-        <cubes-smtp-editor #connectionForm fxFlex="50%">
+        <cubes-smtp-editor #editor fxFlex="50%">
         </cubes-smtp-editor>
       </div>
     </mat-tab>
