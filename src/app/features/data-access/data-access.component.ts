@@ -6,6 +6,8 @@ import { DataAccessApiClient } from '@features/data-access/services/data-access.
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { QueryEditorComponent } from '@features/data-access/query-editor/query-editor.component';
+import { Location } from '@angular/common';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'cubes-data-access',
@@ -22,7 +24,8 @@ export class DataAccessComponent implements OnInit {
     private dialogService: DialogService,
     private apiClient: DataAccessApiClient,
     private spinner: NgxSpinnerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -97,6 +100,18 @@ export class DataAccessComponent implements OnInit {
     this.store.newQuery();
   }
 
+  tabChanged(event: MatTabChangeEvent) {
+    switch (event.index) {
+      case 0:
+        this.location.replaceState('data/connections');
+        break;
+      case 1:
+        this.location.replaceState('data/queries');
+        break;
+      default:
+        break;
+    }
+  }
   // It sucks since change has already occurred, but WTF?
   // async tabChanged(event: MatTabChangeEvent) {
   //   console.log(event);

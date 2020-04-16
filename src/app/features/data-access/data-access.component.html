@@ -7,7 +7,7 @@
 <mat-divider></mat-divider>
 
 <div class="content">
-  <mat-tab-group #tabs [dynamicHeight]="true" [selectedIndex]="tabIndex">
+  <mat-tab-group #tabs [dynamicHeight]="true" [selectedIndex]="tabIndex" (selectedTabChange)="tabChanged($event)">
 
     <!-- Connections -->
     <mat-tab label="Connections">
