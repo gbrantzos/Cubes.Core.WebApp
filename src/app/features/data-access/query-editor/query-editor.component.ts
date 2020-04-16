@@ -88,7 +88,7 @@ export class QueryEditorComponent implements OnInit {
       })
       .afterClosed()
       .subscribe(result => {
-        if (result !== query.queryCommand) {
+        if (typeof result === 'string' && result !== query.queryCommand) {
           this.dialogService
             .confirm('Query command has changed. Update command on query <strong>' + query.name + '</strong>?')
             .subscribe(resultOk => {

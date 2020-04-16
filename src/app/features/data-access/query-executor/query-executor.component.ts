@@ -4,9 +4,9 @@ import { Query } from '@features/data-access/services/data-access.store';
 import { DataAccessApiClient, ExportSettings } from '@features/data-access/services/data-access.api-client';
 import { ColumnDefinition } from '@shared/components/dynamic-table/dynamic-table.component';
 import { DialogService } from '@shared/services/dialog.service';
-import { Subscription } from 'rxjs';
 import { format } from 'date-fns';
 import { take } from 'rxjs/operators';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'cubes-query-executor',
@@ -18,7 +18,7 @@ export class QueryExecutorComponent implements OnInit {
   public connections: string[];
   public selectedConnection: string;
   public resultDetails: TableDetails;
-  public exportSettings: ExportSettings;
+  public exportSettings: ExportSettings = { separator: ';', includeHeaders: true };
 
   @HostListener('window:keydown', ['$event'])
   keyEvent(event: KeyboardEvent) {
@@ -37,12 +37,16 @@ export class QueryExecutorComponent implements OnInit {
     this.query = data.query;
     this.connections = data.connections;
     this.selectedConnection = data.selectedConnection;
+
+    if (!this.selectedConnection && this.connections?.length) {
+      this.selectedConnection = this.connections[0];
+    }
   }
   ngOnInit(): void {
     this.client
       .getExportSettings()
       .pipe(take(1))
-      .subscribe(s => this.exportSettings = s);
+      .subscribe(s => this.exportSettings = s || { separator: ';', includeHeaders: true });
   }
 
   onAcceptChanges(): void { this.dialogRef.close(this.query.queryCommand); }
@@ -85,6 +89,22 @@ export class QueryExecutorComponent implements OnInit {
     document.body.appendChild(link); // Required for FF
 
     link.click();
+    document.body.removeChild(link);
+  }
+  onSaveExportSettings(menu: MatMenuTrigger) {
+    this.client
+      .setExportSettings(this.exportSettings)
+      .subscribe(response => {
+        menu.closeMenu();
+        this.dialogService.snackMessage(response, 'Close', {
+          duration: 5000,
+          panelClass: 'snack-bar',
+          horizontalPosition: 'right'
+        });
+      }, error => {
+        console.error(error);
+        this.dialogService.alert(error.error.message);
+      });
   }
 
   private prepareResultDetails(result: any): void {

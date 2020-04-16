@@ -18,7 +18,7 @@
       <button mat-icon-button (click)="onExportResults()" [disabled]="!resultDetails">
         <i class="fa fa-download"></i>
       </button>
-      <button mat-icon-button (click)="onExecute()" [disabled]="!resultDetails">
+      <button mat-icon-button [matMenuTriggerFor]="menu" #exportSettingsMenu="matMenuTrigger">
         <i class="fa fa-sliders"></i>
       </button>
     </div>
@@ -48,9 +48,35 @@
   </div>
 
   <!-- Buttons - Actions -->
+  <mat-divider style="margin-top: 8px; margin-bottom: 0;"></mat-divider>
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
     <button mat-button [mat-dialog-close]="false"> Cancel </button>
     <button mat-button (click)="onAcceptChanges()" color="primary"> Accept Changes </button>
   </mat-dialog-actions>
 
 </div>
+
+
+<!-- Export settings -->
+<mat-menu #menu="matMenu" class="menu-form-wrapper" [hasBackdrop]="false">
+  <div (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+    <form class="menu-form">
+      <h3>Export Settings</h3>
+
+      <mat-form-field>
+        <input matInput placeholder="Separator" [(ngModel)]="exportSettings.separator" name="separator" id="separator"
+          required>
+      </mat-form-field>
+      <mat-checkbox [(ngModel)]="exportSettings.includeHeaders" name="includeHeaders">Include headers</mat-checkbox>
+
+      <div style="margin-top: 12px;">
+        <mat-divider></mat-divider>
+        <button mat-button style="float: right;" color="primary" (click)="onSaveExportSettings(exportSettingsMenu)">
+          Apply
+        </button>
+        <button mat-button style="float: right;" (click)="exportSettingsMenu.closeMenu()"> Cancel </button>&nbsp;
+      </div>
+
+    </form>
+  </div>
+</mat-menu>
