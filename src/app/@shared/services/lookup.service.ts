@@ -12,7 +12,7 @@ export class LookupService {
   constructor(
     private http: HttpClient,
     config: ConfigurationService
-  ) { this.baseUrl = `${config.uiUrl}/lookup`; }
+  ) { this.baseUrl = `${config.uiUrl}/lookup/`; }
 
   public getLookup(lookupName: string): Observable<Lookup> {
     return this.http

@@ -2,8 +2,12 @@ import { BehaviorSubject } from 'rxjs';
 import { DataAccessApiClient } from '@features/data-access/services/data-access.api-client';
 import { Injectable } from '@angular/core';
 import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
+import { DialogService } from '@shared/services/dialog.service';
 
 
+/**
+ * Class to support all UI related data, for Data Access components
+ */
 @Injectable()
 export class DataAccessStore {
   private readonly connections$ = new BehaviorSubject<Connection[]>([]);
@@ -11,9 +15,13 @@ export class DataAccessStore {
   private readonly queries$ = new BehaviorSubject<Query[]>([]);
   private readonly selectedQuery$ = new BehaviorSubject<Query>(undefined);
 
+  /** Connections loaded from backend. */
   readonly connections = this.connections$.asObservable();
+  /** Connection selected on UI. */
   readonly selectedConnection = this.selectedConnection$.asObservable();
+  /** Queries loaded from backend. */
   readonly queries = this.queries$.asObservable();
+  /** Query currently selected on UI. */
   readonly selectedQuery = this.selectedQuery$.asObservable();
 
   get connectionsValue() { return this.connections$.value.map(c => c.name); }
@@ -21,7 +29,8 @@ export class DataAccessStore {
 
   constructor(
     private apiClient: DataAccessApiClient,
-    private loadingWrapper: LoadingWrapperService
+    private loadingWrapper: LoadingWrapperService,
+    private dialog: DialogService
   ) { }
 
   loadData = () => {
@@ -42,7 +51,7 @@ export class DataAccessStore {
         queries: this.queries$.value
       })
     );
-    call$.subscribe();
+    call$.subscribe(_ => this.dialog.snackSuccess('Connections and queries saved!'));
   }
 
   selectConnection(id: number) {

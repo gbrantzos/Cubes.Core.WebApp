@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { format } from 'date-fns';
 import { GitVersion } from 'src/environments/versions';
 import { ConfigurationService } from '@core/services/configuration.service';
+import { DialogService } from '@shared/services/dialog.service';
 
 @Component({
   selector: 'cubes-about',

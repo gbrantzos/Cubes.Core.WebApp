@@ -39,7 +39,7 @@ export class SettingsApiClient {
           .sort((a, b) => a.name.localeCompare(b.name))
         ),
         catchError((error, _) => {
-          this.dialog.alert(error.error);
+          this.dialog.snackError(`Failed to load settings!\n\n${error.error}`);
           return of([]);
         })
       );
@@ -65,7 +65,14 @@ export class SettingsApiClient {
       .http
       .post<string>(`${this.configUrl}/Cubes.Core.Email.SmtpSettingsProfiles`, settings, {
         headers: new HttpHeaders({ 'Content-Type': 'text/plain' })
-      });
+      })
+      .pipe(
+        catchError((error, _) => {
+          this.dialog.snackError(`Failed to save settings!\n\n${error.error}`);
+          return of('');
+        })
+      );
+
     // This specific endpoint of cubes accepts plain text (string)!
   }
 }

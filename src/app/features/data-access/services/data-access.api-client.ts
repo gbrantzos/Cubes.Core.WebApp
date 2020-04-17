@@ -43,7 +43,7 @@ export class DataAccessApiClient {
           return toReturn;
         }),
         catchError((error, _) => {
-          this.dialog.alert(error.error);
+          this.dialog.snackError(`Failed to load data access settings!\n\n${error.error}`);
           const empty: DataAccessSettings = {
             connections: [],
             queries: []
@@ -59,7 +59,13 @@ export class DataAccessApiClient {
       .http
       .post<string>(`${this.configUrl}/Cubes.Core.DataAccess.DataAccessSettings`, data, {
         headers: new HttpHeaders({ 'Content-Type': 'text/plain' })
-      });
+      })
+      .pipe(
+        catchError((error, _) => {
+          this.dialog.snackError(`Failed to load data access settings!\n\n${error.error}`);
+          return of('');
+        })
+      );
   }
 
   testConnection(connection: Connection): Observable<string> {

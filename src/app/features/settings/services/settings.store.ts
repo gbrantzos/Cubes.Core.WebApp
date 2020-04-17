@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { SettingsApiClient } from '@features/settings/services/settings.api-client';
 import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
+import { DialogService } from '@shared/services/dialog.service';
 
 @Injectable()
 export class SettingsStore {
@@ -13,7 +14,8 @@ export class SettingsStore {
 
   constructor(
     private apiClient: SettingsApiClient,
-    private loadingWrapper: LoadingWrapperService
+    private loadingWrapper: LoadingWrapperService,
+    private dialog: DialogService
   ) { }
 
   loadData = () => {
@@ -28,7 +30,7 @@ export class SettingsStore {
     const call$ = this.loadingWrapper.wrap(
       this.apiClient.saveData(this.smtpProfiles$.value)
     );
-    call$.subscribe();
+    call$.subscribe(_ => this.dialog.snackSuccess('Settings saved!'));
   }
 
   selectProfile(name: string) {

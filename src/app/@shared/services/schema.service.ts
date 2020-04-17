@@ -42,13 +42,12 @@ export class SchemaService {
   private actualCall(name: string): Observable<Schema> {
     return this
       .httpClient
-      .get<Schema>(`${this.baseUrl}/${name}`) // TODO Configurable ?
+      .get<Schema>(`${this.baseUrl}/${name}`)
       .pipe(
         shareReplay(1),
         catchError((error, _) => {
           console.error(`Failed to retrieve schema "${name}"`, error);
-          this.dialogService.snackMessage(`Failed to retrieve schema "${name}"`, 'Close');
-          // TODO Error should be captured by notification service!
+          // this.dialogService.snackWarning(`Failed to retrieve schema!\n\n"${name}"\n${error.error}`, 'Close');
           return of(undefined);
         })
       );

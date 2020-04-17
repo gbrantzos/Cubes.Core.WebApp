@@ -10,7 +10,6 @@ import { MatSnackBar, MatSnackBarConfig, SimpleSnackBar, MatSnackBarRef } from '
   providedIn: 'root'
 })
 export class DialogService {
-
   constructor(
     private dialog: MatDialog,
     private snackBar: MatSnackBar
@@ -44,5 +43,37 @@ export class DialogService {
 
   public snackMessage(message: string, action?: string, config?: MatSnackBarConfig): MatSnackBarRef<SimpleSnackBar> {
     return this.snackBar.open(message, action, config);
+  }
+
+  public snackInfo(message: string, action: string = 'Close', config?: MatSnackBarConfig): MatSnackBarRef<SimpleSnackBar> {
+    const cnf = {
+      ...config,
+      panelClass: ['snack-panel', 'snack-panel-info']
+    };
+    return this.snackBar.open(message, action, cnf);
+  }
+
+  public snackSuccess(message: string, action: string = 'Close', config?: MatSnackBarConfig): MatSnackBarRef<SimpleSnackBar> {
+    const cnf = {
+      ...config,
+      panelClass: ['snack-panel', 'snack-panel-success']
+    };
+    return this.snackBar.open(message, action, cnf);
+  }
+
+  public snackWarning(message: string, action: string = 'Close', config?: MatSnackBarConfig): MatSnackBarRef<SimpleSnackBar> {
+    const cnf = {
+      ...config,
+      panelClass: ['snack-panel', 'snack-panel-warning']
+    };
+    return this.snackBar.open(message, action, cnf);
+  }
+
+  public snackError(message: string, action: string = 'Close', config?: MatSnackBarConfig): MatSnackBarRef<SimpleSnackBar> {
+    const cnf = {
+      ...config,
+      panelClass: ['snack-panel', 'snack-panel-error']
+    };
+    return this.snackBar.open(message, action, cnf);
   }
 }
