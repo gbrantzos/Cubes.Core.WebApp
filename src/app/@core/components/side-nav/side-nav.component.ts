@@ -14,7 +14,7 @@ export class SideNavComponent implements OnInit {
   public navItems = [
     {
       label: 'Scheduler',
-      icon: 'fa-calendar',
+      icon: 'fa-calendar-alt',
       link: '/scheduler'
     }, {
       label: 'Data Access',

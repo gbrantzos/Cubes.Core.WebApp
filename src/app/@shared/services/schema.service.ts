@@ -10,23 +10,41 @@ export enum CoreSchemas {
   DataQuery = 'Cubes.Core.DataAccess.Query'
 }
 
+interface Cache {
+  [name: string]: Observable<Schema>;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class SchemaService {
+  private readonly cache: Cache = {};
 
   constructor(
     private httpClient: HttpClient,
     private dialogService: DialogService
   ) { }
+
   public getSchema(name: string): Observable<Schema> {
+    const cached = this.cache[name];
+    if (cached) {
+      return cached;
+    } else {
+      const actual = this.actualCall(name);
+      this.cache[name] = actual;
+      return actual;
+    }
+  }
+
+  private actualCall(name: string): Observable<Schema> {
     return this
       .httpClient
-      .get<Schema>(`/ui/schema/${name}`)
+      .get<Schema>(`ui/schema/${name}`) // TODO Configurable ?
       .pipe(
+        shareReplay(1),
         catchError((error, _) => {
           console.error(`Failed to retrieve schema "${name}"`, error);
-          this.dialogService.alert(`Failed to retrieve schema "${name}":\n\n${error.message}`, 'Schema Service');
+          this.dialogService.snackMessage(`Failed to retrieve schema "${name}"`, 'Close');
           // TODO Error should be captured by notification service!
           return of(undefined);
         })

@@ -112,33 +112,9 @@ export class DataAccessComponent implements OnInit {
         break;
     }
   }
-  // It sucks since change has already occurred, but WTF?
-  // async tabChanged(event: MatTabChangeEvent) {
-  //   console.log(event);
-  //   if (event.index === 1) {
-  //     if (this.connectionForm.pendingChanges()) {
-  //       const dialogResult = await this.dialogService
-  //         .confirm('There are unsaved changes on current connection.\nDiscard and continue?')
-  //         .toPromise();
-  //       if (!dialogResult) { this.tabIndex = 0; }
-  //     }
-  //   }
-  //   if (event.index === 0) {
-  //     if (this.queryForm.pendingChanges()) {
-  //       const dialogResult = await this.dialogService
-  //         .confirm('There are unsaved changes on current query.\nDiscard and continue?')
-  //         .toPromise();
-  //       if (!dialogResult) { this.tabIndex = 1; }
-  //     }
-  //   }
-  // }
 
   private displayMessage(message: string) {
-    const snackRef = this.dialogService.snackMessage(message, 'Close', {
-      duration: 3000,
-      panelClass: 'snack-bar',
-      horizontalPosition: 'right'
-    });
+    const snackRef = this.dialogService.snackMessage(message, 'Close');
     snackRef.onAction().subscribe(() => snackRef.dismiss());
   }
 }

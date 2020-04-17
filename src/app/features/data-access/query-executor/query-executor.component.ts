@@ -96,11 +96,7 @@ export class QueryExecutorComponent implements OnInit {
       .setExportSettings(this.exportSettings)
       .subscribe(response => {
         menu.closeMenu();
-        this.dialogService.snackMessage(response, 'Close', {
-          duration: 5000,
-          panelClass: 'snack-bar',
-          horizontalPosition: 'right'
-        });
+        this.dialogService.snackMessage(response, 'Close');
       }, error => {
         console.error(error);
         this.dialogService.alert(error.error.message);

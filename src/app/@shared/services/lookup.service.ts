@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LookupService {
-  private apiUrl = '/ui/lookup/';
+  private apiUrl = '/ui/lookup/'; // TODO Configurable ??
+
   constructor(private http: HttpClient) { }
 
   public getLookup(lookupName: string): Observable<Lookup> {

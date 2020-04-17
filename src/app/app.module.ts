@@ -17,6 +17,7 @@ import { NotFoundComponent } from '@core/components/not-found/not-found.componen
 import { ConfigurationService } from '@core/services/configuration.service';
 
 import { CubesApiResultInterceptor } from '@core/helpers/cubes-api-result.interceptor';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -50,6 +51,14 @@ import { CubesApiResultInterceptor } from '@core/helpers/cubes-api-result.interc
       useClass: CubesApiResultInterceptor,
       multi: true
     },
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue:  {
+        duration: 5000,
+        panelClass: 'snack-bar',
+        horizontalPosition: 'right'
+      }
+    }
   ],
   bootstrap: [AppComponent]
 })
