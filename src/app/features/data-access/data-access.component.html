@@ -1,10 +1,4 @@
-<div class="header" fxLayout="row" fxLayoutAlign="space-between">
-  <h2 class="title">Data Access</h2>
-  <button mat-button color="primary" (click)="reload()">
-    Reload
-  </button>
-</div>
-<mat-divider></mat-divider>
+<cubes-page-header (reload)="reload()"> Data Access </cubes-page-header>
 
 <div class="content">
   <mat-tab-group #tabs [dynamicHeight]="true" [selectedIndex]="tabIndex" (selectedTabChange)="tabChanged($event)">

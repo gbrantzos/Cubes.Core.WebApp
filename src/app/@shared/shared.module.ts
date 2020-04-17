@@ -12,6 +12,7 @@ import { MaterialModule } from '@shared/material.module';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ConfirmDialogComponent,
     WaitingDataComponent,
     DynamicFormComponent,
-    DynamicTableComponent
+    DynamicTableComponent,
+    PageHeaderComponent
   ],
   imports: [
     CommonModule,
@@ -36,12 +38,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
+    NgxJsonViewerModule,
+    NgxSpinnerModule,
 
     WaitingDataComponent,
     DynamicFormComponent,
     DynamicTableComponent,
-    NgxJsonViewerModule,
-    NgxSpinnerModule
+    PageHeaderComponent
   ],
   entryComponents: [
     AlertDialogComponent,
