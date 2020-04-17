@@ -1,8 +1,7 @@
-import { BehaviorSubject, of, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { DataAccessApiClient } from '@features/data-access/services/data-access.api-client';
 import { Injectable } from '@angular/core';
-import { tap, flatMap, finalize, map } from 'rxjs/operators';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
 
 
 @Injectable()
@@ -20,29 +19,24 @@ export class DataAccessStore {
   get connectionsValue() { return this.connections$.value.map(c => c.name); }
   get selectedConnectionValue() { return this.selectedConnection$.value?.name; }
 
-  private readonly loaderDelay = 500;
-
   constructor(
     private apiClient: DataAccessApiClient,
-    private spinner: NgxSpinnerService
+    private loadingWrapper: LoadingWrapperService
   ) { }
 
   loadData = () => {
-    const call$ = this.apiCallWrapper(
-      this.apiClient.loadData(),
-      data => {
-        this.connections$.next(data.connections);
-        this.selectedConnection$.next(undefined);
+    const call$ = this.loadingWrapper.wrap(this.apiClient.loadData());
+    call$.subscribe(data => {
+      this.connections$.next(data.connections);
+      this.selectedConnection$.next(undefined);
 
-        this.queries$.next(data.queries);
-        this.selectedQuery$.next(undefined);
-      }
-    );
-    call$.subscribe();
+      this.queries$.next(data.queries);
+      this.selectedQuery$.next(undefined);
+    });
   }
 
   saveData = () => {
-    const call$ = this.apiCallWrapper(
+    const call$ = this.loadingWrapper.wrap(
       this.apiClient.saveData({
         connections: this.connections$.value,
         queries: this.queries$.value
@@ -162,47 +156,6 @@ export class DataAccessStore {
   }
 
   private clone = (obj: any): any => JSON.parse(JSON.stringify(obj));
-
-  private apiCallWrapper<T>(
-    apiCall: Observable<T>,
-    processor: (response: any) => void = null
-  ): Observable<T> {
-    let callFinished: boolean;
-    let loaderVisible: boolean;
-
-    const call$ = of<T>(null)
-      .pipe(
-        tap(_ => {
-          callFinished = false;
-          loaderVisible = false;
-          // console.log('Starting API call');
-
-          setTimeout(() => {
-            if (!callFinished) {
-              // console.log('Showing loader');
-              this.spinner.show();
-              loaderVisible = true;
-            }
-          }, this.loaderDelay);
-        }),
-        flatMap(() => apiCall),
-        map(data => {
-          if (processor) { processor(data); }
-          return data;
-        }),
-        finalize(() => {
-          callFinished = true;
-          if (loaderVisible) {
-            // console.log('Hide loader');
-            this.spinner.hide();
-          }
-
-          // console.log('API call finished');
-        })
-      );
-
-    return call$;
-  }
 }
 
 

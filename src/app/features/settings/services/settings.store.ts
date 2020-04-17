@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { SettingsApiClient } from '@features/settings/services/settings.api-client';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { flatMap, map, finalize, tap } from 'rxjs/operators';
+import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
 
 @Injectable()
 export class SettingsStore {
@@ -12,26 +11,21 @@ export class SettingsStore {
   readonly smtpProfiles = this.smtpProfiles$.asObservable();
   readonly selectedSmtpProfile = this.selectedSmtpProfile$.asObservable();
 
-  private readonly loaderDelay = 500;
-
   constructor(
     private apiClient: SettingsApiClient,
-    private spinner: NgxSpinnerService
+    private loadingWrapper: LoadingWrapperService
   ) { }
 
   loadData = () => {
-    const call$ = this.apiCallWrapper(
-      this.apiClient.loadData(),
-      data => {
-        this.smtpProfiles$.next(data);
-        this.selectedSmtpProfile$.next(undefined);
-      }
-    );
-    call$.subscribe();
+    const call$ = this.loadingWrapper.wrap(this.apiClient.loadData())
+    call$.subscribe(data => {
+      this.smtpProfiles$.next(data);
+      this.selectedSmtpProfile$.next(undefined);
+    });
   }
 
   saveData = () => {
-    const call$ = this.apiCallWrapper(
+    const call$ = this.loadingWrapper.wrap(
       this.apiClient.saveData(this.smtpProfiles$.value)
     );
     call$.subscribe();
@@ -86,7 +80,7 @@ export class SettingsStore {
     this.smtpProfiles$.next(newQryArray);
     this.saveData();
 
-    const prf = {...profile};
+    const prf = { ...profile };
     prf.isNew = false;
     this.selectedSmtpProfile$.next(prf);
   }
@@ -100,47 +94,6 @@ export class SettingsStore {
     } while (this.smtpProfiles$.value.findIndex(p => p.name === name) !== -1);
 
     return name;
-  }
-
-  private apiCallWrapper<T>(
-    apiCall: Observable<T>,
-    processor: (response: any) => void = null
-  ): Observable<T> {
-    let callFinished: boolean;
-    let loaderVisible: boolean;
-
-    const call$ = of<T>(null)
-      .pipe(
-        tap(_ => {
-          callFinished = false;
-          loaderVisible = false;
-          // console.log('Starting API call');
-
-          setTimeout(() => {
-            if (!callFinished) {
-              // console.log('Showing loader');
-              this.spinner.show();
-              loaderVisible = true;
-            }
-          }, this.loaderDelay);
-        }),
-        flatMap(() => apiCall),
-        map(data => {
-          if (processor) { processor(data); }
-          return data;
-        }),
-        finalize(() => {
-          callFinished = true;
-          if (loaderVisible) {
-            // console.log('Hide loader');
-            this.spinner.hide();
-          }
-
-          // console.log('API call finished');
-        })
-      );
-
-    return call$;
   }
 }
 
