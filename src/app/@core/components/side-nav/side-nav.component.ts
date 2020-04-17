@@ -22,7 +22,7 @@ export class SideNavComponent implements OnInit {
       link: '/data'
     }, {
       label: 'Settings',
-      icon: 'fa-cogs',
+      icon: 'fa-sliders-h',
       link: '/settings'
     }, {
       label: 'About',

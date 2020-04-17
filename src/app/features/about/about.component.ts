@@ -43,6 +43,9 @@ export class AboutComponent implements OnInit {
 
     a.setAttribute('href', 'data:text/plain;charset=utf-u,' + encodeURIComponent(content));
     a.setAttribute('download', fileName);
+    document.body.appendChild(a); // Required for FF
+
     a.click();
+    document.body.removeChild(a);
   }
 }

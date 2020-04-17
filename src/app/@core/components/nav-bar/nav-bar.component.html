@@ -8,23 +8,23 @@
 
   <!-- TODO Wire to notification service -->
   <div class="notifications" hidden>
-    <mat-icon fontSet="fa" fontIcon="fa-bell-o" matBadge="3" matBadgeColor="warn" [matBadgeHidden]="'false'"></mat-icon>
+    <mat-icon fontSet="far" fontIcon="fa-flag" matBadge="3" matBadgeColor="warn" [matBadgeHidden]="'false'"></mat-icon>
   </div>
 
   <span class="small">{{user.fullName}}</span>
   <img [src]="user.avatar" class="avatar" />
 
   <button mat-icon-button [matMenuTriggerFor]="userMenu">
-    <mat-icon fontSet="fa" fontIcon="fa-caret-down"></mat-icon>
+    <mat-icon fontSet="fas" fontIcon="fa-caret-down"></mat-icon>
   </button>
 
   <button mat-icon-button [ngClass]="{hidden: !showMenuIcon}" (click)="onToggleSidenav()">
-    <mat-icon fontSet="fa" fontIcon="fa-bars"></mat-icon>
+    <mat-icon fontSet="fas" fontIcon="fa-bars"></mat-icon>
   </button>
 
   <mat-menu #userMenu="matMenu">
     <button mat-menu-item (click)="logout()">
-      <mat-icon fontSet="fa" fontIcon="fa-sign-out"></mat-icon>
+      <mat-icon fontSet="fas" fontIcon="fa-sign-out-alt"></mat-icon>
       Exit
     </button>
   </mat-menu>
