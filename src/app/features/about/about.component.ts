@@ -4,6 +4,7 @@ import { catchError, delay } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { format } from 'date-fns';
 import { GitVersion } from 'src/environments/versions';
+import { ConfigurationService } from '@core/services/configuration.service';
 
 @Component({
   selector: 'cubes-about',
@@ -15,8 +16,9 @@ export class AboutComponent implements OnInit {
   public pingData$: any;
   public error: any;
   public gitVersion = GitVersion;
+  private baseUrl: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, config: ConfigurationService) { this.baseUrl = config.apiUrl; }
 
   ngOnInit(): void { this.pingServer(); }
 
@@ -24,7 +26,7 @@ export class AboutComponent implements OnInit {
     this.error = '';
     this.pingData$ = this
       .http
-      .get('api/system/ping')
+      .get(`${this.baseUrl}/system/ping`)
       .pipe(
         delay(1200),
         catchError(error => {

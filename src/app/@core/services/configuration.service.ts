@@ -4,18 +4,20 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ConfigurationService {
-  private data: ConfigurationData;
+  private data: Configuration;
 
   get users(): any[] { return this.data.users; }
   get apiUrl(): string { return this.data.apiUrl; }
+  get uiUrl(): string { return this.data.uiUrl; }
   get mockData(): boolean { return this.data.mockData; }
 
   constructor() { }
-  setData(data: ConfigurationData) { this.data = data; }
+  setData(data: Configuration) { this.data = data; }
 }
 
-export interface ConfigurationData {
+export interface Configuration {
   users: any[];
   apiUrl: string;
+  uiUrl: string;
   mockData: boolean;
 }

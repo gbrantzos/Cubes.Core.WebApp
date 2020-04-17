@@ -4,16 +4,21 @@ import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { DataAccessSettings, Connection, Query } from '@features/data-access/services/data-access.store';
 import { DialogService } from '@shared/services/dialog.service';
+import { ConfigurationService } from '@core/services/configuration.service';
 
 @Injectable()
 export class DataAccessApiClient {
-  private readonly configUrl: String = 'api/configuration';
-  private readonly dataUrl: String = 'api/data';
+  private readonly configUrl: string;
+  private readonly dataUrl: string;
 
   constructor(
     private http: HttpClient,
-    private dialog: DialogService
-  ) { }
+    private dialog: DialogService,
+    config: ConfigurationService
+  ) {
+    this.configUrl = `${config.apiUrl}/configuration`;
+    this.dataUrl = `${config.apiUrl}/data`;
+  }
 
   loadData(): Observable<DataAccessSettings> {
     return this

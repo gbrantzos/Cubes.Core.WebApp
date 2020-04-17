@@ -4,15 +4,17 @@ import { DialogService } from '@shared/services/dialog.service';
 import { SmtpProfile } from '@features/settings/services/settings.store';
 import { map, catchError } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
+import { ConfigurationService } from '@core/services/configuration.service';
 
 @Injectable()
 export class SettingsApiClient {
-  private readonly configUrl: String = 'api/configuration';
+  private readonly configUrl: string;
 
   constructor(
     private http: HttpClient,
-    private dialog: DialogService
-  ) { }
+    private dialog: DialogService,
+    config: ConfigurationService
+  ) { this.configUrl = `${config.apiUrl}/configuration`; }
 
   loadData(): Observable<SmtpProfile[]> {
     const settings$ = this

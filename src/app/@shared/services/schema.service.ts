@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, shareReplay } from 'rxjs/operators';
 import { DialogService } from '@shared/services/dialog.service';
+import { ConfigurationService } from '@core/services/configuration.service';
 
 export enum CoreSchemas {
   SettingsSMTP = 'Cubes.Core.Email.SmtpSettingsProfiles',
@@ -18,12 +19,14 @@ interface Cache {
   providedIn: 'root'
 })
 export class SchemaService {
+  private baseUrl: string;
   private readonly cache: Cache = {};
 
   constructor(
     private httpClient: HttpClient,
-    private dialogService: DialogService
-  ) { }
+    private dialogService: DialogService,
+    config: ConfigurationService
+  ) { this.baseUrl = `${config.uiUrl}/schema`; }
 
   public getSchema(name: string): Observable<Schema> {
     const cached = this.cache[name];
@@ -39,7 +42,7 @@ export class SchemaService {
   private actualCall(name: string): Observable<Schema> {
     return this
       .httpClient
-      .get<Schema>(`ui/schema/${name}`) // TODO Configurable ?
+      .get<Schema>(`${this.baseUrl}/${name}`) // TODO Configurable ?
       .pipe(
         shareReplay(1),
         catchError((error, _) => {
