@@ -15,10 +15,10 @@
     <div class="filler"></div>
     <div class="buttons">
       <button mat-button color="primary" (click)="onExecute()">Execute</button>
-      <button mat-icon-button (click)="onExportResults()" [disabled]="!resultDetails">
+      <button mat-icon-button class="icon" (click)="onExportResults()" [disabled]="!resultDetails">
         <i class="fas fa-download"></i>
       </button>
-      <button mat-icon-button [matMenuTriggerFor]="menu" #exportSettingsMenu="matMenuTrigger">
+      <button mat-icon-button class="icon" [matMenuTriggerFor]="menu" #exportSettingsMenu="matMenuTrigger">
         <i class="fas fa-sliders-h"></i>
       </button>
     </div>

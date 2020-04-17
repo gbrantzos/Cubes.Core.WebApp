@@ -47,9 +47,9 @@
   border: 1px solid #777777;
   background-color: whitesmoke;
   margin: 12px;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
-
+.server-info:hover { overflow-y: scroll; }
 .link {
   cursor: pointer;
   color: blue;
