@@ -8,7 +8,7 @@ import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confir
 import { WaitingDataComponent } from '@shared/components/waiting-data/waiting-data.component';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { DynamicTableComponent } from '@shared/components/dynamic-table/dynamic-table.component';
-import { MaterialModule } from '@shared/material.module';
+import { MaterialModule } from '@shared/modules/material.module';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
