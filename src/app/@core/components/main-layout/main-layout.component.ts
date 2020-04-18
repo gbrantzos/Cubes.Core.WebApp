@@ -4,6 +4,8 @@ import { SideNavComponent } from '@core/components/side-nav/side-nav.component';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { UiManagerService, UiEventType, UiEvent } from '@core/services/ui-manager.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'cubes-main-layout',
@@ -14,9 +16,18 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   @ViewChild('sideNav') sideNav: SideNavComponent;
   private breakpointSub: Subscription = null;
   private routerSub: Subscription = null;
+  private uiSpinnerSub: Subscription = null;
+  private defaultSpinnerMessage = 'Please wait ...';
 
+  public spinnerMessage = 'Please wait ...';
   public hideSidenav = false;
-  constructor(private breakpointObserver: BreakpointObserver, private router: Router) { }
+
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private router: Router,
+    private spinner: NgxSpinnerService,
+    private uiManager: UiManagerService
+  ) { }
 
   ngOnInit(): void {
     this.breakpointSub = this.breakpointObserver
@@ -34,6 +45,20 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
           this.sideNav.toggle();
         }
       });
+    this.uiSpinnerSub = this.uiManager.on([UiEventType.ShowSpinner, UiEventType.HideSpinner], (event: UiEvent) => {
+      switch (event.eventType) {
+        case UiEventType.ShowSpinner:
+          if (event.value) { this.spinnerMessage = event.value; }
+          this.spinner.show();
+          break;
+        case UiEventType.HideSpinner:
+          this.spinner.hide();
+          this.spinnerMessage = this.defaultSpinnerMessage;
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -42,6 +67,9 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     }
     if (this.routerSub) {
       this.routerSub.unsubscribe();
+    }
+    if (this.uiSpinnerSub) {
+      this.uiSpinnerSub.unsubscribe();
     }
   }
 

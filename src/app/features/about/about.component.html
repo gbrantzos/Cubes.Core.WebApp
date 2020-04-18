@@ -22,7 +22,7 @@
   <br><br>
 
   <ng-template #loading>
-    <p class="link" *ngIf="!error">Waiting for server details ...</p>
+    <p class="link blink" *ngIf="!error">Waiting for server details ...</p>
     <div *ngIf="error" class="server-info" fxFlex="grow">
       <p class="error">{{error.message}}</p>
 

@@ -3,11 +3,11 @@ import { DataAccessStore, Connection, Query } from '@features/data-access/servic
 import { ConnectionEditorComponent } from '@features/data-access/connection-editor/connection-editor.component';
 import { DialogService } from '@shared/services/dialog.service';
 import { DataAccessApiClient } from '@features/data-access/services/data-access.api-client';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { QueryEditorComponent } from '@features/data-access/query-editor/query-editor.component';
 import { Location } from '@angular/common';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { UiManagerService, UiEventType } from '@core/services/ui-manager.service';
 
 @Component({
   selector: 'cubes-data-access',
@@ -23,9 +23,9 @@ export class DataAccessComponent implements OnInit {
     public store: DataAccessStore,
     private dialogService: DialogService,
     private apiClient: DataAccessApiClient,
-    private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private uiManager: UiManagerService
   ) { }
 
   ngOnInit(): void {
@@ -67,16 +67,16 @@ export class DataAccessComponent implements OnInit {
   }
 
   testConnection(connection: Connection) {
-    this.spinner.show();
+    this.uiManager.emit(UiEventType.ShowSpinner, 'Testing connection ...');
     this.apiClient
       .testConnection(connection)
       .subscribe(result => {
-        this.spinner.hide();
-        this.displayMessage(result);
+        this.uiManager.emit(UiEventType.HideSpinner);
+        this.dialogService.snackInfo(result);
       }, error => {
         console.error(error);
-        this.spinner.hide();
-        this.displayMessage(error.error.message + '.');
+        this.uiManager.emit(UiEventType.HideSpinner);
+        this.dialogService.snackError(error.error.message + '.');
       });
   }
 
@@ -111,10 +111,5 @@ export class DataAccessComponent implements OnInit {
       default:
         break;
     }
-  }
-
-  private displayMessage(message: string) {
-    const snackRef = this.dialogService.snackMessage(message, 'Close');
-    snackRef.onAction().subscribe(() => snackRef.dismiss());
   }
 }
