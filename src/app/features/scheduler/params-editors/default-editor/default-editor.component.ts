@@ -1,21 +1,40 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ParametersEditor } from '@features/scheduler/params-editors/execution-params-editors';
 import { JobParameters } from '@features/scheduler/services/scheduler.models';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'cubes-default-editor',
   templateUrl: './default-editor.component.html',
-  styleUrls: ['./default-editor.component.scss', '../common-styles.scss']
+  styleUrls: ['./default-editor.component.scss', '../common-styles.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DefaultEditorComponent implements OnInit, ParametersEditor {
-  @Input() parameters: string;
+  public control = new FormControl();
 
-  constructor() { }
+  constructor( ) { }
   ngOnInit() { }
 
   getParameters(): JobParameters {
-    // return this.parameters;
-    // TODO Parse parameters!!!
-    return { key: 'value'};
+    const params: JobParameters = {};
+    const lines = this.control.value.split('\n');
+    lines.forEach(line => {
+      const index = line.indexOf(':');
+      if (index !== -1) {
+        const key = line.substr(0, index).trim();
+        const value = line.substr(index + 1).trim();
+        params[key] = value;
+      }
+    });
+    return params;
   }
+  setParameters(params: JobParameters) {
+    let tmp = '';
+    Object.keys(params).forEach((key) => {
+      tmp += `${key}: ${params[key]}\n`;
+    });
+    this.control.setValue(tmp);
+  }
+  pendingChanges(): boolean { return !this.control.pristine; }
+  markAsPristine() { this.control.markAsPristine(); }
 }

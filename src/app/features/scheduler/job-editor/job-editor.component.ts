@@ -1,12 +1,14 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CustomValidators } from '@core/helpers/custom-validators';
 import { LookupService } from '@shared/services/lookup.service';
-import { SchedulerJob } from '@features/scheduler/services/scheduler.models';
+import { SchedulerJob, JobParameters } from '@features/scheduler/services/scheduler.models';
 import { SchedulerStore } from '@features/scheduler/services/scheduler.store';
 import cronstrue from 'cronstrue';
+import { DialogService } from '@shared/services/dialog.service';
+import { ParametersEditor } from '@features/scheduler/params-editors/execution-params-editors';
 
 
 @Component({
@@ -16,9 +18,11 @@ import cronstrue from 'cronstrue';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class JobEditorComponent implements OnInit {
+  @ViewChild('executionParameters', { static: false }) executionParameters: ParametersEditor;
   public isNew = false;
   public formValid = false;
   public jobTypeForSwitch: string;
+  public jobParameters: JobParameters;
   public job$: Observable<SchedulerJob>;
   public jobForm: FormGroup;
   public lookups$: Observable<any>;
@@ -28,6 +32,7 @@ export class JobEditorComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private lookupService: LookupService,
+    private dialogService: DialogService,
     private store: SchedulerStore
   ) { }
 
@@ -39,8 +44,13 @@ export class JobEditorComponent implements OnInit {
         map(job => {
           this.originalName = job?.name;
           this.isNew = job?.isNew ?? false;
-
-          if (job) { this.jobForm.patchValue(job); }
+          if (job) {
+            this.jobForm.patchValue(job);
+            if (job.executionParameters) {
+              this.jobParameters = { ...job.executionParameters };
+              setTimeout(() => this.executionParameters.setParameters(this.jobParameters), 100);
+            }
+          }
           return job;
         })
       );
@@ -48,13 +58,13 @@ export class JobEditorComponent implements OnInit {
       this.lookupService.getLookup('jobTypes'),
       this.lookupService.getLookup('requestTypes')
     ).pipe(
-        map(([jobTypes, requestTypes]) => {
-          return {
-            jobTypes,
-            requestTypes
-          };
-        })
-      );
+      map(([jobTypes, requestTypes]) => {
+        return {
+          jobTypes,
+          requestTypes
+        };
+      })
+    );
     this.jobForm
       .get('jobType')
       .valueChanges
@@ -95,11 +105,52 @@ export class JobEditorComponent implements OnInit {
     }
   }
 
+  pendingChanges(): boolean {
+    return this.jobForm && this.executionParameters
+      ? !this.jobForm.pristine || this.executionParameters.pendingChanges()
+      : false;
+  }
+
   onParametersEditorValidChanged(editorValid: boolean) {
     this.formValid = this.jobForm.valid && editorValid;
   }
 
-  onDelete() { }
-  onSave() { }
+  onDelete() {
+    if (this.isNew) {
+      this.dialogService
+        .confirm('Discard new job?')
+        .subscribe(r => {
+          if (r) { this.store.discardNewJob(); }
+        });
+    } else {
+      this.dialogService
+        .confirm('Delete current job?')
+        .subscribe(r => {
+          if (r) { this.store.deleteJob(this.originalName); }
+        });
+    }
+  }
+
+  onSave() {
+    const job = this.jobFromForm();
+    this.store.saveJob(this.originalName, job);
+    this.jobForm.markAsPristine();
+    this.executionParameters.markAsPristine();
+    this.isNew = false;
+  }
   onExecute() { }
+
+  private jobFromForm(): SchedulerJob {
+    const currentValue: any = this.jobForm.value;
+    return {
+      name: currentValue.name,
+      cronExpression: currentValue.cronExpression,
+      cronExpressionDescription: '',
+      active: currentValue.active,
+      fireIfMissed: currentValue.fireIfMissed,
+      jobType: currentValue.jobType,
+      executionParameters: this.executionParameters.getParameters(),
+      isNew: false
+    } as SchedulerJob;
+  }
 }

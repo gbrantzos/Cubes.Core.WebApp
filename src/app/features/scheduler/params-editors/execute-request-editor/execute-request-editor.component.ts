@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Lookup } from '@shared/services/lookup.service';
 import { ParametersEditor } from '@features/scheduler/params-editors/execution-params-editors';
@@ -8,7 +8,8 @@ import { JobParameters } from '@features/scheduler/services/scheduler.models';
 @Component({
   selector: 'cubes-execute-request-editor',
   templateUrl: './execute-request-editor.component.html',
-  styleUrls: ['./execute-request-editor.component.scss', '../common-styles.scss']
+  styleUrls: ['./execute-request-editor.component.scss', '../common-styles.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExecuteRequestEditorComponent implements OnInit, ParametersEditor {
   @Input() parameters: string;
@@ -57,4 +58,10 @@ export class ExecuteRequestEditorComponent implements OnInit, ParametersEditor {
 
     return toReturn;
   }
+  setParameters(params: JobParameters) {
+    this.form.get('requestType').setValue(params['RequestType']);
+    this.form.get('requestInst').setValue(params['RequestInstance']);
+  }
+  pendingChanges(): boolean { return !this.form.pristine; }
+  markAsPristine() { this.form.markAsPristine(); }
 }

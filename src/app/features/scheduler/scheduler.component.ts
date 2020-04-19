@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SchedulerStore } from '@features/scheduler/services/scheduler.store';
 import { SchedulerStatus, SchedulerJob } from '@features/scheduler/services/scheduler.models';
+import { JobEditorComponent } from '@features/scheduler/job-editor/job-editor.component';
+import { DialogService } from '@shared/services/dialog.service';
 
 @Component({
   selector: 'cubes-scheduler',
@@ -9,22 +11,48 @@ import { SchedulerStatus, SchedulerJob } from '@features/scheduler/services/sche
   styleUrls: ['./scheduler.component.scss']
 })
 export class SchedulerComponent implements OnInit {
+  @ViewChild('editor') editor: JobEditorComponent;
+
   public status$: Observable<SchedulerStatus>;
-  constructor(private store: SchedulerStore) { }
+  constructor(
+    private store: SchedulerStore,
+    private dialogService: DialogService
+  ) { }
 
   ngOnInit(): void {
     this.store.loadData();
     this.status$ = this.store.schedulerStatus;
   }
 
-  reload() { this.store.loadData(); }
-  toggleScheduler(currentState) { console.log(currentState); }
+  toggleScheduler(currentState: string) { console.log(currentState); }
 
-  jobSelected(job: SchedulerJob) {
+  async reload() {
+    if (this.editor.pendingChanges()) {
+      const dialogResult = await this.dialogService
+        .confirm('There are unsaved changes on selected job.\nDiscard and continue?')
+        .toPromise();
+      if (!dialogResult) { return; }
+    }
+    this.store.loadData();
+  }
+
+  async jobSelected(job: SchedulerJob) {
+    if (this.editor.pendingChanges()) {
+      const dialogResult = await this.dialogService
+        .confirm('There are unsaved changes on selected job.\nDiscard and continue?')
+        .toPromise();
+      if (!dialogResult) { return; }
+    }
     this.store.selectJob(job.name);
   }
 
-  newJob() {
-    console.log('New job requested');
+  async newJob() {
+    if (this.editor.pendingChanges()) {
+      const dialogResult = await this.dialogService
+        .confirm('There are unsaved changes on new job.\nDiscard and continue?')
+        .toPromise();
+      if (!dialogResult) { return; }
+    }
+    this.store.addNewJob();
   }
 }

@@ -46,10 +46,10 @@
             <div class="basic">
               <div class="full parameters" [ngSwitch]="jobTypeForSwitch">
                 <cubes-execute-request-editor *ngSwitchCase="'Cubes.Core.Scheduling.Jobs.ExecuteRequestJob'"
-                  #executionParameters [requestsLookup]="lookups['requestTypes']" [parameters]="job.executionParameters"
+                  #executionParameters [requestsLookup]="lookups.requestTypes"
                   (validChanged)="onParametersEditorValidChanged($event)">
                 </cubes-execute-request-editor>
-                <cubes-default-editor *ngSwitchDefault #executionParameters [parameters]="job.executionParameters">
+                <cubes-default-editor *ngSwitchDefault #executionParameters>
                 </cubes-default-editor>
               </div>
             </div>

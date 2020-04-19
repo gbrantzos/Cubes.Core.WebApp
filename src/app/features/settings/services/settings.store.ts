@@ -19,7 +19,7 @@ export class SettingsStore {
   ) { }
 
   loadData = () => {
-    const call$ = this.loadingWrapper.wrap(this.apiClient.loadData())
+    const call$ = this.loadingWrapper.wrap(this.apiClient.loadData());
     call$.subscribe(data => {
       this.smtpProfiles$.next(data);
       this.selectedSmtpProfile$.next(undefined);
