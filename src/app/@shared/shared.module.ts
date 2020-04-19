@@ -5,7 +5,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AlertDialogComponent } from '@shared/components/alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
-import { WaitingDataComponent } from '@shared/components/waiting-data/waiting-data.component';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { DynamicTableComponent } from '@shared/components/dynamic-table/dynamic-table.component';
 import { MaterialModule } from '@shared/modules/material.module';
@@ -18,7 +17,6 @@ import { PageHeaderComponent } from '@shared/components/page-header/page-header.
   declarations: [
     AlertDialogComponent,
     ConfirmDialogComponent,
-    WaitingDataComponent,
     DynamicFormComponent,
     DynamicTableComponent,
     PageHeaderComponent
@@ -41,7 +39,6 @@ import { PageHeaderComponent } from '@shared/components/page-header/page-header.
     NgxJsonViewerModule,
     NgxSpinnerModule,
 
-    WaitingDataComponent,
     DynamicFormComponent,
     DynamicTableComponent,
     PageHeaderComponent

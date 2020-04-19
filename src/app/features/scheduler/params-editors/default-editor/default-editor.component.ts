@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ParametersEditor } from '../execution-params-editors';
-import { JobParameters } from '@core/services/scheduler.service';
+import { ParametersEditor } from '@features/scheduler/params-editors/execution-params-editors';
+import { JobParameters } from '@features/scheduler/services/scheduler.models';
 
 @Component({
   selector: 'cubes-default-editor',

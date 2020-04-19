@@ -1,0 +1,30 @@
+<cubes-page-header (reload)="reload()"> Scheduler </cubes-page-header>
+
+<div class="content">
+  <div *ngIf="status$ | async as status">
+
+    <div class="status" fxLayout="row" fxLayout="space-around center"
+      [ngClass]="{'status-stopped': status.schedulerState === 'StandBy', 'status-active': status.schedulerState === 'Active'}">
+      <span class="icon" *ngIf="status.schedulerState === 'Active'"><i class="far fa-2x fa-check-circle"></i></span>
+      <span class="icon" *ngIf="status.schedulerState === 'StandBy'"><i class="far fa-2x fa-pause-circle"></i></span>
+      <div class="status-message"> Cubes scheduler is <strong>{{status.schedulerState}}</strong>,
+        time on server is <strong>{{status.serverTime | date:'medium'}}</strong>
+      </div>
+      <div class="filler"></div>
+      <button class="action-button" color="primary" mat-button (click)="toggleScheduler(status.schedulerState)">
+        {{status.schedulerState === 'Active' ? 'Stop' : 'Start'}} scheduler
+      </button>
+    </div>
+    <div class="inner" fxLayout="row">
+      <cubes-job-list fxFlex="50%" (jobSelected)="jobSelected($event)" (newJob)="newJob()">
+      </cubes-job-list>
+
+      <mat-divider class="divider" [vertical]="true">
+      </mat-divider>
+
+      <cubes-job-editor #jobForm fxFlex="50%">
+      </cubes-job-editor>
+    </div>
+
+  </div>
+</div>

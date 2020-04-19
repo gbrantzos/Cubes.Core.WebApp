@@ -1,0 +1,32 @@
+.selected {
+  background-color: #dbdbdb;
+}
+
+.no-data {
+  text-align: center;
+  padding-top: 36px;
+  color: gray;
+
+  .message {
+    width:100%;
+    padding-top: 16px;
+    color: black;
+    text-align: center;
+  }
+}
+
+.new-button {
+  padding-top: 16px;
+}
+
+.icon-success {
+  color: #28a745;
+}
+.icon-failure {
+  color: #bf0000;
+}
+.job-details {
+  white-space: pre-line !important;
+  font-size: 0.80em !important;
+  color: rgba(0, 0, 0, 0.77);
+}

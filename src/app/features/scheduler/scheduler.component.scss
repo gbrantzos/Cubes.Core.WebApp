@@ -1,0 +1,45 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content {
+  margin: 0 0 24px;
+  flex: 1;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.divider {
+  margin: -4px 8px 0;
+}
+
+.inner {
+  padding-top: 4px;
+}
+
+.status {
+  padding: 12px 4px 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.status-active {
+  border-left: 8px solid #28a745;
+}
+
+.status-stopped {
+  border-left: 8px solid orange;
+}
+.icon {
+  padding: 0 12px;
+  color: rgba(0, 0, 0, 0.67)
+}
+.status-message {
+  margin-top: 2px;
+}
+.action-button {
+  margin-top: -6px;
+}

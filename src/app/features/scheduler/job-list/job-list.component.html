@@ -1,0 +1,30 @@
+<div *ngIf="status$ | async as status">
+  <mat-list>
+    <div mat-subheader>Scheduler Jobs List</div>
+
+    <mat-list-item *ngFor="let job of status.jobs" (click)="onSelect(job)"
+      [ngClass]='{selected: selectedJob === job.name}'>
+      <mat-icon mat-list-icon fontSet="far" fontIcon="fa-calendar-check" class="fa-fw"> </mat-icon>
+      <div mat-line>{{job.name}}</div>
+      <div mat-line class="job-details">{{job | jobDetails}}</div>
+
+      <mat-icon *ngIf="!job.lastExecutionResult"fontSet="far" fontIcon="fa-check-circle" class="fa-fw icon-success"> </mat-icon>
+      <mat-icon *ngIf="!!job.lastExecutionResult" fontSet="far" fontIcon="fa-times-circle" class="fa-fw icon-failure"> </mat-icon>
+    </mat-list-item>
+
+    <div class="no-data" *ngIf="!status.jobs.length">
+      <mat-icon mat-list-icon fontSet="far" fontIcon="fa-calendar-check" class="fa-fw fa-3x"> </mat-icon>
+      <p class="message">No scheduler jobs found!</p>
+    </div>
+
+    <div class="new-button">
+      <button mat-button color="primary" (click)="onNew()"> New scheduler job </button>
+    </div>
+
+    <!--
+    <p>Selected index: {{selectedIndex}}</p>
+    <pre> {{ connections | json }} </pre>
+    -->
+
+  </mat-list>
+</div>

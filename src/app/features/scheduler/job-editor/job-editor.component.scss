@@ -1,13 +1,27 @@
-.mat-dialog-actions {
-  display: flex;
+.editor {
+  margin-top: -4px;
 }
 
-.spacer {
-  flex: 1 1 auto;
+.mat-subheader {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.form {
+  padding: 0px 4px;
+}
+
+.no-data {
+  text-align: center;
+  padding-top: 16px;
+}
+
+// Visual fix
+.chip-list {
+  margin-top: -8px !important;
 }
 
 .editor-content {
-  min-height: 320px;
+  min-height: 360px;
 }
 
 .basic {

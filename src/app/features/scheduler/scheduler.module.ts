@@ -1,32 +1,33 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { JobListComponent } from './components/job-list/job-list.component';
-import { SchedulerComponent } from './components/scheduler/scheduler.component';
-import { SchedulerRoutingModule } from './scheduler-routing.module';
-import { JobRowComponent } from './components/job-row/job-row.component';
-import { JobEditorComponent } from './components/job-editor/job-editor.component';
-import { DefaultEditorComponent } from './components/execution-params-editors/default-editor/default-editor.component';
-// tslint:disable-next-line:max-line-length
-import { ExecuteRequestEditorComponent } from './components/execution-params-editors/execute-request-editor/execute-request-editor.component';
 import { SharedModule } from '@shared/shared.module';
+import { SchedulerRoutingModule } from '@features/scheduler/scheduler-routing.module';
+import { SchedulerComponent } from '@features/scheduler/scheduler.component';
+import { JobListComponent } from './job-list/job-list.component';
+import { JobEditorComponent } from './job-editor/job-editor.component';
+import { SchedulerStore } from '@features/scheduler/services/scheduler.store';
+import { SchedulerApiClient } from '@features/scheduler/services/scheduler.api-client';
+import { JobDetails } from '@features/scheduler/pipes/job-details.pipe';
+import { ExecuteRequestEditorComponent } from '@features/scheduler/params-editors/execute-request-editor/execute-request-editor.component';
+import { DefaultEditorComponent } from '@features/scheduler/params-editors/default-editor/default-editor.component';
 
 @NgModule({
   declarations: [
     SchedulerComponent,
     JobListComponent,
-    JobRowComponent,
     JobEditorComponent,
-    DefaultEditorComponent,
-    ExecuteRequestEditorComponent
+    JobDetails,
+    ExecuteRequestEditorComponent,
+    DefaultEditorComponent
   ],
   imports: [
     CommonModule,
     SchedulerRoutingModule,
     SharedModule
   ],
-  entryComponents: [
-    JobEditorComponent
+  providers: [
+    SchedulerStore,
+    SchedulerApiClient
   ]
 })
 export class SchedulerModule { }

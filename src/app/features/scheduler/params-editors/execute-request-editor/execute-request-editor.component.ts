@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ParametersEditor } from '../execution-params-editors';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Lookup } from '@shared/services/lookup.service';
-import { JobParameters } from '@core/services/scheduler.service';
+import { ParametersEditor } from '@features/scheduler/params-editors/execution-params-editors';
+import { JobParameters } from '@features/scheduler/services/scheduler.models';
+
 
 @Component({
   selector: 'cubes-execute-request-editor',
