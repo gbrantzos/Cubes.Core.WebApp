@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, OnChanges, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { ConfigurationService, SideNavItem } from '@core/services/configuration.service';
 
 @Component({
   selector: 'cubes-side-nav',
@@ -10,29 +11,10 @@ export class SideNavComponent implements OnInit {
   @Input() isHidden = false;
   @ViewChild('sidenav') sidenav: MatSidenav;
 
-  // TODO Configuration ?? API ?? Definitely not here
-  public navItems = [
-    {
-      label: 'Scheduler',
-      icon: 'fa-calendar-alt',
-      link: '/scheduler'
-    }, {
-      label: 'Data Access',
-      icon: 'fa-database',
-      link: '/data'
-    }, {
-      label: 'Settings',
-      icon: 'fa-sliders-h',
-      link: '/settings'
-    }, {
-      label: 'About',
-      icon: 'fa-question-circle',
-      link: '/about'
-    },
-  ];
-
+  public navItems: SideNavItem[];
   get opened() { return this.sidenav.opened; }
-  constructor() { }
+
+  constructor(config: ConfigurationService) { this.navItems = config.sideNavItems; }
   ngOnInit(): void { }
 
   toggle() { this.sidenav.toggle(); }

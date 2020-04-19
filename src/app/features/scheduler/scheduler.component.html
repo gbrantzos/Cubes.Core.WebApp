@@ -5,14 +5,14 @@
 
     <div class="status" fxLayout="row" fxLayout="space-around center"
       [ngClass]="{'status-stopped': status.schedulerState === 'StandBy', 'status-active': status.schedulerState === 'Active'}">
-      <span class="icon" *ngIf="status.schedulerState === 'Active'"><i class="far fa-2x fa-check-circle"></i></span>
+      <span class="icon" *ngIf="status.schedulerState === 'Active'"><i class="far fa-2x fa-play-circle"></i></span>
       <span class="icon" *ngIf="status.schedulerState === 'StandBy'"><i class="far fa-2x fa-pause-circle"></i></span>
       <div class="status-message"> Cubes scheduler is <strong>{{status.schedulerState}}</strong>,
         time on server is <strong>{{status.serverTime | date:'medium'}}</strong>
       </div>
       <div class="filler"></div>
       <button class="action-button" color="primary" mat-button (click)="toggleScheduler(status.schedulerState)">
-        {{status.schedulerState === 'Active' ? 'Stop' : 'Start'}} scheduler
+        {{status.schedulerState === 'Active' ? 'Stop' : 'Start'}} Scheduler
       </button>
     </div>
     <div class="inner" fxLayout="row">

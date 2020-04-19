@@ -11,8 +11,9 @@
   <div *ngIf="lookups$ | async as lookups; else empty">
     <div *ngIf="job$ | async as job; else empty">
       <form [formGroup]="jobForm" fxLayout="column" class="editor-content">
-        <!-- Basic information -->
+
         <mat-tab-group>
+          <!-- Basic information -->
           <mat-tab label="Job">
             <div class="basic">
               <mat-form-field class="full">
@@ -34,7 +35,7 @@
                 <mat-hint>{{cronExpressionHint}}</mat-hint>
               </mat-form-field>
               <div class="check-boxes">
-                <mat-checkbox color="primary" formControlName="isActive">Active</mat-checkbox>
+                <mat-checkbox color="primary" formControlName="active">Active</mat-checkbox>
                 <mat-checkbox color="primary" formControlName="fireIfMissed">Fire if missed</mat-checkbox>
               </div>
             </div>
@@ -64,6 +65,7 @@
         <div class="filler"></div>
 
         <div class="buttons" fxLayout="row">
+          <button *ngIf="!job.isNew" mat-button color="primary" (click)="onExecute()"> Execute now </button>
           <div class="filler"></div>
           <button #delete mat-button color="warn" (click)="onDelete()"> {{isNew ? 'Cancel' : 'Delete'}} </button>
           <button #save mat-button color="primary" (click)="onSave()" [disabled]="!formValid"> Save </button>

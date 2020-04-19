@@ -74,7 +74,7 @@ const cubesMockData = {
     'cronExpressionDescription': 'every 50 seconds',
     'jobType': 'Cubes.Core.Scheduling.Jobs.ExecuteRequestJob',
     'previousFireTime': null,
-    'nextFireTime': '2020-04-20T22:03:11.4748635+03:00',
+    'nextFireTime': null,
     'lastExecutionFailed': true,
     'jobParameters': {
       'RequestInstance': 'Command: calc.exe',
@@ -95,12 +95,12 @@ const cubesMockData = {
     }
   }, {
     'name': 'Sample Job',
-    'active': false,
+    'active': true,
     'cronExpression': '0/45 * * * * ?',
     'cronExpressionDescription': 'every 45 seconds',
     'jobType': 'Cubes.Core.Scheduling.Jobs.SampleJob',
     'previousFireTime': null,
-    'nextFireTime': null,
+    'nextFireTime': '2020-04-20T22:03:11.4748635+03:00',
     'lastExecutionFailed': false,
     'jobParameters': {}
   }

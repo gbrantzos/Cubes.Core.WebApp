@@ -8,7 +8,7 @@
   color: gray;
 
   .message {
-    width:100%;
+    width: 100%;
     padding-top: 16px;
     color: black;
     text-align: center;
@@ -27,6 +27,13 @@
 }
 .job-details {
   white-space: pre-line !important;
-  font-size: 0.80em !important;
+  font-size: 0.8em !important;
   color: rgba(0, 0, 0, 0.77);
+}
+.job-disabled {
+  color: rgba(0, 0, 0, 0.37);
+}
+.inactive-job {
+  font-weight: bold;
+  font-size: 0.78em;
 }

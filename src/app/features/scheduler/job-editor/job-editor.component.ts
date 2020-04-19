@@ -68,7 +68,7 @@ export class JobEditorComponent implements OnInit {
     const form = this.fb.group({
       name: ['', Validators.required],
       cronExpression: ['', [Validators.required, CustomValidators.isCronExpression]],
-      isActive: false,
+      active: false,
       fireIfMissed: { value: false, disabled: true },
       jobType: ['', Validators.required]
     });
@@ -101,4 +101,5 @@ export class JobEditorComponent implements OnInit {
 
   onDelete() { }
   onSave() { }
+  onExecute() { }
 }

@@ -10,6 +10,7 @@ export class ConfigurationService {
   get apiUrl(): string { return this.data.apiUrl; }
   get uiUrl(): string { return this.data.uiUrl; }
   get mockData(): boolean { return this.data.mockData; }
+  get sideNavItems(): SideNavItem[] { return sideNavItems; }
 
   constructor() { }
   setData(data: Configuration) { this.data = data; }
@@ -21,3 +22,28 @@ export interface Configuration {
   uiUrl: string;
   mockData: boolean;
 }
+
+export interface SideNavItem {
+  label: string;
+  icon: string;
+  link: string;
+}
+const sideNavItems = [
+  {
+    label: 'Scheduler',
+    icon: 'fa-calendar-alt',
+    link: '/scheduler'
+  }, {
+    label: 'Data Access',
+    icon: 'fa-database',
+    link: '/data'
+  }, {
+    label: 'Settings',
+    icon: 'fa-sliders-h',
+    link: '/settings'
+  }, {
+    label: 'About',
+    icon: 'fa-question-circle',
+    link: '/about'
+  },
+];

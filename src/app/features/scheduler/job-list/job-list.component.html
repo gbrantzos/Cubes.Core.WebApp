@@ -4,12 +4,17 @@
 
     <mat-list-item *ngFor="let job of status.jobs" (click)="onSelect(job)"
       [ngClass]='{selected: selectedJob === job.name}'>
-      <mat-icon mat-list-icon fontSet="far" fontIcon="fa-calendar-check" class="fa-fw"> </mat-icon>
-      <div mat-line>{{job.name}}</div>
+      <mat-icon *ngIf="job.active" mat-list-icon fontSet="far" fontIcon="fa-calendar-check" class="fa-fw"> </mat-icon>
+      <mat-icon *ngIf="!job.active" mat-list-icon fontSet="far" fontIcon="fa-calendar-times" class="fa-fw job-disabled">
+      </mat-icon>
+      <div mat-line>{{job.name}} <span *ngIf="!job.active" class="inactive-job"> [Disabled] </span></div>
       <div mat-line class="job-details">{{job | jobDetails}}</div>
 
-      <mat-icon *ngIf="!job.lastExecutionResult"fontSet="far" fontIcon="fa-check-circle" class="fa-fw icon-success"> </mat-icon>
-      <mat-icon *ngIf="!!job.lastExecutionResult" fontSet="far" fontIcon="fa-times-circle" class="fa-fw icon-failure"> </mat-icon>
+      <mat-icon *ngIf="!job.lastExecutionResult" fontSet="far" fontIcon="fa-check-circle" class="fa-fw icon-success">
+      </mat-icon>
+      <mat-icon *ngIf="!!job.lastExecutionResult" fontSet="far" fontIcon="fa-times-circle" class="fa-fw icon-failure"
+        matTooltip="Last execution failed!">
+      </mat-icon>
     </mat-list-item>
 
     <div class="no-data" *ngIf="!status.jobs.length">
@@ -18,7 +23,7 @@
     </div>
 
     <div class="new-button">
-      <button mat-button color="primary" (click)="onNew()"> New scheduler job </button>
+      <button mat-button color="primary" (click)="onNew()"> New Job </button>
     </div>
 
     <!--
