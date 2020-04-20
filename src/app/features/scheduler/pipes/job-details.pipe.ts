@@ -12,11 +12,12 @@ export class JobDetails implements PipeTransform {
       details += ', not scheduled';
     } else {
       if (isTomorrow(job.nextExecutionAt)) {
-        details += ', next run at ' + format(job.nextExecutionAt, 'dd/MM/yyyy HH:mm');
+        details += ', next run at ' + format(job.nextExecutionAt, 'dd/MM/yyyy HH:mm:ss');
       } else {
-        details += ', next run at ' + format(job.nextExecutionAt, 'HH:mm');
+        details += ', next run at ' + format(job.nextExecutionAt, 'HH:mm:ss');
       }
     }
+    if (details.endsWith(':00')) { details = details.substr(0, details.length - 3); }
 
     return details;
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { SmtpProfile, SettingsStore } from '@features/settings/services/settings.store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'cubes-smtp-list',
@@ -10,9 +11,8 @@ import { Observable, Subscription } from 'rxjs';
 export class SmtpListComponent implements OnInit, OnDestroy {
   @Output() newProfile = new EventEmitter<void>();
   @Output() profileSelected = new EventEmitter<SmtpProfile>();
+  private subs = new SubSink();
   public smtpProfiles$: Observable<SmtpProfile[]>;
-  private selectedProfile$: Observable<SmtpProfile>;
-  private selectedProfileSub: Subscription;
   public selectedProfile = '';
 
   constructor(
@@ -21,18 +21,14 @@ export class SmtpListComponent implements OnInit, OnDestroy {
   ) { }
   ngOnInit(): void {
     this.smtpProfiles$ = this.store.smtpProfiles;
-    this.selectedProfileSub = this.store
+    this.subs.sink = this.store
       .selectedSmtpProfile
       .subscribe(cnx => {
         this.selectedProfile = (cnx?.name) ?? '';
         this.changeDetectorRef.detectChanges();
       });
   }
-  ngOnDestroy(): void {
-    if (this.selectedProfileSub) {
-      this.selectedProfileSub.unsubscribe();
-    }
-  }
+  ngOnDestroy(): void { this.subs.unsubscribe(); }
 
   onSelect(smtp: SmtpProfile) { this.profileSelected.emit(smtp); }
   onNew() { this.newProfile.emit(); }

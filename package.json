@@ -28,6 +28,7 @@
     "ngx-json-viewer": "^2.4.0",
     "ngx-spinner": "^9.0.2",
     "rxjs": "~6.5.5",
+    "subsink": "^1.0.1",
     "ts-md5": "^1.2.7",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.3"

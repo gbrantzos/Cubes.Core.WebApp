@@ -10,7 +10,9 @@
       <div mat-line>{{job.name}} <span *ngIf="!job.active" class="inactive-job"> [Disabled] </span></div>
       <div mat-line class="job-details">{{job | jobDetails}}</div>
 
-      <mat-icon *ngIf="!job.lastExecutionResult" fontSet="far" fontIcon="fa-check-circle" class="fa-fw icon-success">
+      <mat-icon *ngIf="!job.lastExecutionResult && job.lastExecutionAt" fontSet="far" fontIcon="fa-check-circle"
+        class="fa-fw icon-success"
+        matTooltip="Last successful execution at {{job.lastExecutionAt | date:'dd/MM/yyyy HH:mm:ss'}}">
       </mat-icon>
       <mat-icon *ngIf="!!job.lastExecutionResult" fontSet="far" fontIcon="fa-times-circle" class="fa-fw icon-failure"
         matTooltip="Last execution failed!">
@@ -25,11 +27,6 @@
     <div class="new-button">
       <button mat-button color="primary" (click)="onNew()"> New Job </button>
     </div>
-
-    <!--
-    <p>Selected index: {{selectedIndex}}</p>
-    <pre> {{ connections | json }} </pre>
-    -->
 
   </mat-list>
 </div>

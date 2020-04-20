@@ -24,7 +24,7 @@ export class CustomValidators {
   static isCronExpression(control: AbstractControl) {
     const value = control.value;
     try {
-      const tmp = cronstrue.toString(value, { throwExceptionOnParseError: true });
+      const tmp = cronstrue.toString(value, { throwExceptionOnParseError: true, use24HourTimeFormat: true });
       if (!tmp) { return { invalidCronExpression: true }; }
     } catch (e) {
       return { invalidCronExpression: true };

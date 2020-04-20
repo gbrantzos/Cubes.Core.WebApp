@@ -99,7 +99,7 @@ export class JobEditorComponent implements OnInit {
   }
   get cronExpressionHint() {
     try {
-      return cronstrue.toString(this.cronExpression.value);
+      return cronstrue.toString(this.cronExpression.value, { use24HourTimeFormat: true });
     } catch (error) {
       return '';
     }

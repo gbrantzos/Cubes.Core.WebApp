@@ -10,6 +10,7 @@
     "roboto",
     "sidenav",
     "smtp",
+    "subsink",
     "validators"
   ],
   "typescript.preferences.importModuleSpecifier": "non-relative",

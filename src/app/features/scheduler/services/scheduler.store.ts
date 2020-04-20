@@ -4,6 +4,7 @@ import { SchedulerApiClient } from '@features/scheduler/services/scheduler.api-c
 import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
 import { SchedulerStatus, SchedulerJob, EmptyStatus } from '@features/scheduler/services/scheduler.models';
 import cronstrue from 'cronstrue';
+import { DialogService } from '@shared/services/dialog.service';
 
 
 @Injectable()
@@ -16,7 +17,8 @@ export class SchedulerStore {
 
   constructor(
     private client: SchedulerApiClient,
-    private loadingWrapper: LoadingWrapperService
+    private loadingWrapper: LoadingWrapperService,
+    private dialog: DialogService
   ) { }
 
   loadData = () => {
@@ -27,7 +29,10 @@ export class SchedulerStore {
     });
   }
 
-  saveData = () => console.log('Save ...');
+  saveData = () => {
+    const call$ = this.loadingWrapper.wrap(this.client.saveData(this.schedulerStatus$.value));
+    call$.subscribe((data: string) => { this.dialog.snackSuccess(data); });
+  }
 
   selectJob(name: string) {
     const job = this.schedulerStatus$
@@ -41,7 +46,7 @@ export class SchedulerStore {
     const job: SchedulerJob = {
       name: this.uniqueName(),
       cronExpression: '0 0 0 ? * *',
-      cronExpressionDescription: cronstrue.toString('0 0 0 ? * *'),
+      cronExpressionDescription: cronstrue.toString('0 0 0 ? * *', { use24HourTimeFormat: true }),
       active: false,
       fireIfMissed: false,
       jobType: '',
@@ -71,9 +76,9 @@ export class SchedulerStore {
 
   saveJob(originalName: string, job: SchedulerJob) {
     if (!job.cronExpressionDescription) {
-      job.cronExpressionDescription = cronstrue.toString(job.cronExpression);
+      job.cronExpressionDescription = cronstrue.toString(job.cronExpression, { use24HourTimeFormat: true });
     }
-    console.log(job);
+
     const temp = this.schedulerStatus$
       .value
       .jobs
@@ -87,7 +92,7 @@ export class SchedulerStore {
 
     const jobClone = this.clone(job);
     jobClone.isNew = false;
-    jobClone.cronExpressionDescription = cronstrue.toString(job.cronExpression);
+    jobClone.cronExpressionDescription = cronstrue.toString(job.cronExpression, { use24HourTimeFormat: true });
     this.selectedJob$.next(jobClone);
   }
 

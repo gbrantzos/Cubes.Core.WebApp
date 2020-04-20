@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { SideNavComponent } from '@core/components/side-nav/side-nav.component';
 import { Router, NavigationEnd } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { UiManagerService, UiEventType, UiEvent } from '@core/services/ui-manager.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { SubSink } from 'subsink';
 
 @Component({
   selector: 'cubes-main-layout',
@@ -14,9 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class MainLayoutComponent implements OnInit, OnDestroy {
   @ViewChild('sideNav') sideNav: SideNavComponent;
-  private breakpointSub: Subscription = null;
-  private routerSub: Subscription = null;
-  private uiSpinnerSub: Subscription = null;
+  private subs = new SubSink();
   private defaultSpinnerMessage = 'Please wait ...';
 
   public spinnerMessage = 'Please wait ...';
@@ -30,12 +28,12 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.breakpointSub = this.breakpointObserver
+    this.subs.sink = this.breakpointObserver
       .observe(['(min-width: 699px)'])
       .subscribe((state: BreakpointState) => {
         this.hideSidenav = !state.matches;
       });
-    this.routerSub = this.router
+    this.subs.sink = this.router
       .events
       .pipe(
         filter(e => e instanceof NavigationEnd)
@@ -45,7 +43,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
           this.sideNav.toggle();
         }
       });
-    this.uiSpinnerSub = this.uiManager.on([UiEventType.ShowSpinner, UiEventType.HideSpinner], (event: UiEvent) => {
+    this.subs.sink = this.uiManager.on([UiEventType.ShowSpinner, UiEventType.HideSpinner], (event: UiEvent) => {
       switch (event.eventType) {
         case UiEventType.ShowSpinner:
           if (event.value) { this.spinnerMessage = event.value; }
@@ -61,17 +59,6 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    if (this.breakpointSub) {
-      this.breakpointSub.unsubscribe();
-    }
-    if (this.routerSub) {
-      this.routerSub.unsubscribe();
-    }
-    if (this.uiSpinnerSub) {
-      this.uiSpinnerSub.unsubscribe();
-    }
-  }
-
+  ngOnDestroy(): void { this.subs.unsubscribe(); }
   onToggleSidenav() { this.sideNav.toggle(); }
 }

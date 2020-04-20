@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
-import { SchedulerStatus, SchedulerStateEnum, SchedulerJob } from '@features/scheduler/services/scheduler.models';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { SchedulerStatus, SchedulerStateEnum, SchedulerJob, CubesSchedulerJob } from '@features/scheduler/services/scheduler.models';
+import { ConfigurationService } from '@core/services/configuration.service';
 import cronstrue from 'cronstrue';
 
 
 @Injectable()
 export class SchedulerApiClient {
+  private baseUrl: string;
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    config: ConfigurationService
+  ) { this.baseUrl = `${config.apiUrl}/scheduling`; }
 
   public loadData(): Observable<SchedulerStatus> {
-    return of(cubesMockData)
+    return this.http
+      .get<CubesSchedulerStatus>(this.baseUrl)
       .pipe(
-        delay(1200),
         map(response => {
           const data: SchedulerStatus = {
             schedulerState: response.schedulerState === 'Active'
@@ -26,7 +29,7 @@ export class SchedulerApiClient {
               const job: SchedulerJob = {
                 name: j.name,
                 cronExpression: j.cronExpression,
-                cronExpressionDescription: cronstrue.toString(j.cronExpression),
+                cronExpressionDescription: cronstrue.toString(j.cronExpression, { use24HourTimeFormat: true }),
                 jobType: j.jobType,
                 active: j.active,
                 fireIfMissed: false,
@@ -43,7 +46,24 @@ export class SchedulerApiClient {
         }));
   }
 
-  public saveData() { }
+  public saveData(status: SchedulerStatus) {
+    const data = status
+      .jobs
+      .map(j => {
+        const job: CubesSchedulerJob = {
+          name: j.name,
+          active: j.active,
+          cronExpression: j.cronExpression,
+          jobType: j.jobType,
+          parameters: j.executionParameters
+        };
+        return job;
+      });
+
+    const url = `${this.baseUrl}/save`;
+    return this.http
+      .post(url, data);
+  }
 }
 
 interface CubesSchedulerStatus {
