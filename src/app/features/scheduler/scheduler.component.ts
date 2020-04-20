@@ -24,7 +24,15 @@ export class SchedulerComponent implements OnInit {
     this.status$ = this.store.schedulerStatus;
   }
 
-  toggleScheduler(currentState: string) { console.log(currentState); }
+  toggleScheduler(currentState: string) {
+    let command = '';
+    if (currentState === 'Active')  { command = 'stop'; }
+    if (currentState === 'StandBy') { command = 'start'; }
+
+    this.store
+      .sendCommand(command)
+      .subscribe(data => this.dialogService.snackInfo(data));
+  }
 
   async reload() {
     if (this.editor.pendingChanges()) {

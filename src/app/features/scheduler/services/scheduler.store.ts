@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { SchedulerApiClient } from '@features/scheduler/services/scheduler.api-client';
 import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
 import { SchedulerStatus, SchedulerJob, EmptyStatus } from '@features/scheduler/services/scheduler.models';
 import cronstrue from 'cronstrue';
 import { DialogService } from '@shared/services/dialog.service';
+import { map } from 'rxjs/operators';
 
 
 @Injectable()
@@ -32,6 +33,17 @@ export class SchedulerStore {
   saveData = () => {
     const call$ = this.loadingWrapper.wrap(this.client.saveData(this.schedulerStatus$.value));
     call$.subscribe((data: string) => { this.dialog.snackSuccess(data); });
+  }
+
+  sendCommand(command: string): Observable<string> {
+    const message = command === 'start' ? 'started' : 'stopped';
+    const call$ = this.client.schedulerCommand(command).pipe(
+      map(data => {
+        this.schedulerStatus$.next(data);
+        this.selectedJob$.next(undefined);
+        return `Scheduler was ${message}.`;
+      }));
+    return this.loadingWrapper.wrap(call$);
   }
 
   selectJob(name: string) {

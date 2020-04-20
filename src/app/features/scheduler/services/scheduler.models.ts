@@ -32,11 +32,3 @@ export const EmptyStatus: SchedulerStatus = {
   serverTime: new Date(),
   jobs: []
 };
-
-export interface CubesSchedulerJob {
-  name: string;
-  active: boolean;
-  cronExpression: string;
-  jobType: string;
-  parameters: JobParameters;
-}
