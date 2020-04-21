@@ -26,19 +26,31 @@ export class SchedulerStore {
 
   loadData = () => {
     const call$ = this.loadingWrapper.wrap(this.client.loadData());
-    call$.subscribe((data) => {
-      this.schedulerStatus$.next(data);
-      this.selectedJob$.next(undefined);
-    });
+    call$.subscribe(
+      (data) => {
+        this.schedulerStatus$.next(data);
+        this.selectedJob$.next(undefined);
+      },
+      (error) => {
+        console.error(error);
+        this.dialog.snackError(`Loading of scheduler data failed!\n${error.error}`);
+      }
+    );
   }
 
   saveData = () => {
     const call$ = this.loadingWrapper.wrap(this.client.saveData(this.schedulerStatus$.value));
-    call$.subscribe((data) => {
-      this.dialog.snackSuccess('Scheduler settings saved!');
-      this.schedulerStatus$.next(data);
-      this.selectedJob$.next(undefined);
-    });
+    call$.subscribe(
+      (data) => {
+        this.dialog.snackSuccess('Scheduler settings saved!');
+        this.schedulerStatus$.next(data);
+        this.selectedJob$.next(undefined);
+      },
+      (error) => {
+        console.error(error);
+        this.dialog.snackError(`Saving of scheduler data failed!\n${error.error}`);
+      }
+    );
   }
 
   sendCommand(command: string): Observable<string> {
