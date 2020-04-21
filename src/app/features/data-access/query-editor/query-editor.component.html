@@ -11,7 +11,7 @@
   <div *ngIf="formSchema$ | async as formSchema; else empty">
     <div *ngIf="query$ | async as query; else empty">
       <div class="form">
-        <mat-tab-group #tabs [dynamicHeight]="true">
+        <mat-tab-group #tabs [dynamicHeight]="true" [(selectedIndex)]="selectedIndex">
           <!-- Basic info -->
           <mat-tab label="Basic">
             <cubes-dynamic-form

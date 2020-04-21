@@ -20,14 +20,14 @@
 
       <!-- Text area -->
       <mat-form-field *ngSwitchCase="'textarea'">
-        <textarea
+        <textarea #ta="cdkTextareaAutosize"
           matInput
           placeholder="{{ item.label }}"
           [formControlName]="item.key"
-          [rows]="item.textareaRows || 4"
+          [rows]="item.textareaRows || 8"
           [ngClass]="item.className"
           cdkTextareaAutosize
-          [cdkAutosizeMaxRows]="item.textareaMaxRows || item.textareaRows || 4"
+          [cdkAutosizeMaxRows]="item.textareaMaxRows || item.textareaRows || 8"
         ></textarea>
         <mat-error *ngIf="hasErrors(item.key)">
           {{ getErrorMessage(item.key) }}

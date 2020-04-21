@@ -24,6 +24,7 @@ export class QueryEditorComponent implements OnInit {
   public parametersForm: FormGroup;
   public queryParameters: any[];
   public dbType = DbType;
+  public selectedIndex = 0;
   public get parameters() {
     return this.parametersForm.get('params') as FormArray;
   }
@@ -53,6 +54,7 @@ export class QueryEditorComponent implements OnInit {
           this.parameters.clear();
           qry.parameters.forEach((r) => this.addParameter({ ...r }));
         }
+        this.selectedIndex = 0;
         return qry;
       })
     );

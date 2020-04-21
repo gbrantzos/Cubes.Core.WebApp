@@ -1,17 +1,17 @@
-import { Component, OnInit, Inject, OnDestroy, HostListener } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Query } from '@features/data-access/services/data-access.store';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { DataAccessApiClient, ExportSettings } from '@features/data-access/services/data-access.api-client';
+import { Query } from '@features/data-access/services/data-access.store';
 import { ColumnDefinition } from '@shared/components/dynamic-table/dynamic-table.component';
 import { DialogService } from '@shared/services/dialog.service';
 import { format } from 'date-fns';
 import { take } from 'rxjs/operators';
-import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'cubes-query-executor',
   templateUrl: './query-executor.component.html',
-  styleUrls: ['./query-executor.component.scss']
+  styleUrls: ['./query-executor.component.scss'],
 })
 export class QueryExecutorComponent implements OnInit {
   public query: Query;
@@ -46,26 +46,26 @@ export class QueryExecutorComponent implements OnInit {
     this.client
       .getExportSettings()
       .pipe(take(1))
-      .subscribe(s => this.exportSettings = s || { separator: ';', includeHeaders: true });
+      .subscribe((s) => (this.exportSettings = s || { separator: ';', includeHeaders: true }));
   }
 
-  onAcceptChanges(): void { this.dialogRef.close(this.query.queryCommand); }
+  onAcceptChanges(): void {
+    this.dialogRef.close(this.query.queryCommand);
+  }
   onExecute() {
     if (!this.selectedConnection) {
       this.dialogService.alert('You must first select a connection to use!');
       return;
     }
     this.resultDetails = null;
-    this.client
-      .executeQuery(this.query, this.selectedConnection)
-      .subscribe(res => {
-        const results = res.results as any[];
-        if (results.length === 0) {
-          this.dialogService.alert('No data returned from query execution!');
-        } else {
-          this.prepareResultDetails(results);
-        }
-      });
+    this.client.executeQuery(this.query, this.selectedConnection).subscribe((res) => {
+      const results = res.results as any[];
+      if (results.length === 0) {
+        this.dialogService.alert('No data returned from query execution!');
+      } else {
+        this.prepareResultDetails(results);
+      }
+    });
   }
   onExportResults() {
     const dateStr = format(new Date(), 'yyyyMMddHHmm');
@@ -77,7 +77,7 @@ export class QueryExecutorComponent implements OnInit {
       csvContent += Object.keys(firstRow).join(this.exportSettings.separator);
       csvContent += '\r\n';
     }
-    this.resultDetails.data.forEach(dataRow => {
+    this.resultDetails.data.forEach((dataRow) => {
       const row = Object.values(dataRow).join(this.exportSettings.separator);
       csvContent += row + '\r\n';
     });
@@ -92,15 +92,16 @@ export class QueryExecutorComponent implements OnInit {
     document.body.removeChild(link);
   }
   onSaveExportSettings(menu: MatMenuTrigger) {
-    this.client
-      .setExportSettings(this.exportSettings)
-      .subscribe(response => {
+    this.client.setExportSettings(this.exportSettings).subscribe(
+      (response) => {
         menu.closeMenu();
         this.dialogService.snackMessage(response, 'Close');
-      }, error => {
+      },
+      (error) => {
         console.error(error);
         this.dialogService.alert(error.error.message);
-      });
+      }
+    );
   }
 
   private prepareResultDetails(result: any): void {
@@ -108,16 +109,15 @@ export class QueryExecutorComponent implements OnInit {
 
     this.resultDetails = {
       data: result,
-      columns: Object.keys(element).map(key => {
+      columns: Object.keys(element).map((key) => {
         return {
           name: key,
           header: key,
           rowProperty: key,
-          // columnClass: typeof(element[key]) === 'number' ? 'cell-right' : 'cell-left'
         } as ColumnDefinition;
       }),
       displayedColumns: Object.keys(element),
-      tableClass: 'mat-elevation-z1'
+      tableClass: 'mat-elevation-z1',
     };
   }
 }
