@@ -1,7 +1,6 @@
 <div [hidden]="hidden" class="login-page">
   <div class="login-wrapper">
     <div class="login-panel">
-
       <div class="login-header">
         <span class="title">Cubes Management</span>
         <div class="filler"></div>
@@ -9,39 +8,62 @@
       </div>
 
       <form class="login-form" #form="ngForm" (ngSubmit)="login()">
-
         <mat-form-field class="full-width">
-          <input matInput placeholder="Username" [(ngModel)]="username" name="username" ngModel autocomplete="off"
-            required autofocus>
+          <input
+            matInput
+            placeholder="Username"
+            [(ngModel)]="username"
+            name="username"
+            ngModel
+            autocomplete="off"
+            required
+            autofocus
+          />
         </mat-form-field>
 
         <mat-form-field class="full-width">
-          <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" id="password" required
-            name="password" [(ngModel)]="password">
-          <mat-icon fontSet="fa" [fontIcon]="hide ? 'fa-eye' : 'fa-eye-slash'" matSuffix (click)="hide = !hide">
-          </mat-icon>
+          <input
+            matInput
+            placeholder="Password"
+            [type]="hide ? 'password' : 'text'"
+            id="password"
+            required
+            name="password"
+            [(ngModel)]="password"
+          />
+          <mat-icon
+            fontSet="fa"
+            [fontIcon]="hide ? 'fa-eye' : 'fa-eye-slash'"
+            matSuffix
+            (click)="hide = !hide"
+          ></mat-icon>
         </mat-form-field>
 
-        <button type="submit" [disabled]="!form.valid || working" class="full-width login-button" mat-raised-button
-          color="primary">
+        <button
+          type="submit"
+          [disabled]="!form.valid || working"
+          class="full-width login-button"
+          mat-raised-button
+          color="primary"
+        >
           <span *ngIf="!working">Connecting</span>
           <span class="centered" *ngIf="working">
             Trying to connect... &nbsp;
             <mat-icon>
-              <mat-spinner diameter="20">
-              </mat-spinner>
+              <mat-spinner diameter="20"></mat-spinner>
             </mat-icon>
           </span>
         </button>
 
         <div *ngIf="errorMessage" class="errors">
-          <mat-error class='mat-small'>{{errorMessage}}</mat-error>
+          <mat-error class="mat-small">{{ errorMessage }}</mat-error>
         </div>
-
       </form>
-
     </div>
 
-    <div [hidden]="!enableAdminUser" class="login-admin">Log in as&nbsp;<span class="link">super user</span></div>
+    <div [hidden]="!enableAdminUser" class="login-admin">
+      Log in as&nbsp;
+      <span class="link">super user</span>
+    </div>
   </div>
 </div>

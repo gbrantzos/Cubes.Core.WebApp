@@ -1,17 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
-
+import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertDialogComponent } from '@shared/components/alert-dialog/alert-dialog.component';
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { DynamicTableComponent } from '@shared/components/dynamic-table/dynamic-table.component';
+import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
 import { MaterialModule } from '@shared/modules/material.module';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +17,7 @@ import { PageHeaderComponent } from '@shared/components/page-header/page-header.
     ConfirmDialogComponent,
     DynamicFormComponent,
     DynamicTableComponent,
-    PageHeaderComponent
+    PageHeaderComponent,
   ],
   imports: [
     CommonModule,
@@ -29,7 +27,7 @@ import { PageHeaderComponent } from '@shared/components/page-header/page-header.
     FlexLayoutModule,
 
     NgxSpinnerModule,
-    NgxJsonViewerModule
+    NgxJsonViewerModule,
   ],
   exports: [
     FormsModule,
@@ -41,11 +39,8 @@ import { PageHeaderComponent } from '@shared/components/page-header/page-header.
 
     DynamicFormComponent,
     DynamicTableComponent,
-    PageHeaderComponent
+    PageHeaderComponent,
   ],
-  entryComponents: [
-    AlertDialogComponent,
-    ConfirmDialogComponent
-  ]
+  entryComponents: [AlertDialogComponent, ConfirmDialogComponent],
 })
-export class SharedModule { }
+export class SharedModule {}

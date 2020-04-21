@@ -1,11 +1,20 @@
 <mat-sidenav-container class="wrapper">
-
-  <mat-sidenav #sidenav class="sidenav" [disableClose]="!isHidden" [opened]="!isHidden" [mode]="isHidden ? 'over' : 'side'">
+  <mat-sidenav
+    #sidenav
+    class="sidenav"
+    [disableClose]="!isHidden"
+    [opened]="!isHidden"
+    [mode]="isHidden ? 'over' : 'side'"
+  >
     <mat-nav-list>
-      <mat-list-item *ngFor="let item of navItems" routerLinkActive="active-menu">
+      <mat-list-item
+        *ngFor="let item of navItems"
+        routerLinkActive="active-menu"
+      >
         <div class="nav-item" [routerLink]="item.link">
-          <mat-icon matLine fontSet="fas" [fontIcon]="item.icon" class="fa-fw"> </mat-icon>
-          <a matLine>{{item.label}}</a>
+          <mat-icon matLine fontSet="fas" [fontIcon]="item.icon" class="fa-fw">
+          </mat-icon>
+          <a matLine>{{ item.label }}</a>
         </div>
       </mat-list-item>
     </mat-nav-list>
@@ -14,5 +23,4 @@
   <mat-sidenav-content class="content">
     <router-outlet></router-outlet>
   </mat-sidenav-content>
-
 </mat-sidenav-container>

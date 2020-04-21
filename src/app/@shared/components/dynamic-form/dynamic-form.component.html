@@ -1,74 +1,113 @@
 <form [formGroup]="form" class="dynamic-form-wrapper">
-
   <!-- Loop schema items -->
   <ng-container *ngFor="let item of schema.items">
-
     <!-- Switch based on item type-->
     <ng-container [ngSwitch]="item.type">
-
       <!-- Simple input -->
       <mat-form-field *ngSwitchCase="'text'">
-        <input matInput type="text" placeholder="{{item.label}}" [formControlName]="item.key"
-          [ngClass]="item.className" />
-        <mat-error *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
+        <input
+          matInput
+          type="text"
+          placeholder="{{ item.label }}"
+          [formControlName]="item.key"
+          [ngClass]="item.className"
+        />
+        <mat-error *ngIf="hasErrors(item.key)">
+          {{ getErrorMessage(item.key) }}
+        </mat-error>
       </mat-form-field>
       <!-- Simple input -->
 
       <!-- Text area -->
       <mat-form-field *ngSwitchCase="'textarea'">
-        <textarea matInput placeholder="{{item.label}}" [formControlName]="item.key" [rows]="item.textareaRows || 4"
-          [ngClass]="item.className" cdkTextareaAutosize
-          [cdkAutosizeMaxRows]="item.textareaMaxRows || item.textareaRows || 4"></textarea>
-        <mat-error *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
+        <textarea
+          matInput
+          placeholder="{{ item.label }}"
+          [formControlName]="item.key"
+          [rows]="item.textareaRows || 4"
+          [ngClass]="item.className"
+          cdkTextareaAutosize
+          [cdkAutosizeMaxRows]="item.textareaMaxRows || item.textareaRows || 4"
+        ></textarea>
+        <mat-error *ngIf="hasErrors(item.key)">
+          {{ getErrorMessage(item.key) }}
+        </mat-error>
       </mat-form-field>
       <!-- Text area -->
 
       <!-- Select -->
       <mat-form-field *ngSwitchCase="'select'">
-        <mat-select placeholder="{{item.label}}" [formControlName]="item.key" [compareWith]="compareObjects"
-          [multiple]="item.options.multipleOptions" [ngClass]="item.className">
-          <mat-option *ngFor="let opt of item.options.items" [value]="opt.value" [disabled]="!!opt.disabled">
-            {{opt.label}}
+        <mat-select
+          placeholder="{{ item.label }}"
+          [formControlName]="item.key"
+          [compareWith]="compareObjects"
+          [multiple]="item.options.multipleOptions"
+          [ngClass]="item.className"
+        >
+          <mat-option
+            *ngFor="let opt of item.options.items"
+            [value]="opt.value"
+            [disabled]="!!opt.disabled"
+          >
+            {{ opt.label }}
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
+        <mat-error *ngIf="hasErrors(item.key)">
+          {{ getErrorMessage(item.key) }}
+        </mat-error>
       </mat-form-field>
       <!-- Select -->
 
       <!-- Checkbox -->
       <div class="checkbox" *ngSwitchCase="'checkbox'">
         <mat-checkbox [formControlName]="item.key">
-          {{item.label}}
+          {{ item.label }}
         </mat-checkbox>
-        <mat-error class="checkbox-error" *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
+        <mat-error class="checkbox-error" *ngIf="hasErrors(item.key)">
+          {{ getErrorMessage(item.key) }}
+        </mat-error>
       </div>
       <!-- Checkbox -->
 
       <!-- Datepicker -->
       <mat-form-field *ngSwitchCase="'datepicker'">
-        <input matInput [matDatepicker]="picker" placeholder="{{item.label}}" [formControlName]="item.key"
-          [ngClass]="item.className">
+        <input
+          matInput
+          [matDatepicker]="picker"
+          placeholder="{{ item.label }}"
+          [formControlName]="item.key"
+          [ngClass]="item.className"
+        />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-        <mat-error *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
+        <mat-error *ngIf="hasErrors(item.key)">
+          {{ getErrorMessage(item.key) }}
+        </mat-error>
       </mat-form-field>
       <!-- Datepicker -->
 
       <!-- Password -->
       <mat-form-field *ngSwitchCase="'password'">
-        <mat-error *ngIf="hasErrors(item.key)">{{getErrorMessage(item.key)}}</mat-error>
-        <input matInput placeholder={{item.label}} [type]="hidePassword ? 'password' : 'text'"
-          [formControlName]="item.key" [ngClass]="item.className">
-        <mat-icon fontSet="fa" [fontIcon]="hidePassword ? 'fa-eye' : 'fa-eye-slash'" matSuffix
-          (click)="hidePassword = !hidePassword">
-        </mat-icon>
+        <mat-error *ngIf="hasErrors(item.key)">
+          {{ getErrorMessage(item.key) }}
+        </mat-error>
+        <input
+          matInput
+          placeholder="{{ item.label }}"
+          [type]="hidePassword ? 'password' : 'text'"
+          [formControlName]="item.key"
+          [ngClass]="item.className"
+        />
+        <mat-icon
+          fontSet="fa"
+          [fontIcon]="hidePassword ? 'fa-eye' : 'fa-eye-slash'"
+          matSuffix
+          (click)="hidePassword = !hidePassword"
+        ></mat-icon>
       </mat-form-field>
       <!-- Password -->
-
     </ng-container>
     <!-- Switch based on item type-->
-
   </ng-container>
   <!-- Loop through schema items -->
-
 </form>

@@ -6,7 +6,7 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'cubes-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   public hide = true;
@@ -24,10 +24,11 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.redirectUrl = this.route.snapshot.queryParams.redirectUrl || this.defaultRedirect;
+    this.redirectUrl =
+      this.route.snapshot.queryParams.redirectUrl || this.defaultRedirect;
 
     if (this.authService.isLogged) {
       // If user is logged in, goto main component
@@ -45,20 +46,17 @@ export class LoginComponent implements OnInit {
     this.authService
       .login({
         userID: this.username,
-        password: this.password
+        password: this.password,
       })
-      .pipe(
-        finalize(() => this.working = false)
-      )
+      .pipe(finalize(() => (this.working = false)))
       .subscribe(
-        _ => {
+        (_) => {
           this.router.navigateByUrl(this.redirectUrl);
         },
-        error => {
+        (error) => {
           console.error(error);
           this.errorMessage = error;
         }
       );
   }
-
 }
