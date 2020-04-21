@@ -1,23 +1,22 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ConfigurationService } from '@core/services/configuration.service';
+import { DialogService } from '@shared/services/dialog.service';
+import { SharedModule } from '@shared/shared.module';
 import { Observable, of } from 'rxjs';
 import { catchError, shareReplay } from 'rxjs/operators';
-import { DialogService } from '@shared/services/dialog.service';
-import { ConfigurationService } from '@core/services/configuration.service';
 
 export enum CoreSchemas {
   SettingsSMTP = 'Cubes.Core.Email.SmtpSettingsProfiles',
   DataConnection = 'Cubes.Core.DataAccess.Connection',
-  DataQuery = 'Cubes.Core.DataAccess.Query'
+  DataQuery = 'Cubes.Core.DataAccess.Query',
 }
 
 interface Cache {
   [name: string]: Observable<Schema>;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SchemaService {
   private baseUrl: string;
   private readonly cache: Cache = {};
@@ -26,7 +25,9 @@ export class SchemaService {
     private httpClient: HttpClient,
     private dialogService: DialogService,
     config: ConfigurationService
-  ) { this.baseUrl = `${config.uiUrl}/schema`; }
+  ) {
+    this.baseUrl = `${config.uiUrl}/schema`;
+  }
 
   public getSchema(name: string): Observable<Schema> {
     const cached = this.cache[name];
@@ -40,17 +41,14 @@ export class SchemaService {
   }
 
   private actualCall(name: string): Observable<Schema> {
-    return this
-      .httpClient
-      .get<Schema>(`${this.baseUrl}/${name}`)
-      .pipe(
-        shareReplay(1),
-        catchError((error, _) => {
-          console.error(`Failed to retrieve schema "${name}"`, error);
-          // this.dialogService.snackWarning(`Failed to retrieve schema!\n\n"${name}"\n${error.error}`, 'Close');
-          return of(undefined);
-        })
-      );
+    return this.httpClient.get<Schema>(`${this.baseUrl}/${name}`).pipe(
+      shareReplay(1),
+      catchError((error, _) => {
+        console.error(`Failed to retrieve schema "${name}"`, error);
+        // this.dialogService.snackWarning(`Failed to retrieve schema!\n\n"${name}"\n${error.error}`, 'Close');
+        return of(undefined);
+      })
+    );
   }
 }
 
@@ -89,6 +87,14 @@ export interface Validators {
 }
 
 export interface Validator {
-  name: 'min' | 'max' | 'required' | 'requiredTrue' | 'email' | 'minLength' | 'maxLength' | 'pattern';
+  name:
+    | 'min'
+    | 'max'
+    | 'required'
+    | 'requiredTrue'
+    | 'email'
+    | 'minLength'
+    | 'maxLength'
+    | 'pattern';
   parameters?: any;
 }

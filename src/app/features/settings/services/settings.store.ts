@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { SettingsApiClient } from '@features/settings/services/settings.api-client';
-import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
 import { DialogService } from '@shared/services/dialog.service';
+import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class SettingsStore {
@@ -16,27 +16,23 @@ export class SettingsStore {
     private apiClient: SettingsApiClient,
     private loadingWrapper: LoadingWrapperService,
     private dialog: DialogService
-  ) { }
+  ) {}
 
   loadData = () => {
     const call$ = this.loadingWrapper.wrap(this.apiClient.loadData());
-    call$.subscribe(data => {
+    call$.subscribe((data) => {
       this.smtpProfiles$.next(data);
       this.selectedSmtpProfile$.next(undefined);
     });
-  }
+  };
 
   saveData = () => {
-    const call$ = this.loadingWrapper.wrap(
-      this.apiClient.saveData(this.smtpProfiles$.value)
-    );
-    call$.subscribe(_ => this.dialog.snackSuccess('Settings saved!'));
-  }
+    const call$ = this.loadingWrapper.wrap(this.apiClient.saveData(this.smtpProfiles$.value));
+    call$.subscribe((_) => this.dialog.snackSuccess('Settings saved!'));
+  };
 
   selectProfile(name: string) {
-    const smtp = this.smtpProfiles$
-      .value
-      .find(s => s.name === name);
+    const smtp = this.smtpProfiles$.value.find((s) => s.name === name);
     this.selectedSmtpProfile$.next({ ...smtp });
   }
 
@@ -52,7 +48,7 @@ export class SettingsStore {
       useSsl: false,
       isNew: true,
       userName: '',
-      password: ''
+      password: '',
     };
     this.selectedSmtpProfile$.next(smtp);
   }
@@ -60,9 +56,8 @@ export class SettingsStore {
   discardNewProfile = () => this.selectedSmtpProfile$.next(undefined);
 
   deleteProfile(name: string) {
-    const temp = this.smtpProfiles$
-      .value
-      .filter(cnx => cnx.name !== name)
+    const temp = this.smtpProfiles$.value
+      .filter((cnx) => cnx.name !== name)
       .sort((a, b) => a.name.localeCompare(b.name));
 
     this.smtpProfiles$.next(temp);
@@ -71,13 +66,8 @@ export class SettingsStore {
   }
 
   saveProfile(originalName: string, profile: SmtpProfile) {
-    const temp = this.smtpProfiles$
-      .value
-      .filter(s => s.name !== originalName);
-    const newQryArray = [
-      ...temp,
-      profile
-    ].sort((a, b) => a.name.localeCompare(b.name));
+    const temp = this.smtpProfiles$.value.filter((s) => s.name !== originalName);
+    const newQryArray = [...temp, profile].sort((a, b) => a.name.localeCompare(b.name));
 
     this.smtpProfiles$.next(newQryArray);
     this.saveData();
@@ -93,7 +83,7 @@ export class SettingsStore {
     do {
       id++;
       name = `Profile.#${id}`;
-    } while (this.smtpProfiles$.value.findIndex(p => p.name === name) !== -1);
+    } while (this.smtpProfiles$.value.findIndex((p) => p.name === name) !== -1);
 
     return name;
   }

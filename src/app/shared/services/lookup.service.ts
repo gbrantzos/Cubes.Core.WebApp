@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConfigurationService } from '@core/services/configuration.service';
+import { SharedModule } from '@shared/shared.module';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LookupService {
   private baseUrl: string;
 

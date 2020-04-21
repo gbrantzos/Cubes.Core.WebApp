@@ -23,7 +23,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    SharedModule,
+    SharedModule.forRoot(),
     HttpClientModule,
     AppRoutingModule,
   ],
