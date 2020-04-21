@@ -30,6 +30,11 @@ export interface SideNavItem {
 }
 const sideNavItems = [
   {
+    label: 'Home',
+    icon: 'fa-home',
+    link: '/home'
+  },
+  {
     label: 'Scheduler',
     icon: 'fa-calendar-alt',
     link: '/scheduler'

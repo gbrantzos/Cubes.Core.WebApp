@@ -24,8 +24,14 @@ export class DataAccessStore {
   /** Query currently selected on UI. */
   readonly selectedQuery = this.selectedQuery$.asObservable();
 
-  get connectionsValue() { return this.connections$.value.map(c => c.name); }
   get selectedConnectionValue() { return this.selectedConnection$.value?.name; }
+
+  get connectionsSnapshot() {
+    return this.connections$.value;
+  }
+  get queriesSnapshot() {
+    return this.queries$.value;
+  }
 
   constructor(
     private apiClient: DataAccessApiClient,

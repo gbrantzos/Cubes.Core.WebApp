@@ -104,13 +104,26 @@ export class QueryEditorComponent implements OnInit {
       });
     }
   }
-  onSave() {
+
+  async onSave() {
     const query = this.queryFromForm();
+    const existing = this.store.queriesSnapshot.find((s) => s.name === query.name);
+    const willOverwrite = this.isNew ? existing : existing && existing.name !== this.originalName;
+    if (willOverwrite) {
+      const dialogResult = await this.dialogService
+        .confirm(`Query with name '${query.name}' already exist.\nContinue and overwrite?`)
+        .toPromise();
+      if (!dialogResult) {
+        return;
+      }
+      this.originalName = query.name;
+    }
     this.store.saveQuery(this.originalName, query);
     this.form.markAsPristine();
     this.parametersForm.markAsPristine();
     this.isNew = false;
   }
+
   onExecute() {
     const query = this.queryFromForm();
     this.matDialog
@@ -124,7 +137,7 @@ export class QueryEditorComponent implements OnInit {
         disableClose: true,
         data: {
           query: this.clone(query),
-          connections: this.store.connectionsValue,
+          connections: this.store.connectionsSnapshot.map((c) => c.name),
           selectedConnection: this.store.selectedConnectionValue,
         },
       })

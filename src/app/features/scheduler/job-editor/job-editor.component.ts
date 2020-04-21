@@ -129,8 +129,19 @@ export class JobEditorComponent implements OnInit {
     }
   }
 
-  onSave() {
+  async onSave() {
     const job = this.jobFromForm();
+    const existing = this.store.snapshot.jobs.find((s) => s.name === job.name);
+    const willOverwrite = this.isNew ? existing : existing && existing.name !== this.originalName;
+    if (willOverwrite) {
+      const dialogResult = await this.dialogService
+        .confirm(`Scheduler job with name '${job.name}' already exist.\nContinue and overwrite?`)
+        .toPromise();
+      if (!dialogResult) {
+        return;
+      }
+      this.originalName = job.name;
+    }
     this.store.saveJob(this.originalName, job);
     this.jobForm.markAsPristine();
     this.executionParameters.markAsPristine();

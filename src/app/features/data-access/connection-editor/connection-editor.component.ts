@@ -60,8 +60,20 @@ export class ConnectionEditorComponent implements OnInit {
         });
     }
   }
-  onSave() {
+
+  async onSave() {
     const connection = this.connectionFromForm();
+    const existing = this.store.connectionsSnapshot.find((s) => s.name === connection.name);
+    const willOverwrite = this.isNew ? existing : existing && existing.name !== this.originalName;
+    if (willOverwrite) {
+      const dialogResult = await this.dialogService
+        .confirm(`Connection with name '${connection.name}' already exist.\nContinue and overwrite?`)
+        .toPromise();
+      if (!dialogResult) {
+        return;
+      }
+      this.originalName = connection.name;
+    }
     this.store.saveConnection(this.originalName, connection);
     this.form.markAsPristine();
     this.isNew = false;

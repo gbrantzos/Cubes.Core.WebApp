@@ -9,8 +9,11 @@ export class SettingsStore {
   private readonly smtpProfiles$ = new BehaviorSubject<SmtpProfile[]>([]);
   private readonly selectedSmtpProfile$ = new BehaviorSubject<SmtpProfile>(undefined);
 
-  readonly smtpProfiles = this.smtpProfiles$.asObservable();
-  readonly selectedSmtpProfile = this.selectedSmtpProfile$.asObservable();
+  public readonly smtpProfiles = this.smtpProfiles$.asObservable();
+  public readonly selectedSmtpProfile = this.selectedSmtpProfile$.asObservable();
+  public get snapshot() {
+    return this.smtpProfiles$.value;
+  }
 
   constructor(
     private apiClient: SettingsApiClient,
@@ -18,18 +21,18 @@ export class SettingsStore {
     private dialog: DialogService
   ) {}
 
-  loadData = () => {
+  loadData() {
     const call$ = this.loadingWrapper.wrap(this.apiClient.loadData());
     call$.subscribe((data) => {
       this.smtpProfiles$.next(data);
       this.selectedSmtpProfile$.next(undefined);
     });
-  };
+  }
 
-  saveData = () => {
+  saveData() {
     const call$ = this.loadingWrapper.wrap(this.apiClient.saveData(this.smtpProfiles$.value));
     call$.subscribe((_) => this.dialog.snackSuccess('Settings saved!'));
-  };
+  }
 
   selectProfile(name: string) {
     const smtp = this.smtpProfiles$.value.find((s) => s.name === name);

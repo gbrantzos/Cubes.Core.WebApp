@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { SchedulerApiClient } from '@features/scheduler/services/scheduler.api-client';
-import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
-import { SchedulerStatus, SchedulerJob, EmptyStatus } from '@features/scheduler/services/scheduler.models';
-import cronstrue from 'cronstrue';
+import { EmptyStatus, SchedulerJob, SchedulerStatus } from '@features/scheduler/services/scheduler.models';
 import { DialogService } from '@shared/services/dialog.service';
+import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
+import cronstrue from 'cronstrue';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 
 @Injectable()
 export class SchedulerStore {
@@ -15,16 +14,19 @@ export class SchedulerStore {
 
   public schedulerStatus = this.schedulerStatus$.asObservable();
   public selectedJob = this.selectedJob$.asObservable();
+  public get snapshot() {
+    return this.schedulerStatus$.value;
+  }
 
   constructor(
     private client: SchedulerApiClient,
     private loadingWrapper: LoadingWrapperService,
     private dialog: DialogService
-  ) { }
+  ) {}
 
   loadData = () => {
     const call$ = this.loadingWrapper.wrap(this.client.loadData());
-    call$.subscribe(data => {
+    call$.subscribe((data) => {
       this.schedulerStatus$.next(data);
       this.selectedJob$.next(undefined);
     });
@@ -32,25 +34,25 @@ export class SchedulerStore {
 
   saveData = () => {
     const call$ = this.loadingWrapper.wrap(this.client.saveData(this.schedulerStatus$.value));
-    call$.subscribe((data: string) => { this.dialog.snackSuccess(data); });
+    call$.subscribe((data: string) => {
+      this.dialog.snackSuccess(data);
+    });
   }
 
   sendCommand(command: string): Observable<string> {
     const message = command === 'start' ? 'started' : 'stopped';
     const call$ = this.client.schedulerCommand(command).pipe(
-      map(data => {
+      map((data) => {
         this.schedulerStatus$.next(data);
         this.selectedJob$.next(undefined);
         return `Scheduler was ${message}.`;
-      }));
+      })
+    );
     return this.loadingWrapper.wrap(call$);
   }
 
   selectJob(name: string) {
-    const job = this.schedulerStatus$
-      .value
-      .jobs
-      .find(j => j.name === name);
+    const job = this.schedulerStatus$.value.jobs.find((j) => j.name === name);
     this.selectedJob$.next(this.clone(job));
   }
 
@@ -63,23 +65,23 @@ export class SchedulerStore {
       fireIfMissed: false,
       jobType: '',
       executionParameters: null,
-      isNew: true
+      isNew: true,
     };
     this.selectedJob$.next(job);
   }
 
-  discardNewJob() { this.selectedJob$.next(undefined); }
+  discardNewJob() {
+    this.selectedJob$.next(undefined);
+  }
 
   deleteJob(originalName: string) {
-    const temp = this.schedulerStatus$
-      .value
-      .jobs
-      .filter(cnx => cnx.name !== originalName)
+    const temp = this.schedulerStatus$.value.jobs
+      .filter((cnx) => cnx.name !== originalName)
       .sort((a, b) => a.name.localeCompare(b.name));
 
     const newStatus = {
       ...this.schedulerStatus$.value,
-      jobs: temp
+      jobs: temp,
     };
     this.schedulerStatus$.next(newStatus);
     this.selectedJob$.next(undefined);
@@ -91,13 +93,10 @@ export class SchedulerStore {
       job.cronExpressionDescription = cronstrue.toString(job.cronExpression, { use24HourTimeFormat: true });
     }
 
-    const temp = this.schedulerStatus$
-      .value
-      .jobs
-      .filter(s => s.name !== originalName);
+    const temp = this.schedulerStatus$.value.jobs.filter((s) => s.name !== originalName);
     const newStatus = {
       ...this.schedulerStatus$.value,
-      jobs: [...temp, job].sort((a, b) => a.name.localeCompare(b.name))
+      jobs: [...temp, job].sort((a, b) => a.name.localeCompare(b.name)),
     };
     this.schedulerStatus$.next(newStatus);
     this.saveData();
@@ -114,11 +113,10 @@ export class SchedulerStore {
     do {
       id++;
       name = `Job.#${id}`;
-    } while (this.schedulerStatus$.value.jobs.findIndex(p => p.name === name) !== -1);
+    } while (this.schedulerStatus$.value.jobs.findIndex((p) => p.name === name) !== -1);
 
     return name;
   }
 
   private clone = (obj: any): any => JSON.parse(JSON.stringify(obj));
 }
-
