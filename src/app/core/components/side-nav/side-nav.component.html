@@ -6,18 +6,14 @@
     [opened]="!isHidden"
     [mode]="isHidden ? 'over' : 'side'"
   >
-    <mat-nav-list>
-      <mat-list-item
-        *ngFor="let item of navItems"
-        routerLinkActive="active-menu"
-      >
+    <mat-list>
+      <mat-list-item *ngFor="let item of navItems" routerLinkActive="active-menu">
         <div class="nav-item" [routerLink]="item.link">
-          <mat-icon matLine fontSet="fas" [fontIcon]="item.icon" class="fa-fw">
-          </mat-icon>
+          <mat-icon matLine fontSet="fas" [fontIcon]="item.icon" class="fa-fw"> </mat-icon>
           <a matLine>{{ item.label }}</a>
         </div>
       </mat-list-item>
-    </mat-nav-list>
+    </mat-list>
   </mat-sidenav>
 
   <mat-sidenav-content class="content">

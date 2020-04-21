@@ -43,6 +43,12 @@ export class DataAccessComponent implements OnInit {
         .toPromise();
       if (!dialogResult) { return; }
     }
+    if (this.queryForm.pendingChanges()) {
+      const dialogResult = await this.dialogService
+        .confirm('There are unsaved changes on selected query.\nDiscard and continue?')
+        .toPromise();
+      if (!dialogResult) { return; }
+    }
     this.store.loadData();
   }
 

@@ -1,0 +1,19 @@
+{
+  "apiUrl": "/api",
+  "uiUrl": "/ui",
+  "mockData": true,
+  "users":[
+    {
+      "userID": "admin",
+      "password": "admin",
+      "fullName": "System Administrator",
+      "email": "g.brantzos@gmail.com"
+    },
+    {
+      "userID": "giorgio",
+      "password": "giorgio",
+      "fullName": "Γιώργος Μπράντζος",
+      "email": "g.brantzos@gmail.com"
+    }
+  ]
+}

@@ -10,25 +10,86 @@
 
   <div *ngIf="formSchema$ | async as formSchema; else empty">
     <div *ngIf="query$ | async as query; else empty">
-
       <div class="form">
-        <cubes-dynamic-form #f [schema]="formSchema" [model]="query" (isValid)="save.disabled=!$event">
-        </cubes-dynamic-form>
+        <mat-tab-group #tabs [dynamicHeight]="true">
+          <!-- Basic info -->
+          <mat-tab label="Basic">
+            <cubes-dynamic-form
+              #f
+              [schema]="formSchema"
+              [model]="query"
+              (isValid)="save.disabled = !$event"
+            ></cubes-dynamic-form>
+          </mat-tab>
+
+          <!-- Parameters -->
+          <mat-tab label="Parameters">
+            <form [formGroup]="parametersForm">
+              <div mat-subheader>Parameters</div>
+              <div formArrayName="params">
+                <div
+                  *ngFor="let prm of queryParameters; let i = index"
+                  fxLayout="row"
+                  fxLayoutGap="6px"
+                  fxLayoutAlign=" center"
+                  [formGroupName]="i"
+                >
+                  <!-- Name -->
+                  <mat-form-field fxFlex="1 0 40px">
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name" />
+                  </mat-form-field>
+
+                  <!-- DbType -->
+                  <mat-form-field fxFlex="1 0 40px">
+                    <mat-label>Database Type</mat-label>
+                    <mat-select formControlName="dbType">
+                      <mat-option *ngFor="let t of dbType" value="{{t}}">{{t}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <!-- Default value -->
+                  <mat-form-field fxFlex="1 0 40px">
+                    <mat-label>Default Value</mat-label>
+                    <input matInput formControlName="default" />
+                  </mat-form-field>
+
+                  <mat-icon
+                    fxFlex="0 0 30px"
+                    mat-list-icon
+                    fontSet="fas"
+                    fontIcon="fa-minus"
+                    matTooltip="Remove parameter"
+                    class="fa-fw action-button"
+                    (click)="removeParameter(i, prm)"
+                  ></mat-icon>
+                </div>
+                <div class="no-parameters" *ngIf="!queryParameters.length">
+                  <i class="far fa-question-circle fa-3x"></i>
+                  <p>No parameters defined!</p>
+                </div>
+                <div class="add-parameter">
+                  <button mat-button color="primary" (click)="addParameter(undefined)">Add Parameter</button>
+                </div>
+              </div>
+            </form>
+            <mat-divider class="parameters-divider"></mat-divider>
+          </mat-tab>
+        </mat-tab-group>
 
         <div class="buttons" fxLayout="row">
-          <button mat-button color="primary" (click)="onExecute()"> Execute Query </button>
+          <button mat-button color="primary" (click)="onExecute()">Execute Query</button>
           <div class="filler"></div>
-          <button #delete mat-button color="warn" (click)="onDelete()"> {{isNew ? 'Cancel' : 'Delete'}} </button>
-          <button #save mat-button color="primary" (click)="onSave()"> Save </button>
+          <button #delete mat-button color="warn" (click)="onDelete()">{{ isNew ? 'Cancel' : 'Delete' }}</button>
+          <button #save mat-button color="primary" (click)="onSave()">Save</button>
         </div>
       </div>
-
     </div>
   </div>
 
   <ng-template #empty>
     <div class="no-data">
-      <img src="assets/images/nodata.png" width="128px">
+      <img src="assets/images/nodata.png" width="128px" />
       <p>Select a query from the list!</p>
     </div>
   </ng-template>
