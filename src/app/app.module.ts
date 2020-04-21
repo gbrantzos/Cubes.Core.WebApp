@@ -1,24 +1,23 @@
+import {
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from './@shared/shared.module';
-import { AppRoutingModule } from './app-routing.module';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-
-import { AppComponent } from './app.component';
+import { LoginComponent } from '@core/components/login/login.component';
 import { MainLayoutComponent } from '@core/components/main-layout/main-layout.component';
 import { NavBarComponent } from '@core/components/nav-bar/nav-bar.component';
-import { SideNavComponent } from '@core/components/side-nav/side-nav.component';
-import { loadConfiguration } from '@core/helpers/load-configuration';
-import { LoginComponent } from '@core/components/login/login.component';
 import { NotFoundComponent } from '@core/components/not-found/not-found.component';
-
-import { ConfigurationService } from '@core/services/configuration.service';
-
+import { SideNavComponent } from '@core/components/side-nav/side-nav.component';
 import { CubesApiResultInterceptor } from '@core/helpers/cubes-api-result.interceptor';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
-
+import { loadConfiguration } from '@core/helpers/load-configuration';
+import { ConfigurationService } from '@core/services/configuration.service';
+import { SharedModule } from '@shared/shared.module';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 
 @NgModule({
   imports: [
@@ -26,7 +25,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
     BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   declarations: [
     AppComponent,
@@ -34,32 +33,29 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
     NavBarComponent,
     SideNavComponent,
     LoginComponent,
-    NotFoundComponent
+    NotFoundComponent,
   ],
   providers: [
     {
       provide: APP_INITIALIZER,
       useFactory: loadConfiguration,
       multi: true,
-      deps: [
-        HttpClient,
-        ConfigurationService
-      ]
+      deps: [HttpClient, ConfigurationService],
     },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CubesApiResultInterceptor,
-      multi: true
+      multi: true,
     },
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
-      useValue:  {
+      useValue: {
         duration: 5000,
         panelClass: 'snack-bar',
-        horizontalPosition: 'right'
-      }
-    }
+        horizontalPosition: 'right',
+      },
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
