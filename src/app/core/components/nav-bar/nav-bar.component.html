@@ -1,20 +1,11 @@
 <!-- Toolbar -->
 <mat-toolbar class="toolbar mat-elevation-z2" color="primary">
-  <img src="assets/images/cubes.logo.white.svg" width="32px" />
-  &nbsp;&nbsp;
   <span routerLink="/" class="menu-link">Cubes Management</span>
-
   <div class="filler"></div>
 
   <!-- TODO Wire to notification service -->
   <div class="notifications" hidden>
-    <mat-icon
-      fontSet="far"
-      fontIcon="fa-flag"
-      matBadge="3"
-      matBadgeColor="warn"
-      [matBadgeHidden]="'false'"
-    ></mat-icon>
+    <mat-icon fontSet="far" fontIcon="fa-flag" matBadge="3" matBadgeColor="warn" [matBadgeHidden]="'false'"></mat-icon>
   </div>
 
   <span class="small">{{ user.fullName }}</span>
@@ -24,11 +15,7 @@
     <mat-icon fontSet="fas" fontIcon="fa-caret-down"></mat-icon>
   </button>
 
-  <button
-    mat-icon-button
-    [ngClass]="{ hidden: !showMenuIcon }"
-    (click)="onToggleSidenav()"
-  >
+  <button mat-icon-button [ngClass]="{ hidden: !showMenuIcon }" (click)="onToggleSidenav()">
     <mat-icon fontSet="fas" fontIcon="fa-bars"></mat-icon>
   </button>
 
