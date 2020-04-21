@@ -1,21 +1,20 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { CustomValidators } from '@core/helpers/custom-validators';
-import { LookupService } from '@shared/services/lookup.service';
-import { SchedulerJob, JobParameters } from '@features/scheduler/services/scheduler.models';
-import { SchedulerStore } from '@features/scheduler/services/scheduler.store';
-import cronstrue from 'cronstrue';
-import { DialogService } from '@shared/services/dialog.service';
 import { ParametersEditor } from '@features/scheduler/params-editors/execution-params-editors';
-
+import { JobParameters, SchedulerJob } from '@features/scheduler/services/scheduler.models';
+import { SchedulerStore } from '@features/scheduler/services/scheduler.store';
+import { DialogService } from '@shared/services/dialog.service';
+import { LookupService } from '@shared/services/lookup.service';
+import cronstrue from 'cronstrue';
+import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cubes-job-editor',
   templateUrl: './job-editor.component.html',
   styleUrls: ['./job-editor.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JobEditorComponent implements OnInit {
   @ViewChild('executionParameters', { static: false }) executionParameters: ParametersEditor;
@@ -34,26 +33,24 @@ export class JobEditorComponent implements OnInit {
     private lookupService: LookupService,
     private dialogService: DialogService,
     private store: SchedulerStore
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.jobForm = this.createJobForm();
-    this.job$ = this.store
-      .selectedJob
-      .pipe(
-        map(job => {
-          this.originalName = job?.name;
-          this.isNew = job?.isNew ?? false;
-          if (job) {
-            this.jobForm.patchValue(job);
-            if (job.executionParameters) {
-              this.jobParameters = { ...job.executionParameters };
-              setTimeout(() => this.executionParameters.setParameters(this.jobParameters), 100);
-            }
+    this.job$ = this.store.selectedJob.pipe(
+      map((job) => {
+        this.originalName = job?.name;
+        this.isNew = job?.isNew ?? false;
+        if (job) {
+          this.jobForm.patchValue(job);
+          if (job.executionParameters) {
+            this.jobParameters = { ...job.executionParameters };
+            setTimeout(() => this.executionParameters.setParameters(this.jobParameters), 100);
           }
-          return job;
-        })
-      );
+        }
+        return job;
+      })
+    );
     this.lookups$ = forkJoin(
       this.lookupService.getLookup('jobTypes'),
       this.lookupService.getLookup('requestTypes')
@@ -61,17 +58,12 @@ export class JobEditorComponent implements OnInit {
       map(([jobTypes, requestTypes]) => {
         return {
           jobTypes,
-          requestTypes
+          requestTypes,
         };
       })
     );
-    this.jobForm
-      .get('jobType')
-      .valueChanges
-      .subscribe(value => this.jobTypeForSwitch = value);
-    this.jobForm
-      .statusChanges
-      .subscribe(res => this.formValid = this.jobForm.valid);
+    this.jobForm.get('jobType').valueChanges.subscribe((value) => (this.jobTypeForSwitch = value));
+    this.jobForm.statusChanges.subscribe((res) => (this.formValid = this.jobForm.valid));
   }
 
   private createJobForm(): FormGroup {
@@ -80,15 +72,21 @@ export class JobEditorComponent implements OnInit {
       cronExpression: ['', [Validators.required, CustomValidators.isCronExpression]],
       active: false,
       fireIfMissed: { value: false, disabled: true },
-      jobType: ['', Validators.required]
+      jobType: ['', Validators.required],
     });
 
     return form;
   }
 
-  get name() { return this.jobForm.get('name'); }
-  get cronExpression() { return this.jobForm.get('cronExpression'); }
-  get jobType() { return this.jobForm.get('jobType'); }
+  get name() {
+    return this.jobForm.get('name');
+  }
+  get cronExpression() {
+    return this.jobForm.get('cronExpression');
+  }
+  get jobType() {
+    return this.jobForm.get('jobType');
+  }
   get cronExpressionErrorMessage() {
     if (this.cronExpression.getError('required')) {
       return 'CronExpression is required';
@@ -117,17 +115,17 @@ export class JobEditorComponent implements OnInit {
 
   onDelete() {
     if (this.isNew) {
-      this.dialogService
-        .confirm('Discard new job?')
-        .subscribe(r => {
-          if (r) { this.store.discardNewJob(); }
-        });
+      this.dialogService.confirm('Discard new job?').subscribe((r) => {
+        if (r) {
+          this.store.discardNewJob();
+        }
+      });
     } else {
-      this.dialogService
-        .confirm('Delete current job?')
-        .subscribe(r => {
-          if (r) { this.store.deleteJob(this.originalName); }
-        });
+      this.dialogService.confirm('Delete current job?').subscribe((r) => {
+        if (r) {
+          this.store.deleteJob(this.originalName);
+        }
+      });
     }
   }
 
@@ -138,7 +136,7 @@ export class JobEditorComponent implements OnInit {
     this.executionParameters.markAsPristine();
     this.isNew = false;
   }
-  onExecute() { }
+  onExecute() {}
 
   private jobFromForm(): SchedulerJob {
     const currentValue: any = this.jobForm.value;
@@ -150,7 +148,7 @@ export class JobEditorComponent implements OnInit {
       fireIfMissed: currentValue.fireIfMissed,
       jobType: currentValue.jobType,
       executionParameters: this.executionParameters.getParameters(),
-      isNew: false
+      isNew: false,
     } as SchedulerJob;
   }
 }
