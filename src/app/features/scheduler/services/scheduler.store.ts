@@ -34,8 +34,10 @@ export class SchedulerStore {
 
   saveData = () => {
     const call$ = this.loadingWrapper.wrap(this.client.saveData(this.schedulerStatus$.value));
-    call$.subscribe((data: string) => {
-      this.dialog.snackSuccess(data);
+    call$.subscribe((data) => {
+      this.dialog.snackSuccess('Scheduler settings saved!');
+      this.schedulerStatus$.next(data);
+      this.selectedJob$.next(undefined);
     });
   }
 

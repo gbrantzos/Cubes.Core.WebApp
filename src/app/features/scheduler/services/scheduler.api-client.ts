@@ -27,7 +27,7 @@ export class SchedulerApiClient {
         map(response => this.processCubesResponse(response)));
   }
 
-  public saveData(status: SchedulerStatus) {
+  public saveData(status: SchedulerStatus): Observable<SchedulerStatus> {
     const data = status
       .jobs
       .map(j => {
@@ -43,7 +43,10 @@ export class SchedulerApiClient {
 
     const url = `${this.baseUrl}/save`;
     return this.http
-      .post(url, data);
+      .post<CubesSchedulerStatus>(url, data)
+      .pipe(
+        map(response => this.processCubesResponse(response))
+      );
   }
 
   public schedulerCommand(command: string): Observable<SchedulerStatus> {
