@@ -8,6 +8,7 @@ import { ColumnDefinition } from '@shared/components/dynamic-table/dynamic-table
 import { DialogService } from '@shared/services/dialog.service';
 import { format } from 'date-fns';
 import { take } from 'rxjs/operators';
+import { UiEventType, UiManagerService } from '@core/services/ui-manager.service';
 
 @Component({
   selector: 'cubes-query-executor',
@@ -34,7 +35,8 @@ export class QueryExecutorComponent implements OnInit {
     private dialogRef: MatDialogRef<QueryExecutorComponent>,
     private dialogService: DialogService,
     private client: DataAccessApiClient,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private uiManager: UiManagerService
   ) {
     this.query = data.query;
     this.connections = data.connections;
@@ -79,8 +81,10 @@ export class QueryExecutorComponent implements OnInit {
       params = paramsResult;
     }
     this.resultDetails = null;
+    this.uiManager.emit(UiEventType.ShowSpinner, 'Executing query ...');
     this.client.executeQuery(this.query, this.selectedConnection, params).subscribe(
       (res) => {
+        this.uiManager.emit(UiEventType.HideSpinner);
         const results = res.results as any[];
         if (results.length === 0) {
           this.dialogService.snackWarning('No data returned from query execution!');
@@ -89,6 +93,7 @@ export class QueryExecutorComponent implements OnInit {
         }
       },
       (error) => {
+        this.uiManager.emit(UiEventType.HideSpinner);
         console.error(error);
         this.dialogService.alert(`Query execution failed!\n${error.error.message}`);
       }

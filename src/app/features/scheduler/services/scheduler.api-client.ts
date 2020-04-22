@@ -34,6 +34,7 @@ export class SchedulerApiClient {
         const job: CubesSchedulerJob = {
           name: j.name,
           active: j.active,
+          refireIfMissed: j.fireIfMissed,
           cronExpression: j.cronExpression,
           jobType: j.jobType,
           parameters: j.executionParameters
@@ -117,6 +118,7 @@ interface CubesSchedulerStatus {
 interface CubesSchedulerJob {
   name: string;
   active: boolean;
+  refireIfMissed: boolean;
   cronExpression: string;
   jobType: string;
   parameters: JobParameters;
