@@ -50,9 +50,11 @@ export class QueryEditorComponent implements OnInit {
         this.originalId = qry?.id;
         this.queryParameters = qry?.parameters ? [...qry.parameters] : [];
         this.isNew = qry?.isNew ?? false;
-        if (qry && qry.parameters) {
+        if (qry) {
           this.parameters.clear();
-          qry.parameters.forEach((r) => this.addParameter({ ...r }));
+          if (qry.parameters) {
+            qry.parameters.forEach((r) => this.addParameter({ ...r }));
+          }
         }
         this.selectedIndex = 0;
         return qry;

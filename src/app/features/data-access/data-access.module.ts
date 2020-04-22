@@ -11,6 +11,7 @@ import { DataAccessApiClient } from '@features/data-access/services/data-access.
 import { QueryListComponent } from './query-list/query-list.component';
 import { QueryEditorComponent } from './query-editor/query-editor.component';
 import { QueryExecutorComponent } from './query-executor/query-executor.component';
+import { QueryExecutorParamsComponent } from './query-executor-params/query-executor-params.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { QueryExecutorComponent } from './query-executor/query-executor.componen
     ConnectionEditorComponent,
     QueryListComponent,
     QueryEditorComponent,
-    QueryExecutorComponent
+    QueryExecutorComponent,
+    QueryExecutorParamsComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { QueryExecutorComponent } from './query-executor/query-executor.componen
     SharedModule
   ],
   entryComponents: [
-    QueryExecutorComponent
+    QueryExecutorComponent,
+    QueryExecutorParamsComponent
   ],
   providers: [
     DataAccessStore,

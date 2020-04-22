@@ -1,6 +1,7 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { QueryExecutorParamsComponent } from '@features/data-access/query-executor-params/query-executor-params.component';
 import { DataAccessApiClient, ExportSettings } from '@features/data-access/services/data-access.api-client';
 import { Query } from '@features/data-access/services/data-access.store';
 import { ColumnDefinition } from '@shared/components/dynamic-table/dynamic-table.component';
@@ -32,7 +33,8 @@ export class QueryExecutorComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<QueryExecutorComponent>,
     private dialogService: DialogService,
-    private client: DataAccessApiClient
+    private client: DataAccessApiClient,
+    private matDialog: MatDialog
   ) {
     this.query = data.query;
     this.connections = data.connections;
@@ -52,20 +54,45 @@ export class QueryExecutorComponent implements OnInit {
   onAcceptChanges(): void {
     this.dialogRef.close(this.query.queryCommand);
   }
-  onExecute() {
+  async onExecute() {
+    let params = [];
     if (!this.selectedConnection) {
       this.dialogService.alert('You must first select a connection to use!');
       return;
     }
-    this.resultDetails = null;
-    this.client.executeQuery(this.query, this.selectedConnection).subscribe((res) => {
-      const results = res.results as any[];
-      if (results.length === 0) {
-        this.dialogService.alert('No data returned from query execution!');
-      } else {
-        this.prepareResultDetails(results);
+    if (this.query.parameters?.length) {
+      const paramsResult = await this.matDialog
+        .open(QueryExecutorParamsComponent, {
+          minWidth: '420px',
+          hasBackdrop: true,
+          disableClose: true,
+          data: {
+            queryName: this.query.name,
+            parameters: [...this.query.parameters],
+          },
+        })
+        .afterClosed()
+        .toPromise();
+      if (!paramsResult) {
+        return;
       }
-    });
+      params = paramsResult;
+    }
+    this.resultDetails = null;
+    this.client.executeQuery(this.query, this.selectedConnection, params).subscribe(
+      (res) => {
+        const results = res.results as any[];
+        if (results.length === 0) {
+          this.dialogService.snackWarning('No data returned from query execution!');
+        } else {
+          this.prepareResultDetails(results);
+        }
+      },
+      (error) => {
+        console.error(error);
+        this.dialogService.alert(`Query execution failed!\n${error.error.message}`);
+      }
+    );
   }
   onExportResults() {
     const dateStr = format(new Date(), 'yyyyMMddHHmm');

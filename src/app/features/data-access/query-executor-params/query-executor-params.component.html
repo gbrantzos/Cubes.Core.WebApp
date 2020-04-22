@@ -1,0 +1,40 @@
+<h3 mat-dialog-title>
+  <strong>{{ queryName }}</strong> Parameters
+</h3>
+<mat-divider></mat-divider>
+
+<div class="content">
+  <form [formGroup]="form">
+    <div formArrayName="params">
+      <div *ngFor="let prm of queryParameters; let i = index" [formGroupName]="i" fxLayout="row" fxLayoutGap="6px">
+        <!-- Name -->
+        <mat-form-field fxFlex="1 0 40px">
+          <mat-label>Name</mat-label>
+          <input matInput readonly formControlName="name" />
+        </mat-form-field>
+
+        <!-- Default value -->
+        <mat-form-field fxFlex="1 0 40px">
+          <mat-label>Value</mat-label>
+          <input
+            cdkFocusInitial
+            matInput
+            [readOnly]="prm.isNull"
+            formControlName="value"
+            (keydown.enter)="onExecute()"
+          />
+          <button mat-icon-button matSuffix matTooltip="Null Value" (click)="toggleNull(prm, i)">
+            <mat-icon fontSet="far" fontIcon="{{ prm.isNull ? 'fa-dot-circle' : 'fa-circle' }}"></mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</div>
+
+<mat-dialog-actions>
+  <button mat-flat-button [mat-dialog-close]="false"> Cancel </button>
+  <button mat-flat-button type="submit" [disabled]="!form.valid" (click)="onExecute()" cdkFocusInitial color="primary">
+    Execute
+  </button>
+</mat-dialog-actions>
