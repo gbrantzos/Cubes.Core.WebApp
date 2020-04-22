@@ -77,6 +77,8 @@ export class SchedulerStore {
       cronExpressionDescription: cronstrue.toString('0 0 0 ? * *', { use24HourTimeFormat: true }),
       active: false,
       fireIfMissed: false,
+      lastExecutionFailed: false,
+      lastExecutionMessage: undefined,
       jobType: '',
       executionParameters: null,
       isNew: true,
