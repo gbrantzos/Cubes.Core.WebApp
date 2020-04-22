@@ -2,20 +2,35 @@
   <mat-list>
     <div mat-subheader>Scheduler Jobs List</div>
 
-    <mat-list-item *ngFor="let job of status.jobs" (click)="onSelect(job)"
-      [ngClass]='{selected: selectedJob === job.name}'>
+    <mat-list-item
+      *ngFor="let job of status.jobs"
+      (click)="onSelect(job)"
+      [ngClass]="{ selected: selectedJob === job.name }"
+    >
       <mat-icon *ngIf="job.active" mat-list-icon fontSet="far" fontIcon="fa-calendar-check" class="fa-fw"> </mat-icon>
       <mat-icon *ngIf="!job.active" mat-list-icon fontSet="far" fontIcon="fa-calendar-times" class="fa-fw job-disabled">
       </mat-icon>
-      <div mat-line>{{job.name}} <span *ngIf="!job.active" class="inactive-job"> [Disabled] </span></div>
-      <div mat-line class="job-details">{{job | jobDetails}}</div>
+      <div mat-line>{{ job.name }} <span *ngIf="!job.active" class="inactive-job"> [Disabled] </span></div>
+      <div mat-line class="job-details">{{ job | jobDetails }}</div>
 
-      <mat-icon *ngIf="!job.lastExecutionResult && job.lastExecutionAt" fontSet="far" fontIcon="fa-check-circle"
+      <mat-icon
+        *ngIf="job.lastExecutionFailed && job.lastExecutionAt"
+        fontSet="far"
+        fontIcon="fa-check-circle"
         class="fa-fw icon-success"
-        matTooltip="Last successful execution at {{job.lastExecutionAt | date:'dd/MM/yyyy HH:mm:ss'}}">
+        matTooltip="Last successful execution at {{ job.lastExecutionAt | date: 'dd/MM/yyyy HH:mm:ss' }}\n{{
+          job.lastExecutionMessage
+        }}"
+      >
       </mat-icon>
-      <mat-icon *ngIf="!!job.lastExecutionResult" fontSet="far" fontIcon="fa-times-circle" class="fa-fw icon-failure"
-        matTooltip="Last execution failed!">
+      <mat-icon
+        *ngIf="!job.lastExecutionFailed && job.lastExecutionAt"
+        fontSet="far"
+        fontIcon="fa-times-circle"
+        class="fa-fw icon-failure"
+        matTooltip="Last execution failed!"
+        (click)="showError(job)"
+      >
       </mat-icon>
     </mat-list-item>
 
@@ -27,6 +42,5 @@
     <div class="new-button">
       <button mat-button color="primary" (click)="onNew()"> New Job </button>
     </div>
-
   </mat-list>
 </div>

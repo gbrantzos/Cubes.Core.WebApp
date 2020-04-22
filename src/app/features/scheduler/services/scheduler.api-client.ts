@@ -80,11 +80,12 @@ export class SchedulerApiClient {
           cronExpressionDescription: cronstrue.toString(j.cronExpression, { use24HourTimeFormat: true }),
           jobType: j.jobType,
           active: j.active,
-          fireIfMissed: false,
+          fireIfMissed: j.refireIfMissed,
           executionParameters: j.jobParameters,
           nextExecutionAt: j.nextFireTime ? new Date(j.nextFireTime) : undefined,
           lastExecutionAt: j.previousFireTime ? new Date(j.previousFireTime) : undefined,
-          lastExecutionResult: j.lastExecutionFailed ? 'Failed' : ''
+          lastExecutionFailed: j.lastExecutionFailed,
+          lastExecutionMessage: j.lastExecutionMessage ?? 'Not set!'
         };
         return job;
       })
@@ -100,11 +101,13 @@ interface CubesSchedulerStatus {
   jobs: [{
     name: string;
     active: boolean,
+    refireIfMissed: boolean
     cronExpression: string;
     jobType: string;
     previousFireTime: string;
     nextFireTime: string;
     lastExecutionFailed: boolean;
+    lastExecutionMessage: string;
     jobParameters: {
       [name: string]: string;
     }

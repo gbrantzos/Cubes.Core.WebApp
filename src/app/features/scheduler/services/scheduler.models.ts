@@ -18,8 +18,9 @@ export interface SchedulerJob {
   jobType: string;
   executionParameters?: JobParameters;
   lastExecutionAt?: Date;
-  lastExecutionResult?: string;
   nextExecutionAt?: Date;
+  lastExecutionFailed: boolean;
+  lastExecutionMessage: string;
   isNew?: boolean;
 }
 

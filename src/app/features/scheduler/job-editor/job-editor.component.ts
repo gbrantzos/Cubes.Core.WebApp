@@ -71,7 +71,7 @@ export class JobEditorComponent implements OnInit {
       name: ['', Validators.required],
       cronExpression: ['', [Validators.required, CustomValidators.isCronExpression]],
       active: false,
-      fireIfMissed: { value: false, disabled: true },
+      fireIfMissed: false,
       jobType: ['', Validators.required],
     });
 
