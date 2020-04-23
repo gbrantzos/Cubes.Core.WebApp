@@ -10,6 +10,7 @@ export enum CoreSchemas {
   SettingsSMTP = 'Cubes.Core.Email.SmtpSettingsProfiles',
   DataConnection = 'Cubes.Core.DataAccess.Connection',
   DataQuery = 'Cubes.Core.DataAccess.Query',
+  StaticContent = 'Cubes.Core.Web.StaticContent.Content'
 }
 
 interface Cache {

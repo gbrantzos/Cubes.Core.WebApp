@@ -1,0 +1,32 @@
+<div *ngIf="content$ | async as content">
+  <mat-list>
+    <div mat-subheader>Static Content List</div>
+
+    <mat-list-item
+      *ngFor="let cnt of content"
+      (click)="onSelect(cnt)"
+      [ngClass]="{ selected: selectedContent === cnt.requestPath }"
+    >
+      <mat-icon mat-list-icon fontSet="far" fontIcon="fa-window-maximize" class="fa-fw"> </mat-icon>
+      <div mat-line>{{ cnt.requestPath }}</div>
+      <div mat-line small>Served from {{ cnt.fileSystemPath }}</div>
+      <mat-icon
+        *ngIf="cnt.active"
+        (click)="openLink(cnt.requestPath)"
+        fontSet="fas"
+        fontIcon="fa-external-link-alt"
+        class="fa-fw external-link"
+      >
+      </mat-icon>
+    </mat-list-item>
+
+    <div class="no-data" *ngIf="!content.length">
+      <mat-icon mat-list-icon fontSet="far" fontIcon="fa-window-maximize" class="fa-fw fa-3x"> </mat-icon>
+      <p class="message">No static content found!</p>
+    </div>
+
+    <div class="new-button">
+      <button mat-button color="primary" (click)="onNew()"> New static content </button>
+    </div>
+  </mat-list>
+</div>

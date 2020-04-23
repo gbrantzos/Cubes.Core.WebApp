@@ -23,15 +23,27 @@ export class SettingsStore {
 
   loadData() {
     const call$ = this.loadingWrapper.wrap(this.apiClient.loadData());
-    call$.subscribe((data) => {
-      this.smtpProfiles$.next(data);
-      this.selectedSmtpProfile$.next(undefined);
-    });
+    call$.subscribe(
+      (data) => {
+        this.smtpProfiles$.next(data);
+        this.selectedSmtpProfile$.next(undefined);
+      },
+      (error) => {
+        console.error(error);
+        this.dialog.snackError(`Loading of SMTP profiles failed!\n${error.error}`);
+      }
+    );
   }
 
   saveData() {
     const call$ = this.loadingWrapper.wrap(this.apiClient.saveData(this.smtpProfiles$.value));
-    call$.subscribe((_) => this.dialog.snackSuccess('Settings saved!'));
+    call$.subscribe(
+      (_) => this.dialog.snackSuccess('SMTP profiles saved!'),
+      (error) => {
+        console.error(error);
+        this.dialog.snackError(`Saving of SMTP profiles failed!\n${error.error}`);
+      }
+    );
   }
 
   selectProfile(name: string) {

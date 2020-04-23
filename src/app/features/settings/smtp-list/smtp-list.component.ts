@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { SettingsStore, SmtpProfile } from '@features/settings/services/settings.store';
 import { Observable } from 'rxjs';
 import { SubSink } from 'subsink';
@@ -7,6 +7,7 @@ import { SubSink } from 'subsink';
   selector: 'cubes-smtp-list',
   templateUrl: './smtp-list.component.html',
   styleUrls: ['./smtp-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SmtpListComponent implements OnInit, OnDestroy {
   @Output() newProfile = new EventEmitter<void>();

@@ -1,6 +1,7 @@
 {
   "apiUrl": "/api",
   "uiUrl": "/ui",
+  "baseUrl": "",
   "mockData": true,
   "users":[
     {

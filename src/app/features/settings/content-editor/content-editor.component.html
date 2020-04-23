@@ -1,0 +1,32 @@
+<div class="editor">
+  <div mat-subheader fxLayout="row" fxLayoutAlign="space-between center">
+    <span>Static Content Editor</span>
+    <div class="chip-list">
+      <mat-chip-list [hidden]="!isNew">
+        <mat-chip color="accent" selected>New Static Content</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div *ngIf="formSchema$ | async as formSchema; else empty">
+    <div *ngIf="content$ | async as content; else empty">
+      <cubes-dynamic-form #f [schema]="formSchema" [model]="content" (isValid)="save.disabled = !$event">
+      </cubes-dynamic-form>
+
+      <div class="buttons" fxLayout="row">
+        <div class="filler"></div>
+        <button #delete mat-button color="warn" (click)="onDelete()"> {{ isNew ? 'Cancel' : 'Delete' }} </button>
+        <button #save mat-button color="primary" (click)="onSave()"> Save </button>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <ng-template #empty>
+      <div class="no-data">
+        <img src="assets/images/nodata.png" width="128px" />
+        <p>Select static content from the list!</p>
+      </div>
+    </ng-template>
+  </div>
+</div>

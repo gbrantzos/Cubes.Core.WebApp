@@ -1,6 +1,7 @@
 {
   "apiUrl": "api",
   "uiUrl": "ui",
+  "baseUrl": "http://localhost:4101",
   "mockData": true,
   "users":[
     {
