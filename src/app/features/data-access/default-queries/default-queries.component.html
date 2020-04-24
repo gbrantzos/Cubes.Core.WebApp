@@ -1,0 +1,26 @@
+<mat-list dense>
+  <div mat-subheader> Default Queries</div>
+  <div class="items">
+    <mat-list-item
+      *ngFor="let name of names"
+      (click)="selected = name"
+      [ngClass]="{ selected: selected === name }"
+      (dblclick)="onSelect()"
+    >
+      <mat-icon mat-list-icon fontSet="far" fontIcon="fa-file-alt" class="fa-fw"></mat-icon>
+      <div mat-line>{{ name }}</div>
+    </mat-list-item>
+
+    <div class="no-data" *ngIf="!names.length">
+      <mat-icon mat-list-icon fontSet="far" fontIcon="fa-file-alt" class="fa-fw fa-3x"> </mat-icon>
+      <p class="message">No default queries found!</p>
+    </div>
+  </div>
+</mat-list>
+
+<mat-dialog-actions>
+  <button mat-flat-button [mat-dialog-close]="false"> Cancel </button>
+  <button mat-flat-button [disabled]="!selected" type="submit" (click)="onSelect()" color="primary">
+    Select
+  </button>
+</mat-dialog-actions>

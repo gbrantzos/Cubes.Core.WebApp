@@ -12,6 +12,7 @@ import { QueryListComponent } from './query-list/query-list.component';
 import { QueryEditorComponent } from './query-editor/query-editor.component';
 import { QueryExecutorComponent } from './query-executor/query-executor.component';
 import { QueryExecutorParamsComponent } from './query-executor-params/query-executor-params.component';
+import { DefaultQueriesComponent } from './default-queries/default-queries.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { QueryExecutorParamsComponent } from './query-executor-params/query-exec
     QueryListComponent,
     QueryEditorComponent,
     QueryExecutorComponent,
-    QueryExecutorParamsComponent
+    QueryExecutorParamsComponent,
+    DefaultQueriesComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,8 @@ import { QueryExecutorParamsComponent } from './query-executor-params/query-exec
   ],
   entryComponents: [
     QueryExecutorComponent,
-    QueryExecutorParamsComponent
+    QueryExecutorParamsComponent,
+    DefaultQueriesComponent
   ],
   providers: [
     DataAccessStore,

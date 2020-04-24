@@ -1,9 +1,11 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { UiEventType, UiManagerService } from '@core/services/ui-manager.service';
 import { ConnectionEditorComponent } from '@features/data-access/connection-editor/connection-editor.component';
+import { DefaultQueriesComponent } from '@features/data-access/default-queries/default-queries.component';
 import { QueryEditorComponent } from '@features/data-access/query-editor/query-editor.component';
 import { DataAccessApiClient } from '@features/data-access/services/data-access.api-client';
 import { Connection, DataAccessStore, Query } from '@features/data-access/services/data-access.store';
@@ -25,6 +27,7 @@ export class DataAccessComponent implements OnInit {
     private apiClient: DataAccessApiClient,
     private route: ActivatedRoute,
     private location: Location,
+    private matDialog: MatDialog,
     private uiManager: UiManagerService
   ) {}
 
@@ -128,5 +131,34 @@ export class DataAccessComponent implements OnInit {
       default:
         break;
     }
+  }
+
+  async addDefault() {
+    if (this.queryForm.pendingChanges()) {
+      const dialogResult = await this.dialogService
+        .confirm('There are unsaved changes on selected query.\nDiscard and continue?')
+        .toPromise();
+      if (!dialogResult) {
+        return;
+      }
+    }
+
+    this.store.defaultQueries().subscribe((data) => this.selectDefault(data));
+  }
+
+  private selectDefault(names: string[]) {
+    this.matDialog
+      .open(DefaultQueriesComponent, {
+        minWidth: '420px',
+        hasBackdrop: true,
+        disableClose: true,
+        data: { names },
+      })
+      .afterClosed()
+      .subscribe((r) => {
+        if (r) {
+          this.store.addDefaultQuery(r);
+        }
+      });
   }
 }

@@ -1,9 +1,8 @@
-import { BehaviorSubject } from 'rxjs';
-import { DataAccessApiClient } from '@features/data-access/services/data-access.api-client';
 import { Injectable } from '@angular/core';
-import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
+import { DataAccessApiClient } from '@features/data-access/services/data-access.api-client';
 import { DialogService } from '@shared/services/dialog.service';
-
+import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 /**
  * Class to support all UI related data, for Data Access components
@@ -24,7 +23,9 @@ export class DataAccessStore {
   /** Query currently selected on UI. */
   readonly selectedQuery = this.selectedQuery$.asObservable();
 
-  get selectedConnectionValue() { return this.selectedConnection$.value?.name; }
+  get selectedConnectionValue() {
+    return this.selectedConnection$.value?.name;
+  }
 
   get connectionsSnapshot() {
     return this.connections$.value;
@@ -37,11 +38,11 @@ export class DataAccessStore {
     private apiClient: DataAccessApiClient,
     private loadingWrapper: LoadingWrapperService,
     private dialog: DialogService
-  ) { }
+  ) {}
 
   loadData = () => {
     const call$ = this.loadingWrapper.wrap(this.apiClient.loadData());
-    call$.subscribe(data => {
+    call$.subscribe((data) => {
       this.connections$.next(data.connections);
       this.selectedConnection$.next(undefined);
 
@@ -54,14 +55,14 @@ export class DataAccessStore {
     const call$ = this.loadingWrapper.wrap(
       this.apiClient.saveData({
         connections: this.connections$.value,
-        queries: this.queries$.value
+        queries: this.queries$.value,
       })
     );
-    call$.subscribe(_ => this.dialog.snackSuccess('Connections and queries saved!'));
+    call$.subscribe((_) => this.dialog.snackSuccess('Connections and queries saved!'));
   }
 
   selectConnection(id: number) {
-    const cnx = this.connections$.value.find(i => i.id === id);
+    const cnx = this.connections$.value.find((i) => i.id === id);
     this.selectedConnection$.next({ ...cnx });
   }
 
@@ -73,15 +74,17 @@ export class DataAccessStore {
       comments: 'This is a new connection',
       connectionString: '<<Enter here the connection string>>',
       dbProvider: 'mssql',
-      isNew: true
+      isNew: true,
     } as Connection;
     this.selectedConnection$.next(cnx);
   }
 
-  discardNewConnection() { this.selectedConnection$.next(undefined); }
+  discardNewConnection() {
+    this.selectedConnection$.next(undefined);
+  }
 
   selectQuery(id: number) {
-    const qry = this.queries$.value.find(q => q.id === id);
+    const qry = this.queries$.value.find((q) => q.id === id);
     const clone = this.clone(qry);
     this.selectedQuery$.next(clone);
   }
@@ -94,23 +97,22 @@ export class DataAccessStore {
       comments: 'This is a new query',
       queryCommand: 'select * from ...',
       parameters: [],
-      isNew: true
+      isNew: true,
     } as Query;
     this.selectedQuery$.next(qry);
   }
 
-  discardNewQuery() { this.selectedQuery$.next(undefined); }
+  discardNewQuery() {
+    this.selectedQuery$.next(undefined);
+  }
 
   saveConnection(originalName: string, connection: Connection) {
-    if (!connection.id) { connection.id = this.nextId('connection'); }
+    if (!connection.id) {
+      connection.id = this.nextId('connection');
+    }
 
-    const temp = this.connections$
-      .value
-      .filter(cn => cn.name !== originalName);
-    const newCnxArray = [
-      ...temp,
-      connection
-    ].sort((a, b) => a.name.localeCompare(b.name));
+    const temp = this.connections$.value.filter((cn) => cn.name !== originalName);
+    const newCnxArray = [...temp, connection].sort((a, b) => a.name.localeCompare(b.name));
     console.log(newCnxArray);
     this.connections$.next(newCnxArray);
     this.saveData();
@@ -121,9 +123,8 @@ export class DataAccessStore {
   }
 
   deleteConnection(name: string) {
-    const temp = this.connections$
-      .value
-      .filter(cnx => cnx.name !== name)
+    const temp = this.connections$.value
+      .filter((cnx) => cnx.name !== name)
       .sort((a, b) => a.name.localeCompare(b.name));
 
     this.connections$.next(temp);
@@ -132,15 +133,12 @@ export class DataAccessStore {
   }
 
   saveQuery(originalName: string, query: Query) {
-    if (!query.id) { query.id = this.nextId('query'); }
+    if (!query.id) {
+      query.id = this.nextId('query');
+    }
 
-    const temp = this.queries$
-      .value
-      .filter(qr => qr.name !== originalName);
-    const newQryArray = [
-      ...temp,
-      query
-    ].sort((a, b) => a.name.localeCompare(b.name));
+    const temp = this.queries$.value.filter((qr) => qr.name !== originalName);
+    const newQryArray = [...temp, query].sort((a, b) => a.name.localeCompare(b.name));
 
     this.queries$.next(newQryArray);
     this.saveData();
@@ -151,28 +149,40 @@ export class DataAccessStore {
   }
 
   deleteQuery(name: string) {
-    const temp = this.queries$
-      .value
-      .filter(qry => qry.name !== name)
-      .sort((a, b) => a.name.localeCompare(b.name));
+    const temp = this.queries$.value.filter((qry) => qry.name !== name).sort((a, b) => a.name.localeCompare(b.name));
 
     this.queries$.next(temp);
     this.selectedQuery$.next(undefined);
     this.saveData();
   }
 
+  defaultQueries(): Observable<string[]> {
+    const call$ = this.loadingWrapper.wrap(this.apiClient.getDefaultQueries());
+    return call$;
+  }
+
+  addDefaultQuery(name: string) {
+    const call$ = this.loadingWrapper.wrap(this.apiClient.getDefaultQuery(name));
+    call$.subscribe((qry) => {
+      const nextID = this.nextId('query');
+      qry.id = nextID;
+      qry.name = `${qry.name}.#${nextID}`;
+      qry.isNew = true;
+      this.selectedQuery$.next(qry);
+    });
+  }
+
   private nextId = (type: 'connection' | 'query') => {
     switch (type) {
       case 'connection':
-        return Math.max(...this.connections$.value.map(cnx => cnx.id ?? 0)) + 1;
+        return Math.max(...this.connections$.value.map((cnx) => cnx.id ?? 0)) + 1;
       case 'query':
-        return Math.max(...this.queries$.value.map(qry => qry.id ?? 0)) + 1;
+        return Math.max(...this.queries$.value.map((qry) => qry.id ?? 0)) + 1;
     }
   }
 
   private clone = (obj: any): any => JSON.parse(JSON.stringify(obj));
 }
-
 
 export interface Connection {
   id?: number;

@@ -1,0 +1,31 @@
+.mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mat-list-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.items {
+  min-height: 160px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.selected {
+  background-color: #dbdbdb;
+}
+
+.no-data {
+  text-align: center;
+  padding-top: 36px;
+  color: gray;
+
+  .message {
+    width:100%;
+    padding-top: 16px;
+    color: black;
+    text-align: center;
+  }
+}

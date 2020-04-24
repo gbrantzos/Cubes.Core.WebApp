@@ -94,6 +94,14 @@ export class DataAccessApiClient {
   setExportSettings(settings: ExportSettings): Observable<string> {
     return this.http.post<string>(`${this.dataUrl}/exportSettings`, settings);
   }
+
+  getDefaultQueries(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.dataUrl}/defaultQueries`);
+  }
+
+  getDefaultQuery(name: string): Observable<Query> {
+    return this.http.get<Query>(`${this.dataUrl}/defaultQueries/${name}`);
+  }
 }
 
 export interface ExportSettings {
