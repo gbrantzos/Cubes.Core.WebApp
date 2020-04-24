@@ -1,7 +1,7 @@
 <cubes-page-header (reload)="reload()"> Settings </cubes-page-header>
 
 <div class="content" fxLayout="column">
-  <mat-tab-group #tabs [dynamicHeight]="true" [selectedIndex]="tabIndex" (selectedTabChange)="tabChanged($event)">
+  <mat-tab-group #tabs [dynamicHeight]="true" [(selectedIndex)]="tabIndex" (selectedTabChange)="tabChanged($event)">
     <mat-tab label="SMTP Profiles">
       <div class="inner" fxLayout="row">
         <cubes-smtp-list fxFlex="50%" (newProfile)="newProfile()" (profileSelected)="profileSelected($event)">
@@ -29,7 +29,7 @@
   </mat-tab-group>
 
   <div class="filler"></div>
-  <div class="notice" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px">
+  <div class="notice" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="16px" *ngIf="tabIndex === 1">
     <div class="icon">
       <i class="fas fa-exclamation-triangle fa-3x fa-fw"></i>
     </div>
@@ -38,8 +38,7 @@
       <p class="details">
         Static content changes are only applied after Cubes Server restart!
         <br />
-        Currently automatic restart is not supported.
-        &nbsp;
+        Currently automatic restart is not supported. &nbsp;
         <i class="far fa-frown emoji"></i>
       </p>
     </div>
