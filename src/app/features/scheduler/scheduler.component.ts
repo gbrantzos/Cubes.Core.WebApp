@@ -12,8 +12,8 @@ import { Observable } from 'rxjs';
 })
 export class SchedulerComponent implements OnInit {
   @ViewChild('editor') editor: JobEditorComponent;
-
   public status$: Observable<SchedulerStatus>;
+
   constructor(private store: SchedulerStore, private dialogService: DialogService) {}
 
   ngOnInit(): void {

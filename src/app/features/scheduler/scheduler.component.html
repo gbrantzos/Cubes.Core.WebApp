@@ -2,29 +2,33 @@
 
 <div class="content">
   <div *ngIf="status$ | async as status">
-
-    <div class="status" fxLayout="row" fxLayout="space-around center"
-      [ngClass]="{'status-stopped': status.schedulerState === 'StandBy', 'status-active': status.schedulerState === 'Active'}">
+    <div
+      class="status initial-date"
+      fxLayout="row"
+      fxLayout="space-around center"
+      [ngClass]="{
+        'status-stopped': status.schedulerState === 'StandBy',
+        'status-active': status.schedulerState === 'Active',
+        'initial-date': status.isEmpty
+      }"
+    >
       <span class="icon" *ngIf="status.schedulerState === 'Active'"><i class="far fa-2x fa-play-circle"></i></span>
       <span class="icon" *ngIf="status.schedulerState === 'StandBy'"><i class="far fa-2x fa-pause-circle"></i></span>
-      <div class="status-message"> Cubes scheduler is <strong>{{status.schedulerState}}</strong>,
-        time on server is <strong>{{status.serverTime | date:'medium'}}</strong>
+      <div class="status-message">
+        Cubes scheduler is <strong>{{ status.schedulerState }}</strong
+        >, time on server is <strong>{{ status.serverTime | date: 'medium' }}</strong>
       </div>
       <div class="filler"></div>
       <button class="action-button" color="primary" mat-button (click)="toggleScheduler(status.schedulerState)">
-        {{status.schedulerState === 'Active' ? 'Stop' : 'Start'}} Scheduler
+        {{ status.schedulerState === 'Active' ? 'Stop' : 'Start' }} Scheduler
       </button>
     </div>
     <div class="inner" fxLayout="row">
-      <cubes-job-list fxFlex="50%" (jobSelected)="jobSelected($event)" (newJob)="newJob()">
-      </cubes-job-list>
+      <cubes-job-list fxFlex="50%" (jobSelected)="jobSelected($event)" (newJob)="newJob()"> </cubes-job-list>
 
-      <mat-divider class="divider" [vertical]="true">
-      </mat-divider>
+      <mat-divider class="divider" [vertical]="true"> </mat-divider>
 
-      <cubes-job-editor #editor fxFlex="50%">
-      </cubes-job-editor>
+      <cubes-job-editor #editor fxFlex="50%"> </cubes-job-editor>
     </div>
-
   </div>
 </div>

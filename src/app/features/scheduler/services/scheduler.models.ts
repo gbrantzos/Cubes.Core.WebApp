@@ -2,6 +2,7 @@ export interface SchedulerStatus {
   schedulerState: SchedulerStateEnum;
   serverTime: Date;
   jobs: SchedulerJob[];
+  isEmpty?: boolean;
 }
 
 export enum SchedulerStateEnum {
@@ -30,6 +31,7 @@ export interface JobParameters {
 
 export const EmptyStatus: SchedulerStatus = {
   schedulerState: SchedulerStateEnum.Stopped,
-  serverTime: new Date(),
-  jobs: []
+  serverTime: new Date(0),
+  jobs: [],
+  isEmpty: true
 };
