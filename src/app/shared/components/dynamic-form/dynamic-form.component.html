@@ -98,8 +98,8 @@
           [formControlName]="item.key"
           [ngClass]="item.className"
         />
-        <mat-icon
-          fontSet="fa"
+        <mat-icon style="margin-right:4px"
+          fontSet="far"
           [fontIcon]="hidePassword ? 'fa-eye' : 'fa-eye-slash'"
           matSuffix
           (click)="hidePassword = !hidePassword"

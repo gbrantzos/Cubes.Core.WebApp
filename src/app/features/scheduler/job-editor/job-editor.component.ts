@@ -9,6 +9,8 @@ import { LookupService } from '@shared/services/lookup.service';
 import cronstrue from 'cronstrue';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { CronHelpComponent } from '@features/scheduler/cron-help/cron-help.component';
 
 @Component({
   selector: 'cubes-job-editor',
@@ -32,6 +34,7 @@ export class JobEditorComponent implements OnInit {
     private fb: FormBuilder,
     private lookupService: LookupService,
     private dialogService: DialogService,
+    private matDialog: MatDialog,
     private store: SchedulerStore
   ) {}
 
@@ -148,6 +151,12 @@ export class JobEditorComponent implements OnInit {
     this.isNew = false;
   }
   onExecute() {}
+
+  cronHelp() {
+    this.matDialog.open(CronHelpComponent, {
+      maxHeight: '600px'
+    });
+  }
 
   private jobFromForm(): SchedulerJob {
     const currentValue: any = this.jobForm.value;

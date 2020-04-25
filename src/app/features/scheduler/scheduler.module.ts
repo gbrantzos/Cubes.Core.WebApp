@@ -10,6 +10,7 @@ import { SchedulerStore } from '@features/scheduler/services/scheduler.store';
 import { SharedModule } from '@shared/shared.module';
 import { JobEditorComponent } from './job-editor/job-editor.component';
 import { JobListComponent } from './job-list/job-list.component';
+import { CronHelpComponent } from '@features/scheduler/cron-help/cron-help.component';
 
 @NgModule({
   declarations: [
@@ -22,5 +23,6 @@ import { JobListComponent } from './job-list/job-list.component';
   ],
   imports: [CommonModule, SchedulerRoutingModule, SharedModule],
   providers: [SchedulerStore, SchedulerApiClient],
+  entryComponents: [CronHelpComponent]
 })
 export class SchedulerModule {}

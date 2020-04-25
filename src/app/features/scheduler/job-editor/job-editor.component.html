@@ -11,28 +11,33 @@
   <div *ngIf="lookups$ | async as lookups; else empty">
     <div *ngIf="job$ | async as job; else empty">
       <form [formGroup]="jobForm" fxLayout="column" class="editor-content">
-
         <mat-tab-group>
           <!-- Basic information -->
           <mat-tab label="Job">
             <div class="basic">
               <mat-form-field class="full">
-                <input matInput formControlName="name" placeholder="Name" required>
+                <input matInput formControlName="name" placeholder="Name" required />
                 <mat-error *ngIf="name.invalid && name.touched">Name is required</mat-error>
               </mat-form-field>
               <mat-form-field class="full">
                 <mat-select formControlName="jobType" placeholder="Type" required>
                   <mat-option *ngFor="let type of lookups.jobTypes.items" [value]="type.value">
-                    {{type.display}}
+                    {{ type.display }}
                   </mat-option>
                 </mat-select>
                 <mat-error *ngIf="jobType.invalid">Job type is required</mat-error>
               </mat-form-field>
               <mat-form-field class="full">
-                <input matInput formControlName="cronExpression" placeholder="Cron Expression" required>
-                <mat-error *ngIf="cronExpression.invalid && cronExpression.touched">{{cronExpressionErrorMessage}}
+                <input matInput formControlName="cronExpression" placeholder="Cron Expression" required />
+
+                <button mat-icon-button matSuffix (click)="cronHelp()">
+                  <mat-icon fontSet="far" fontIcon="fa-question-circle" class="fa-fw" matTooltip="Cron help"></mat-icon>
+                </button>
+
+                <mat-error *ngIf="cronExpression.invalid && cronExpression.touched"
+                  >{{ cronExpressionErrorMessage }}
                 </mat-error>
-                <mat-hint>{{cronExpressionHint}}</mat-hint>
+                <mat-hint>{{ cronExpressionHint }}</mat-hint>
               </mat-form-field>
               <div class="check-boxes">
                 <mat-checkbox formControlName="active">Active</mat-checkbox>
@@ -45,12 +50,14 @@
           <mat-tab label="Parameters" [disabled]="!jobTypeForSwitch">
             <div class="basic">
               <div class="full parameters" [ngSwitch]="jobTypeForSwitch">
-                <cubes-execute-request-editor *ngSwitchCase="'Cubes.Core.Scheduling.Jobs.ExecuteRequestJob'"
-                  #executionParameters [requestsLookup]="lookups.requestTypes"
-                  (validChanged)="onParametersEditorValidChanged($event)">
+                <cubes-execute-request-editor
+                  *ngSwitchCase="'Cubes.Core.Scheduling.Jobs.ExecuteRequestJob'"
+                  #executionParameters
+                  [requestsLookup]="lookups.requestTypes"
+                  (validChanged)="onParametersEditorValidChanged($event)"
+                >
                 </cubes-execute-request-editor>
-                <cubes-default-editor *ngSwitchDefault #executionParameters>
-                </cubes-default-editor>
+                <cubes-default-editor *ngSwitchDefault #executionParameters> </cubes-default-editor>
               </div>
             </div>
           </mat-tab>
@@ -58,7 +65,7 @@
           <!-- Job history -->
           <mat-tab label="History" *ngIf="false">
             <p>Job as JSON (debugging)</p>
-            <pre style="font-size: 0.8em;">{{job | json}}</pre>
+            <pre style="font-size: 0.8em;">{{ job | json }}</pre>
           </mat-tab>
         </mat-tab-group>
 
@@ -67,18 +74,16 @@
         <div class="buttons" fxLayout="row">
           <button *ngIf="!job.isNew" mat-button color="primary" (click)="onExecute()"> Execute now </button>
           <div class="filler"></div>
-          <button #delete mat-button color="warn" (click)="onDelete()"> {{isNew ? 'Cancel' : 'Delete'}} </button>
+          <button #delete mat-button color="warn" (click)="onDelete()"> {{ isNew ? 'Cancel' : 'Delete' }} </button>
           <button #save mat-button color="primary" (click)="onSave()" [disabled]="!formValid"> Save </button>
         </div>
-
       </form>
     </div>
   </div>
 
-
   <ng-template #empty>
     <div class="no-data">
-      <img src="assets/images/nodata.png" width="128px">
+      <img src="assets/images/nodata.png" width="128px" />
       <p>Select a job from the list!</p>
     </div>
   </ng-template>

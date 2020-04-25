@@ -1,8 +1,4 @@
-import {
-  HttpClient,
-  HttpClientModule,
-  HTTP_INTERCEPTORS,
-} from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
@@ -20,13 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    SharedModule.forRoot(),
-    HttpClientModule,
-    AppRoutingModule,
-  ],
+  imports: [BrowserModule, BrowserAnimationsModule, SharedModule.forRoot(), HttpClientModule, AppRoutingModule],
   declarations: [
     AppComponent,
     MainLayoutComponent,
