@@ -1,15 +1,16 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Lookup } from '@shared/services/lookup.service';
 import { ParametersEditor } from '@features/scheduler/params-editors/execution-params-editors';
+import { SchedulerApiClient } from '@features/scheduler/services/scheduler.api-client';
 import { JobParameters } from '@features/scheduler/services/scheduler.models';
-
+import { DialogService } from '@shared/services/dialog.service';
+import { Lookup } from '@shared/services/lookup.service';
 
 @Component({
   selector: 'cubes-execute-request-editor',
   templateUrl: './execute-request-editor.component.html',
   styleUrls: ['./execute-request-editor.component.scss', '../common-styles.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExecuteRequestEditorComponent implements OnInit, ParametersEditor {
   @Input() parameters: string;
@@ -17,16 +18,18 @@ export class ExecuteRequestEditorComponent implements OnInit, ParametersEditor {
   @Output() validChanged: EventEmitter<boolean> = new EventEmitter();
 
   public form: FormGroup;
+  public requestTypeProvider: string;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private client: SchedulerApiClient, private dialogService: DialogService) {}
   ngOnInit() {
     this.form = this.fb.group({
       requestType: ['', Validators.required],
-      requestInst: ['', Validators.required]
+      requestInst: ['', Validators.required],
     });
-    this.form
-      .statusChanges
-      .subscribe(res => this.validChanged.emit(this.form.valid));
+    this.form.statusChanges.subscribe((res) => this.validChanged.emit(this.form.valid));
+    this.form.get('requestType').valueChanges.subscribe((v) => {
+      this.requestTypeProvider = this.requestsLookup.items.find((i) => i.value === v)?.otherData;
+    });
 
     if (!this.parameters) {
       setTimeout(() => this.validChanged.emit(false), 100);
@@ -34,12 +37,16 @@ export class ExecuteRequestEditorComponent implements OnInit, ParametersEditor {
     }
     this.form.patchValue({
       requestType: this.parameters['RequestType'],
-      requestInst: this.parameters['RequestInstance']
+      requestInst: this.parameters['RequestInstance'],
     });
   }
 
-  get requestType() { return this.form.get('requestType'); }
-  get requestInst() { return this.form.get('requestInst'); }
+  get requestType() {
+    return this.form.get('requestType');
+  }
+  get requestInst() {
+    return this.form.get('requestInst');
+  }
 
   get requestInstErrorMessage() {
     if (this.requestInst.getError('required')) {
@@ -62,6 +69,29 @@ export class ExecuteRequestEditorComponent implements OnInit, ParametersEditor {
     this.form.get('requestType').setValue(params['RequestType']);
     this.form.get('requestInst').setValue(params['RequestInstance']);
   }
-  pendingChanges(): boolean { return !this.form.pristine; }
-  markAsPristine() { this.form.markAsPristine(); }
+  pendingChanges(): boolean {
+    return !this.form.pristine;
+  }
+  markAsPristine() {
+    this.form.markAsPristine();
+  }
+
+  async getSample(event: MouseEvent) {
+    event.stopPropagation();
+
+    if (this.form.get('requestInst')) {
+      const dialogResult = await this.dialogService
+        .confirm('You are about to replace existing request instance with sample.\nReplace and continue?')
+        .toPromise();
+      if (!dialogResult) {
+        return;
+      }
+    }
+
+    if (this.requestTypeProvider) {
+      this.client.getSample(this.requestTypeProvider).subscribe((data) => {
+        this.form.get('requestInst').setValue(data);
+      });
+    }
+  }
 }

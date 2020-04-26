@@ -5,14 +5,13 @@
     <mat-list-item
       *ngFor="let cnx of connections"
       (click)="selectConnection(cnx)"
-      [ngClass]="{ selected: selectedIndex === cnx.id }"
-    >
+      [ngClass]="{ selected: selectedIndex === cnx.id }">
       <mat-icon
         mat-list-icon
         fontSet="fa"
         fontIcon="fa-plug"
-        class="fa-fw"
-      ></mat-icon>
+        class="fa-fw">
+      </mat-icon>
       <div mat-line>{{ cnx.name }}</div>
       <div mat-line>{{ cnx.comments }}</div>
     </mat-list-item>
@@ -22,8 +21,8 @@
         mat-list-icon
         fontSet="fa"
         fontIcon="fa-plug"
-        class="fa-fw fa-3x"
-      ></mat-icon>
+        class="fa-fw fa-3x">
+      </mat-icon>
       <p class="message">No connections found!</p>
     </div>
 

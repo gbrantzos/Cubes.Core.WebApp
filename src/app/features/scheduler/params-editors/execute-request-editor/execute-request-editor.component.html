@@ -1,8 +1,19 @@
 <form [formGroup]="form">
 
   <mat-form-field class="full">
-    <mat-select placeholder="Request Type" formControlName="requestType" required>
-      <mat-option *ngFor="let request of requestsLookup.items" [value]="request.value">
+    <button
+      mat-icon-button
+      matSuffix
+      [disabled]="!requestTypeProvider"
+      matTooltip="Sample request"
+      (click)="getSample($event)">
+      <mat-icon fontSet="far" fontIcon="fa-lightbulb"></mat-icon>
+    </button>
+    <mat-select #opt="matSelect" placeholder="Request Type"
+      formControlName="requestType"
+      required>
+      <mat-option *ngFor="let request of requestsLookup.items"
+        [value]="request.value">
         {{request.display}}
       </mat-option>
     </mat-select>
@@ -15,6 +26,7 @@
       matTextareaAutosize
       rows=10
       matAutosizeMinRows=10
+      matAutosizeMaxRows=18
       class="code"
       placeholder="Request Instance"
       formControlName="requestInst"

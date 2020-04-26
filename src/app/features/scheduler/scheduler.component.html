@@ -12,7 +12,9 @@
         'initial-date': status.isEmpty
       }"
     >
-      <span class="icon" *ngIf="status.schedulerState === 'Active'"><i class="far fa-2x fa-play-circle"></i></span>
+      <span class="icon" *ngIf="status.schedulerState === 'Active'">
+        <i class="far fa-2x fa-play-circle"></i>
+      </span>
       <span class="icon" *ngIf="status.schedulerState === 'StandBy'"><i class="far fa-2x fa-pause-circle"></i></span>
       <div class="status-message">
         Cubes scheduler is <strong>{{ status.schedulerState }}</strong
@@ -27,7 +29,6 @@
       <cubes-job-list fxFlex="50%" (jobSelected)="jobSelected($event)" (newJob)="newJob()"> </cubes-job-list>
 
       <mat-divider class="divider" [vertical]="true"> </mat-divider>
-
       <cubes-job-editor #editor fxFlex="50%"> </cubes-job-editor>
     </div>
   </div>

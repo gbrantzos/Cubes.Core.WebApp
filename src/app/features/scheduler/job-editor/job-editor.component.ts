@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { CustomValidators } from '@core/helpers/custom-validators';
+import { CronHelpComponent } from '@features/scheduler/cron-help/cron-help.component';
 import { ParametersEditor } from '@features/scheduler/params-editors/execution-params-editors';
 import { JobParameters, SchedulerJob } from '@features/scheduler/services/scheduler.models';
 import { SchedulerStore } from '@features/scheduler/services/scheduler.store';
@@ -9,8 +11,6 @@ import { LookupService } from '@shared/services/lookup.service';
 import cronstrue from 'cronstrue';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
-import { CronHelpComponent } from '@features/scheduler/cron-help/cron-help.component';
 
 @Component({
   selector: 'cubes-job-editor',
@@ -154,21 +154,23 @@ export class JobEditorComponent implements OnInit {
 
   cronHelp() {
     this.matDialog.open(CronHelpComponent, {
-      maxHeight: '600px'
+      maxHeight: '600px',
     });
   }
 
   private jobFromForm(): SchedulerJob {
     const currentValue: any = this.jobForm.value;
+
+    // prettier-ignore
     return {
-      name: currentValue.name,
-      cronExpression: currentValue.cronExpression,
+      name:                      currentValue.name,
+      cronExpression:            currentValue.cronExpression,
       cronExpressionDescription: '',
-      active: currentValue.active,
-      fireIfMissed: currentValue.fireIfMissed,
-      jobType: currentValue.jobType,
-      executionParameters: this.executionParameters.getParameters(),
-      isNew: false,
+      active:                    currentValue.active,
+      fireIfMissed:              currentValue.fireIfMissed,
+      jobType:                   currentValue.jobType,
+      executionParameters:       this.executionParameters.getParameters(),
+      isNew:                     false,
     } as SchedulerJob;
   }
 }

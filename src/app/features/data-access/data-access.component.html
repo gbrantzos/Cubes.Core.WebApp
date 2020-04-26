@@ -1,20 +1,24 @@
 <cubes-page-header (reload)="reload()"> Data Access </cubes-page-header>
 
 <div class="content">
-  <mat-tab-group #tabs [dynamicHeight]="true" [selectedIndex]="tabIndex" (selectedTabChange)="tabChanged($event)">
+  <mat-tab-group #tabs
+    [dynamicHeight]="true"
+    [selectedIndex]="tabIndex"
+    (selectedTabChange)="tabChanged($event)">
+
     <!-- Connections -->
     <mat-tab label="Connections">
       <div class="inner" fxLayout="row">
         <cubes-connection-list
           fxFlex="50%"
           (connectionSelected)="connectionSelected($event)"
-          (newConnection)="newConnection()"
-        >
+          (newConnection)="newConnection()">
         </cubes-connection-list>
 
         <mat-divider class="divider" [vertical]="true"> </mat-divider>
-
-        <cubes-connection-editor #connectionForm fxFlex="50%" (testConnection)="testConnection($event)">
+        <cubes-connection-editor
+          #connectionForm fxFlex="50%"
+          (testConnection)="testConnection($event)">
         </cubes-connection-editor>
       </div>
     </mat-tab>
@@ -26,12 +30,10 @@
           fxFlex="50%"
           (querySelected)="querySelected($event)"
           (newQuery)="newQuery()"
-          (addDefault)="addDefault()"
-        >
+          (addDefault)="addDefault()">
         </cubes-query-list>
 
         <mat-divider class="divider" [vertical]="true"> </mat-divider>
-
         <cubes-query-editor #queryForm fxFlex="50%"> </cubes-query-editor>
       </div>
     </mat-tab>
