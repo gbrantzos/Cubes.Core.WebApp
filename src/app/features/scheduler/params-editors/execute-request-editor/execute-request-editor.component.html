@@ -9,7 +9,7 @@
       (click)="getSample($event)">
       <mat-icon fontSet="far" fontIcon="fa-lightbulb"></mat-icon>
     </button>
-    <mat-select #opt="matSelect" placeholder="Request Type"
+    <mat-select placeholder="Request Type"
       formControlName="requestType"
       required>
       <mat-option *ngFor="let request of requestsLookup.items"
@@ -30,8 +30,12 @@
       class="code"
       placeholder="Request Instance"
       formControlName="requestInst"
-      required></textarea>
-    <mat-error *ngIf="requestInst.invalid">{{requestInstErrorMessage}}</mat-error>
+      required>
+    </textarea>
+    <mat-error *ngIf="requestInst.errors?.required">Request instance is required!</mat-error>
+    <mat-error *ngIf="requestInst.errors?.invalidYaml">
+      Request instance is not a valid YAML object!
+    </mat-error>
   </mat-form-field>
 
 </form>

@@ -1,6 +1,7 @@
 // cSpell:words cronstrue
 import { AbstractControl } from '@angular/forms';
 import cronstrue from 'cronstrue';
+import { safeLoad } from 'js-yaml';
 
 export class CustomValidators {
   static isJSON(control: AbstractControl) {
@@ -28,6 +29,17 @@ export class CustomValidators {
       if (!tmp) { return { invalidCronExpression: true }; }
     } catch (e) {
       return { invalidCronExpression: true };
+    }
+    return null;
+  }
+
+  static isYaml(control: AbstractControl) {
+    const value = control.value;
+    try {
+      const tmp = safeLoad(value);
+      if (tmp === undefined || typeof tmp === 'string') { return { invalidYaml: true }; }
+    } catch (e) {
+      return { invalidYaml: true };
     }
     return null;
   }

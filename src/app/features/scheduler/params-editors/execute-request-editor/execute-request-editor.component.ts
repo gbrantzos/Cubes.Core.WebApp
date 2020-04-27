@@ -5,6 +5,7 @@ import { SchedulerApiClient } from '@features/scheduler/services/scheduler.api-c
 import { JobParameters } from '@features/scheduler/services/scheduler.models';
 import { DialogService } from '@shared/services/dialog.service';
 import { Lookup } from '@shared/services/lookup.service';
+import { CustomValidators } from '@core/helpers/custom-validators';
 
 @Component({
   selector: 'cubes-execute-request-editor',
@@ -24,7 +25,7 @@ export class ExecuteRequestEditorComponent implements OnInit, ParametersEditor {
   ngOnInit() {
     this.form = this.fb.group({
       requestType: ['', Validators.required],
-      requestInst: ['', Validators.required],
+      requestInst: ['', [Validators.required, CustomValidators.isYaml]],
     });
     this.form.statusChanges.subscribe((res) => this.validChanged.emit(this.form.valid));
     this.form.get('requestType').valueChanges.subscribe((v) => {
