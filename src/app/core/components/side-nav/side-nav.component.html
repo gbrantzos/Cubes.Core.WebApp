@@ -4,20 +4,31 @@
     class="sidenav"
     [disableClose]="!isHidden"
     [opened]="!isHidden"
-    [mode]="isHidden ? 'over' : 'side'"
-  >
-    <div style="height: 100%;" fxLayout="column" fxLayoutAlign=" center" class="no-scroll">
+    [mode]="isHidden ? 'over' : 'side'">
+    <div
+      style="height: 100%;"
+      fxLayout="column"
+      fxLayoutAlign="center center"
+      class="no-scroll">
       <mat-list flex="auto">
         <mat-list-item *ngFor="let item of navItems" routerLinkActive="active-menu">
           <div class="nav-item" [routerLink]="item.link">
-            <mat-icon matLine fontSet="fas" [fontIcon]="item.icon" class="fa-fw"> </mat-icon>
-            <a matLine>{{ item.label }}</a>
+            <mat-icon
+              matLine
+              fontSet="fas"
+              [fontIcon]="item.icon"
+              class="fa-fw">
+            </mat-icon>
+            <a class="label" matLine>{{ item.label }}</a>
           </div>
         </mat-list-item>
       </mat-list>
       <div class="filler"></div>
       <div flex="auto" class="side-nav-logo no-scroll">
-        <img class="logo" src="assets/images/cubes.logo.white.svg" width="64px" />
+        <img
+          class="logo"
+          src="assets/images/cubes.logo.white.svg"
+          width="64px" />
       </div>
     </div>
   </mat-sidenav>

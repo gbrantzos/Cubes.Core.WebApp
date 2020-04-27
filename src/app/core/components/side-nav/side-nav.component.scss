@@ -46,6 +46,7 @@
 .mat-list-item {
   height: 82px !important;
   margin-bottom: 6px;
+  cursor: pointer;
 }
 
 .active-menu {
@@ -64,4 +65,8 @@
 
 .no-scroll {
   overflow: hidden;
+}
+
+.label {
+
 }
