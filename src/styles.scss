@@ -1,30 +1,27 @@
 // cSpell:words autofill, deeppurple, theming, scrollbar, fontawesome
 // ----------------------------------------------------------------------------------------------------
 
-
 // ----------------------------------------------------------------------------------------------------
 // Custom typography
-@import "~assets/css/cairo.css";
-@import "~@angular/material/theming";
+@import '~assets/css/cairo.css';
+@import '~@angular/material/theming';
 $custom-typography: mat-typography-config(
-  $font-family: "Cairo, sans-serif, monospace",
+  $font-family: 'Cairo, sans-serif, monospace',
   $headline: mat-typography-level(32px, 48px, 700),
   $body-1: mat-typography-level(14px, 24px, 500),
 );
 @include angular-material-typography($custom-typography);
 // ----------------------------------------------------------------------------------------------------
 
-
 // ----------------------------------------------------------------------------------------------------
 // Local custom fonts
 //
-@import "~assets/css/fontawesome.css";
-@import "~assets/css/solid.css";
-@import "~assets/css/regular.css";
-@import "~assets/css/brands.css";
-@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import '~assets/css/fontawesome.css';
+@import '~assets/css/solid.css';
+@import '~assets/css/regular.css';
+@import '~assets/css/brands.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 // ----------------------------------------------------------------------------------------------------
-
 
 // ----------------------------------------------------------------------------------------------------
 // Global styles
@@ -38,7 +35,7 @@ body {
 
 body {
   margin: 0;
-  font-family: Cairo, Roboto, "Helvetica Neue", sans-serif;
+  font-family: Cairo, Roboto, 'Helvetica Neue', sans-serif;
 }
 
 [hidden] {
@@ -73,11 +70,16 @@ body {
 .mat-icon {
   height: auto !important;
 }
+
 h2.title {
   margin-bottom: 4px !important;
 }
-// ----------------------------------------------------------------------------------------------------
 
+mat-tooltip-component > .mat-tooltip {
+  white-space: pre;
+  font-size: 13px !important;
+}
+// ----------------------------------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------------------------------
 // Fixes yellow background on auto fills on Chrome, https://stackoverflow.com/a/29350537/3410871
@@ -88,7 +90,6 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
 }
 // ----------------------------------------------------------------------------------------------------
-
 
 // ----------------------------------------------------------------------------------------------------
 // Make snack-bar wider
@@ -103,7 +104,6 @@ input:-webkit-autofill:active {
   flex-direction: column;
 }
 // ----------------------------------------------------------------------------------------------------
-
 
 // ----------------------------------------------------------------------------------------------------
 // Custom scroll bars
@@ -129,7 +129,6 @@ input:-webkit-autofill:active {
 }
 // ----------------------------------------------------------------------------------------------------
 
-
 // ----------------------------------------------------------------------------------------------------
 // Full width dialogs
 .full-width-dialog .mat-dialog-container {
@@ -137,7 +136,6 @@ input:-webkit-autofill:active {
   background-color: #fafafa;
 }
 // ----------------------------------------------------------------------------------------------------
-
 
 // ----------------------------------------------------------------------------------------------------
 // Drop down form as menu
@@ -147,7 +145,6 @@ input:-webkit-autofill:active {
   padding: 8px 16px;
 }
 // ----------------------------------------------------------------------------------------------------
-
 
 // ----------------------------------------------------------------------------------------------------
 // Drop down form as menu
@@ -170,3 +167,4 @@ input:-webkit-autofill:active {
   border-left: 10px #bf0000 solid;
 }
 // ----------------------------------------------------------------------------------------------------
+

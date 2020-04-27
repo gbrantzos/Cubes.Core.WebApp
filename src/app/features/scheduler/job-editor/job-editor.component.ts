@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomValidators } from '@core/helpers/custom-validators';
 import { CronHelpComponent } from '@features/scheduler/cron-help/cron-help.component';
 import { ParametersEditor } from '@features/scheduler/params-editors/execution-params-editors';
+import { SchedulerApiClient } from '@features/scheduler/services/scheduler.api-client';
 import { JobParameters, SchedulerJob } from '@features/scheduler/services/scheduler.models';
 import { SchedulerStore } from '@features/scheduler/services/scheduler.store';
 import { DialogService } from '@shared/services/dialog.service';
@@ -35,7 +36,8 @@ export class JobEditorComponent implements OnInit {
     private lookupService: LookupService,
     private dialogService: DialogService,
     private matDialog: MatDialog,
-    private store: SchedulerStore
+    private store: SchedulerStore,
+    private client: SchedulerApiClient
   ) {}
 
   ngOnInit(): void {
@@ -150,7 +152,13 @@ export class JobEditorComponent implements OnInit {
     this.executionParameters.markAsPristine();
     this.isNew = false;
   }
-  onExecute() {}
+  onExecute() {
+    this.client.runSchedulerJob(this.originalName).subscribe((data) => {
+      this.dialogService.snackInfo('Job was triggered!');
+    }, (error) => {
+      this.dialogService.snackError(`Failed to execute job!\n${error.error}`);
+    });
+  }
 
   cronHelp() {
     this.matDialog.open(CronHelpComponent, {
