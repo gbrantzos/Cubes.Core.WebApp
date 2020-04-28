@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConfigurationService } from '@core/services/configuration.service';
 import { DialogService } from '@shared/services/dialog.service';
-import { SharedModule } from '@shared/shared.module';
 import { Observable, of } from 'rxjs';
 import { catchError, shareReplay } from 'rxjs/operators';
 
