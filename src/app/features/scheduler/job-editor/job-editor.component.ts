@@ -8,7 +8,7 @@ import { SchedulerApiClient } from '@features/scheduler/services/scheduler.api-c
 import { JobParameters, SchedulerJob } from '@features/scheduler/services/scheduler.models';
 import { SchedulerStore } from '@features/scheduler/services/scheduler.store';
 import { DialogService } from '@shared/services/dialog.service';
-import { LookupService } from '@shared/services/lookup.service';
+import { LookupService, CoreLookups } from '@shared/services/lookup.service';
 import cronstrue from 'cronstrue';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -57,8 +57,8 @@ export class JobEditorComponent implements OnInit {
       })
     );
     this.lookups$ = forkJoin(
-      this.lookupService.getLookup('jobTypes'),
-      this.lookupService.getLookup('requestTypes')
+      this.lookupService.getLookup(CoreLookups.SchedulerJobTypes),
+      this.lookupService.getLookup(CoreLookups.RequestTypes)
     ).pipe(
       map(([jobTypes, requestTypes]) => {
         return {

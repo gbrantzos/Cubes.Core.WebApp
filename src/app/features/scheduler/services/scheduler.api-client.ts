@@ -82,7 +82,7 @@ export class SchedulerApiClient {
           nextExecutionAt:           j.nextFireTime ? new Date(j.nextFireTime) : undefined,
           lastExecutionAt:           j.previousFireTime ? new Date(j.previousFireTime) : undefined,
           lastExecutionFailed:       j.lastExecutionFailed,
-          lastExecutionMessage:      j.lastExecutionMessage ?? 'Not set!',
+          lastExecutionMessage:      j.lastExecutionMessage,
         };
         return job;
       }),

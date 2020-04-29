@@ -4,6 +4,11 @@ import { ConfigurationService } from '@core/services/configuration.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
+export enum CoreLookups {
+  SchedulerJobTypes = 'Core:SchedulerJobTypes',
+  RequestTypes      = 'Core:RequestTypes'
+}
+
 interface Cache {
   [name: string]: Observable<Lookup>;
 }

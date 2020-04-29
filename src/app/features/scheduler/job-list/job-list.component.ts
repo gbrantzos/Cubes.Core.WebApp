@@ -37,7 +37,9 @@ export class JobListComponent implements OnInit, OnDestroy {
     this.newJob.emit();
   }
   showError(job: SchedulerJob) {
-    let dateStr = format(job.lastExecutionAt, 'dd/MM/yyyy HH:mm:ss');
+    let dateStr = job.lastExecutionAt
+      ? format(job.lastExecutionAt, 'dd/MM/yyyy HH:mm:ss')
+      : '-- Not triggered by scheduler! --';
     if (dateStr.endsWith(':00')) {
       dateStr = dateStr.substr(0, dateStr.length - 3);
     }
