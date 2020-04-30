@@ -113,7 +113,7 @@ export class DataAccessStore {
 
     const temp = this.connections$.value.filter((cn) => cn.name !== originalName);
     const newCnxArray = [...temp, connection].sort((a, b) => a.name.localeCompare(b.name));
-    console.log(newCnxArray);
+
     this.connections$.next(newCnxArray);
     this.saveData();
 

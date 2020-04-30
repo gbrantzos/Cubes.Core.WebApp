@@ -11,6 +11,7 @@ import { ContentListComponent } from './content-list/content-list.component';
 import { ContentEditorComponent } from './content-editor/content-editor.component';
 import { ContentApiClient } from '@features/settings/services/content.api-client';
 import { ContentStore } from '@features/settings/services/content.store';
+import { ApplicationSettingsComponent } from './application-settings/application-settings.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ContentStore } from '@features/settings/services/content.store';
     SmtpEditorComponent,
     SmtpListComponent,
     ContentListComponent,
-    ContentEditorComponent
+    ContentEditorComponent,
+    ApplicationSettingsComponent
   ],
   imports: [
     CommonModule,

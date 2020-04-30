@@ -70,6 +70,8 @@ export interface SchemaItem {
 }
 
 export interface Options {
+  dynamic?: boolean;
+  lookupKey?: string;
   multipleOptions?: boolean;
   items?: OptionItem[];
 }

@@ -11,7 +11,9 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Schema, Validator } from '@shared/services/schema.service';
+import { Lookup, LookupService } from '@shared/services/lookup.service';
+import { Schema, Validator, SchemaItem } from '@shared/services/schema.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cubes-dynamic-form',
@@ -37,7 +39,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
   public form: FormGroup;
   public hidePassword: true;
 
-  constructor() {}
+  constructor(private lookupService: LookupService) {}
   ngOnInit() {
     this.prepareFormGroup();
     if (this.model) {
@@ -51,6 +53,10 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
     if (!!changes['model']) {
       this.loadModel(this.model);
     }
+  }
+
+  lookupByKey(key: string): Observable<Lookup> {
+    return this.lookupService.getLookup(key);
   }
 
   public loadModel(model: any, leaveDirty = false) {
@@ -80,6 +86,16 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
 
     for (const item of this.schema.items) {
       formGroup[item.key] = new FormControl('', { validators: this.mapValidators(item.validators), updateOn: 'blur' });
+      if (item.type === 'select' && item.options.dynamic) {
+        this.lookupService.getLookup(item.options.lookupKey).subscribe(lookup => {
+          item.options.items = lookup.items.map((i) => {
+            return {
+              label: i.display,
+              value: i.value,
+            };
+          });
+        });
+      }
     }
     this.form = new FormGroup(formGroup);
     this.form.statusChanges.subscribe((status) => {
@@ -171,6 +187,18 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
 
   public currentValue() {
     return this.form.getRawValue();
+  }
+
+  public refreshSelect(event: MouseEvent, item: SchemaItem) {
+    event.stopPropagation();
+    this.lookupService.getLookup(item.options.lookupKey, true).subscribe(lookup => {
+      item.options.items = lookup.items.map((i) => {
+        return {
+          label: i.display,
+          value: i.value,
+        };
+      });
+    });
   }
 }
 

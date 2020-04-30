@@ -1,0 +1,63 @@
+
+<div *ngIf="appSettings$ | async as settings">
+  <div class="app-settings" *ngIf="settings.length">
+    <div class="header" fxLayout="row">
+      <mat-icon
+        fontSet="fas"
+        fontIcon="fa-puzzle-piece"
+        class="fa-fw fa-2x app-icon">
+      </mat-icon>
+
+      <mat-form-field [formGroup]="form">
+        <mat-label>Application</mat-label>
+        <mat-select formControlName="appSelector">
+          <mat-option
+            *ngFor="let s of settings; index as i;"
+            [value]="s">
+            {{s.displayName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="info" fxLayout="column">
+        <p class="assembly-name">Assembly: {{current.assemblyName}}</p>
+        <p class="assembly-path">{{current.assemblyPath}}</p>
+      </div>
+
+    </div>
+    <mat-divider></mat-divider>
+
+    <div class="complex-form">
+
+      <mat-tab-group #tabs [dynamicHeight]="true" [(selectedIndex)]="selectedTab">
+        <mat-tab
+          *ngFor="let section of current.uiSchema.sections; index as i"
+          label="{{section.schema.label}}">
+
+          <div *ngIf="!section.isList" class="dynamic-form">
+            <cubes-dynamic-form #sections [schema]="section.schema"></cubes-dynamic-form>
+          </div>
+
+          <div *ngIf="section.isList" class="dynamic-list">
+            List!
+          </div>
+
+        </mat-tab>
+
+      </mat-tab-group>
+    </div>
+
+    <div class="actions" fxLayout="row">
+      <div class="filler"></div>
+      <button mat-button (click)="onReset()"> Reset Settings </button>
+      <button #save mat-button color="primary" (click)="onSave()"> Save
+      </button>
+    </div>
+  </div>
+
+  <div class="no-data" *ngIf="!settings.length">
+    <mat-icon mat-list-icon fontSet="fas" fontIcon="fa-puzzle-piece"
+      class="fa-fw fa-3x"> </mat-icon>
+    <p class="message">No applications settings defined!</p>
+  </div>
+</div>

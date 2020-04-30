@@ -22,8 +22,11 @@ export class LookupService {
     this.baseUrl = `${config.uiUrl}/lookup/`;
   }
 
-  public getLookup(lookupName: string): Observable<Lookup> {
-    const cached = this.cache[lookupName];
+  public getLookup(lookupName: string, refreshCache = false): Observable<Lookup> {
+    let cached = this.cache[lookupName];
+    if (refreshCache) {
+      cached = undefined;
+    }
     if (cached) {
       return cached;
     } else {
