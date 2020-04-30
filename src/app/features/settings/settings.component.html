@@ -1,14 +1,15 @@
 <cubes-page-header (reload)="reload()"> Settings </cubes-page-header>
 
 <div class="content" fxLayout="column">
-  <mat-tab-group #tabs [dynamicHeight]="true" [(selectedIndex)]="tabIndex" (selectedTabChange)="tabChanged($event)">
+  <mat-tab-group #tabs [dynamicHeight]="true" [(selectedIndex)]="tabIndex"
+    (selectedTabChange)="tabChanged($event)">
     <mat-tab label="SMTP Profiles">
       <div class="inner" fxLayout="row">
-        <cubes-smtp-list fxFlex="50%" (newProfile)="newProfile()" (profileSelected)="profileSelected($event)">
+        <cubes-smtp-list fxFlex="50%" (newProfile)="newProfile()"
+          (profileSelected)="profileSelected($event)">
         </cubes-smtp-list>
 
         <mat-divider class="divider" [vertical]="true"> </mat-divider>
-
         <cubes-smtp-editor #editor fxFlex="50%"> </cubes-smtp-editor>
       </div>
     </mat-tab>
@@ -18,25 +19,26 @@
         <cubes-content-list
           fxFlex="50"
           (newContent)="newContent()"
-          (contentSelected)="contentSelected($event)"
-        ></cubes-content-list>
-
+          (contentSelected)="contentSelected($event)"></cubes-content-list>
         <mat-divider class="divider" [vertical]="true"></mat-divider>
-
         <cubes-content-editor #contentEditor fxFlex="50"></cubes-content-editor>
       </div>
     </mat-tab>
+
+    <mat-tab label="Applications">
+      <cubes-application-settings #appSettings></cubes-application-settings>
+    </mat-tab>
+
   </mat-tab-group>
 
   <div class="filler"></div>
   <div
     class="notice"
     fxLayout="row"
-    fxLayoutAlign=" center"
+    fxLayoutAlign="center"
     fxLayoutGap="16px"
     *ngIf="tabIndex === 1"
-    fxFlexAlign="center"
-  >
+    fxFlexAlign="center">
     <div class="icon">
       <i class="fas fa-exclamation-triangle fa-3x fa-fw"></i>
     </div>

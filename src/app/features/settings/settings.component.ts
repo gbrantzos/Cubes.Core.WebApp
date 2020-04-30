@@ -2,12 +2,14 @@ import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
+import { ContentEditorComponent } from '@features/settings/content-editor/content-editor.component';
+import { StaticContent } from '@features/settings/services/content.model';
 import { ContentStore } from '@features/settings/services/content.store';
 import { SettingsStore, SmtpProfile } from '@features/settings/services/settings.store';
 import { SmtpEditorComponent } from '@features/settings/smtp-editor/smtp-editor.component';
 import { DialogService } from '@shared/services/dialog.service';
-import { ContentEditorComponent } from '@features/settings/content-editor/content-editor.component';
-import { StaticContent } from '@features/settings/services/content.model';
+import { ApplicationsSettingsService } from '@features/settings/services/applications-settings.service';
+import { ApplicationSettingsComponent } from '@features/settings/application-settings/application-settings.component';
 
 @Component({
   selector: 'cubes-settings',
@@ -17,6 +19,7 @@ import { StaticContent } from '@features/settings/services/content.model';
 export class SettingsComponent implements OnInit {
   @ViewChild('editor') editor: SmtpEditorComponent;
   @ViewChild('contentEditor') contentEditor: ContentEditorComponent;
+  @ViewChild('appSettings') appSettings: ApplicationSettingsComponent;
   public tabIndex = 0;
 
   constructor(
@@ -28,7 +31,7 @@ export class SettingsComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     const view = this.route.snapshot.paramMap.get('view') ?? 'smtp';
-    this.tabIndex = view === 'smtp' ? 0 : view === 'content' ? 1 : 0;
+    this.tabIndex = view === 'smtp' ? 0 : view === 'content' ? 1 : view === 'applications' ? 2 : 0;
 
     this.store.loadData();
     this.contentStore.loadData();
@@ -98,6 +101,9 @@ export class SettingsComponent implements OnInit {
         break;
       case 1:
         this.location.replaceState('settings/content');
+        break;
+      case 2:
+        this.location.replaceState('settings/applications');
         break;
       default:
         break;

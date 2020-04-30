@@ -15,7 +15,15 @@
   width: 100%;
 }
 
+.mat-form-field {
+  margin-bottom: 4px;
+}
+
 .code {
   font-family: monospace;
   font-size: 0.82em;
+}
+
+.refresh-icon {
+  color: rgba(0,0,0,.54);
 }

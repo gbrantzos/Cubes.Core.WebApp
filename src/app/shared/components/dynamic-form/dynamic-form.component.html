@@ -1,8 +1,11 @@
 <form [formGroup]="form" class="dynamic-form-wrapper">
+
   <!-- Loop schema items -->
   <ng-container *ngFor="let item of schema.items">
+
     <!-- Switch based on item type-->
     <ng-container [ngSwitch]="item.type">
+
       <!-- Simple input -->
       <mat-form-field *ngSwitchCase="'text'">
         <input
@@ -10,8 +13,7 @@
           type="text"
           placeholder="{{ item.label }}"
           [formControlName]="item.key"
-          [ngClass]="item.className"
-        />
+          [ngClass]="item.className" />
         <mat-error *ngIf="hasErrors(item.key)">
           {{ getErrorMessage(item.key) }}
         </mat-error>
@@ -27,8 +29,7 @@
           [rows]="item.textareaRows || 8"
           [ngClass]="item.className"
           cdkTextareaAutosize
-          [cdkAutosizeMaxRows]="item.textareaMaxRows || item.textareaRows || 8"
-        ></textarea>
+          [cdkAutosizeMaxRows]="item.textareaMaxRows || item.textareaRows || 8"></textarea>
         <mat-error *ngIf="hasErrors(item.key)">
           {{ getErrorMessage(item.key) }}
         </mat-error>
@@ -37,21 +38,30 @@
 
       <!-- Select -->
       <mat-form-field *ngSwitchCase="'select'">
+        <button
+          mat-icon-button
+          matSuffix
+          *ngIf="item.options.dynamic"
+          matTooltip="Refresh items"
+          class="refresh-icon"
+          (click)="refreshSelect($event, item)"
+          >
+          <mat-icon fontSet="fas" fontIcon="fa-sync-alt"></mat-icon>
+        </button>
         <mat-select
           placeholder="{{ item.label }}"
           [formControlName]="item.key"
           [compareWith]="compareObjects"
           [multiple]="item.options.multipleOptions"
-          [ngClass]="item.className"
-        >
+          [ngClass]="item.className">
           <mat-option
             *ngFor="let opt of item.options.items"
             [value]="opt.value"
-            [disabled]="!!opt.disabled"
-          >
+            [disabled]="!!opt.disabled">
             {{ opt.label }}
           </mat-option>
         </mat-select>
+        <!-- TODO Support for hints! <mat-hint align="end">Here's some info about this field</mat-hint> -->
         <mat-error *ngIf="hasErrors(item.key)">
           {{ getErrorMessage(item.key) }}
         </mat-error>
@@ -77,7 +87,7 @@
           placeholder="{{ item.label }}"
           [formControlName]="item.key"
           [ngClass]="item.className"
-        />
+          />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error *ngIf="hasErrors(item.key)">
@@ -97,17 +107,19 @@
           [type]="hidePassword ? 'password' : 'text'"
           [formControlName]="item.key"
           [ngClass]="item.className"
-        />
+          />
         <mat-icon style="margin-right:4px"
           fontSet="far"
           [fontIcon]="hidePassword ? 'fa-eye' : 'fa-eye-slash'"
           matSuffix
-          (click)="hidePassword = !hidePassword"
-        ></mat-icon>
+          (click)="hidePassword= !hidePassword"></mat-icon>
       </mat-form-field>
       <!-- Password -->
+
     </ng-container>
     <!-- Switch based on item type-->
+
   </ng-container>
   <!-- Loop through schema items -->
+
 </form>

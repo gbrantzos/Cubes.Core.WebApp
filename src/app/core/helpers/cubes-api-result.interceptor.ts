@@ -1,37 +1,36 @@
-import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
 export class CubesApiResultInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req)
-      .pipe(
-        map(resp => {
-          if (resp instanceof HttpResponse) {
-            if (isApiResponse(resp.body)) {
-              const apiResponse = resp.body as CubesApiResponse;
-              if (apiResponse.hasErrors) {
-                throw new Error(apiResponse.message);
-              }
-              resp = resp.clone<any>({ body: apiResponse.response });
+    return next.handle(req).pipe(
+      map((resp) => {
+        if (resp instanceof HttpResponse) {
+          if (isApiResponse(resp.body)) {
+            const apiResponse = resp.body as CubesApiResponse;
+            if (apiResponse.hasErrors) {
+              throw new Error(apiResponse.message);
             }
-            return resp;
+            resp = resp.clone<any>({ body: apiResponse.response });
           }
-        })
-      );
+          return resp;
+        }
+      })
+    );
   }
 }
 
-
+// prettier-ignore
 export interface CubesApiResponse {
-  version: string;
-  createdAt: Date;
+  version:    string;
+  createdAt:  Date;
   statusCode: number;
-  hasErrors: boolean;
-  message?: string;
-  response?: any;
+  hasErrors:  boolean;
+  message?:   string;
+  response?:  any;
 }
 
 export function isApiResponse(r: any): r is CubesApiResponse {
