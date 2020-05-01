@@ -48,6 +48,10 @@ export class ApplicationSettingsComponent implements OnInit {
       }
     });
 
+    this.load();
+  }
+
+  load() {
     this.appSettings$ = this.appConfigService.getUIConfig().pipe(
       map((data) => {
         if (data && data.length >= 1) {
@@ -85,5 +89,19 @@ export class ApplicationSettingsComponent implements OnInit {
   }
 
   onReload() {}
-  onReset() {}
+  onReset() {
+    // TODO Check for changes
+    const call$ = this.loadingWrapper.wrap(this.appConfigService.resetSettingsData(this.current.settingsTypeName));
+    call$.subscribe(
+      (data) => {
+        this.dialogService.snackSuccess(data);
+        this.load();
+      },
+      (error) => {
+        console.error(error);
+        const message = `Could not save settings!\n\n${error.error.message || error.message}`;
+        this.dialogService.snackError(message);
+      }
+    );
+  }
 }

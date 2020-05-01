@@ -56,6 +56,7 @@ export class SettingsComponent implements OnInit {
     }
     this.store.loadData();
     this.contentStore.loadData();
+    this.appSettings.onReload();
   }
 
   async newProfile() {

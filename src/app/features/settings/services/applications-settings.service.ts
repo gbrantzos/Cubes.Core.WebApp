@@ -31,6 +31,11 @@ export class ApplicationsSettingsService {
         headers: new HttpHeaders({ 'Content-Type': 'text/plain' }),
       });
   }
+
+  resetSettingsData(settingsType: string): Observable<string> {
+    const url = `${this.apiUrl}/configuration/${settingsType}/reset`;
+    return this.http.get<string>(url);
+  }
 }
 
 // prettier-ignore
