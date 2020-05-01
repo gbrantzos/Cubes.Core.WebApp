@@ -1,13 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConfigurationService } from '@core/services/configuration.service';
 import { Schema } from '@shared/services/schema.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ApplicationsSettingsService {
   private readonly uiUrl: string;
   private readonly apiUrl: string;
@@ -26,22 +23,34 @@ export class ApplicationsSettingsService {
     const url = `${this.apiUrl}/configuration/${settingsType}`;
     return this.http.get(url);
   }
+
+  saveSettingsData(settingsType: string, settingsInstance) {
+    const url = `${this.apiUrl}/configuration`;
+    return this.http
+      .post<string>(`${url}/${settingsType}`, settingsInstance, {
+        headers: new HttpHeaders({ 'Content-Type': 'text/plain' }),
+      });
+  }
 }
 
+// prettier-ignore
 export interface ApplicationSettingsUIConfig {
-  displayName: string;
+  displayName:      string;
   settingsTypeName: string;
-  uiSchema: ComplexSchema;
-  assemblyName: string;
-  assemblyPath: string;
+  uiSchema:         ComplexSchema;
+  assemblyName:     string;
+  assemblyPath:     string;
 }
 
+// prettier-ignore
 export interface ComplexSchema {
-  [name: string]: {
-    schema: Schema;
-    isList: boolean;
-    listItem?: string;
+  name: string;
+  sections: [{
+    rootProperty: string;
+    schema:       Schema;
+    isList:       boolean;
+    listItem?:    string;
     listItemSub?: string;
-    listIcon?: string;
-  };
+    listIcon?:    string;
+  }];
 }

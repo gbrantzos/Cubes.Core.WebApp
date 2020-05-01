@@ -1,27 +1,39 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { add } from 'date-fns';
-import { Md5 } from 'ts-md5/dist/md5';
 import { ConfigurationService } from '@core/services/configuration.service';
+import { AvatarService } from '@core/services/avatar.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private readonly STORAGE_ITEM = 'userDetails';
-  private md5 = new Md5();
+  private readonly hoursBeforeExpire = 10;
 
-  constructor(private configService: ConfigurationService) { }
+  constructor(private configService: ConfigurationService, private avatarService: AvatarService) { }
 
   get isLogged(): boolean {
     const details = this.loggedUser;
     if (!details) { return false; }
 
-    return Date.parse(details.loginExpiration.toString()) > Date.now();
+    const beforeExpiration = Date.parse(details.loginExpiration.toString()) > Date.now();
+    if (beforeExpiration) {
+      const newExpiration = add(new Date(), { hours: this.hoursBeforeExpire });
+      this.loggedUser = {
+        ...details,
+        loginExpiration: newExpiration
+      };
+      console.log('New expiration date', this.loggedUser.loginExpiration);
+    }
+    return beforeExpiration;
   }
 
   get loggedUser(): UserDetails {
     return JSON.parse(localStorage.getItem(this.STORAGE_ITEM)) as UserDetails;
+  }
+  set loggedUser(details: UserDetails) {
+    localStorage.setItem(this.STORAGE_ITEM, JSON.stringify(details));
   }
 
   login(user: UserCredentials): Observable<void> {
@@ -32,14 +44,12 @@ export class AuthService {
       .find(u => u.userID === user.userID && u.password === user.password);
     if (userFound) {
       const details: UserDetails = {
-        userID: user.userID,
-        fullName: userFound.fullName,
-        loginExpiration: add(new Date(), { hours: 10 }),
-        avatar: userFound.email ?
-          `https://www.gravatar.com/avatar/${this.md5.appendAsciiStr(userFound.email).end()}` :
-          'assets/images/default-avatar.png'
+        userID:          user.userID,
+        fullName:        userFound.fullName,
+        loginExpiration: add(new Date(), { hours: this.hoursBeforeExpire }),
+        avatar:          this.avatarService.getAvatarUrl(userFound.email)
       };
-      localStorage.setItem(this.STORAGE_ITEM, JSON.stringify(details));
+      this.loggedUser = details;
       setTimeout(() => {
         subject.next();
         subject.complete();
@@ -56,14 +66,16 @@ export class AuthService {
   }
 }
 
+// prettier-ignore
 export interface UserCredentials {
-  userID: string;
+  userID:   string;
   password: string;
 }
 
+// prettier-ignore
 export interface UserDetails {
-  userID: string;
-  fullName: string;
+  userID:          string;
+  fullName:        string;
   loginExpiration: Date;
-  avatar: string;
+  avatar:          string;
 }
