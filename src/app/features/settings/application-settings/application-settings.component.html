@@ -1,5 +1,5 @@
 
-<div *ngIf="appSettings$ | async as settings">
+<div *ngIf="appSettings$ | async as settings; else empty">
   <div class="app-settings" *ngIf="settings.length">
     <div class="header" fxLayout="row">
       <mat-icon
@@ -61,3 +61,11 @@
     <p class="message">No applications settings defined!</p>
   </div>
 </div>
+
+
+<ng-template #empty>
+  <div class="no-data">
+    <img src="assets/images/nodata.png" width="128px" />
+    <p class="message">No applications settings defined!</p>
+  </div>
+</ng-template>
