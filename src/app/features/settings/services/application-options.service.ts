@@ -5,7 +5,7 @@ import { Schema } from '@shared/services/schema.service';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class ApplicationsSettingsService {
+export class ApplicationOptionsService {
   private readonly uiUrl: string;
   private readonly apiUrl: string;
 
@@ -14,9 +14,9 @@ export class ApplicationsSettingsService {
     this.apiUrl = config.apiUrl;
   }
 
-  getUIConfig(): Observable<ApplicationSettingsUIConfig[]> {
-    const url = `${this.uiUrl}/applications-settings`;
-    return this.http.get<ApplicationSettingsUIConfig[]>(url);
+  getUIConfig(): Observable<ApplicationOptionsUIConfig[]> {
+    const url = `${this.uiUrl}/applications-options`;
+    return this.http.get<ApplicationOptionsUIConfig[]>(url);
   }
 
   getSettingsData(settingsType: string) {
@@ -39,12 +39,12 @@ export class ApplicationsSettingsService {
 }
 
 // prettier-ignore
-export interface ApplicationSettingsUIConfig {
-  displayName:      string;
-  settingsTypeName: string;
-  uiSchema:         ComplexSchema;
-  assemblyName:     string;
-  assemblyPath:     string;
+export interface ApplicationOptionsUIConfig {
+  displayName:     string;
+  optionsTypeName: string;
+  uiSchema:        ComplexSchema;
+  assemblyName:    string;
+  assemblyPath:    string;
 }
 
 // prettier-ignore

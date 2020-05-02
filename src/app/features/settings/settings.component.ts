@@ -8,8 +8,9 @@ import { ContentStore } from '@features/settings/services/content.store';
 import { SettingsStore, SmtpProfile } from '@features/settings/services/settings.store';
 import { SmtpEditorComponent } from '@features/settings/smtp-editor/smtp-editor.component';
 import { DialogService } from '@shared/services/dialog.service';
-import { ApplicationsSettingsService } from '@features/settings/services/applications-settings.service';
-import { ApplicationSettingsComponent } from '@features/settings/application-settings/application-settings.component';
+import { ApplicationOptionsService } from '@features/settings/services/application-options.service';
+import { ApplicationOptionsComponent } from '@features/settings/application-options/application-options.component';
+
 
 @Component({
   selector: 'cubes-settings',
@@ -19,7 +20,7 @@ import { ApplicationSettingsComponent } from '@features/settings/application-set
 export class SettingsComponent implements OnInit {
   @ViewChild('editor') editor: SmtpEditorComponent;
   @ViewChild('contentEditor') contentEditor: ContentEditorComponent;
-  @ViewChild('appSettings') appSettings: ApplicationSettingsComponent;
+  @ViewChild('appOptions') appOptions: ApplicationOptionsComponent;
   public tabIndex = 0;
 
   constructor(
@@ -56,7 +57,7 @@ export class SettingsComponent implements OnInit {
     }
     this.store.loadData();
     this.contentStore.loadData();
-    this.appSettings.onReload();
+    this.appOptions.onReload();
   }
 
   async newProfile() {
