@@ -1,6 +1,6 @@
 
-<div *ngIf="appSettings$ | async as settings; else empty">
-  <div class="app-settings" *ngIf="settings.length">
+<div *ngIf="appOptions$ | async as options; else empty">
+  <div class="app-options" *ngIf="options.length">
     <div class="header" fxLayout="row">
       <mat-icon
         fontSet="fas"
@@ -12,7 +12,7 @@
         <mat-label>Application</mat-label>
         <mat-select formControlName="appSelector">
           <mat-option
-            *ngFor="let s of settings; index as i;"
+            *ngFor="let s of options; index as i;"
             [value]="s">
             {{s.displayName}}
           </mat-option>
@@ -49,16 +49,16 @@
 
     <div class="actions" fxLayout="row">
       <div class="filler"></div>
-      <button mat-button (click)="onReset()"> Reset Settings </button>
+      <button mat-button (click)="onReset()"> Reset Options </button>
       <button #save mat-button color="primary" (click)="onSave()"> Save
       </button>
     </div>
   </div>
 
-  <div class="no-data" *ngIf="!settings.length">
+  <div class="no-data" *ngIf="!options.length">
     <mat-icon mat-list-icon fontSet="fas" fontIcon="fa-puzzle-piece"
       class="fa-fw fa-3x"> </mat-icon>
-    <p class="message">No applications settings defined!</p>
+    <p class="message">No applications options defined!</p>
   </div>
 </div>
 
@@ -66,6 +66,6 @@
 <ng-template #empty>
   <div class="no-data">
     <img src="assets/images/nodata.png" width="128px" />
-    <p class="message">No applications settings defined!</p>
+    <p class="message">No applications options defined!</p>
   </div>
 </ng-template>

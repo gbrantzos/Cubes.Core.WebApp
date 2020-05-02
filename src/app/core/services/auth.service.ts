@@ -24,7 +24,6 @@ export class AuthService {
         ...details,
         loginExpiration: newExpiration
       };
-      console.log('New expiration date', this.loggedUser.loginExpiration);
     }
     return beforeExpiration;
   }
