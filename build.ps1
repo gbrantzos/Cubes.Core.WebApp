@@ -1,3 +1,9 @@
+function Create-7zip([String] $aDirectory, [String] $aZipfile){
+  [string]$pathToZipExe = "$($Env:ProgramFiles)\7-Zip\7z.exe";
+  [Array]$arguments = "a", "-tzip", "$aZipfile", "$aDirectory", "-r";
+  & $pathToZipExe $arguments;
+}
+
 # Git details
 $gitBranch = (git rev-parse --abbrev-ref HEAD)
 $gitCommit = (git rev-parse HEAD).Substring(0, 10)
@@ -19,4 +25,5 @@ ng build --prod --base-href /admin/
 # Create archive
 $archive = ".\dist\CubesManagement.zip"
 if (test-path $archive) { Remove-Item $archive -Force }
-Compress-Archive -Path .\dist\core-webapp\* -DestinationPath .\dist\CubesManagement.zip
+Start-Sleep -s 2
+Create-7zip .\dist\core-webapp\* .\dist\CubesManagement.zip
