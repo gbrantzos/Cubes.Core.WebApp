@@ -65,6 +65,8 @@ export interface SchemaItem {
   textareaMaxRows?: number;
   options?:         Options;
   validators?:      Validator[];
+  hint?:            string;
+  flex?:            string;
 }
 
 // prettier-ignore
