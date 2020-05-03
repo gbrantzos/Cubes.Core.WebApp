@@ -29,7 +29,8 @@
 
     <div class="complex-form">
 
-      <mat-tab-group #tabs [dynamicHeight]="true" [(selectedIndex)]="selectedTab">
+      <mat-tab-group #tabs [dynamicHeight]="true"
+        [(selectedIndex)]="selectedTab">
         <mat-tab
           *ngFor="let section of current.uiSchema.sections; index as i"
           label="{{section.schema.label}}">
@@ -39,7 +40,11 @@
           </div>
 
           <div *ngIf="section.isList" class="dynamic-list">
-            List!
+            <cubes-dynamic-list #sections
+              [label]="section.schema.label"
+              [editorSchema]="section.schema"
+              [listDefinition]="section.listDefinition">
+            </cubes-dynamic-list>
           </div>
 
         </mat-tab>

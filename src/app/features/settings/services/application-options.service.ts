@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConfigurationService } from '@core/services/configuration.service';
-import { Schema } from '@shared/services/schema.service';
+import { ComplexSchema } from '@shared/services/schema.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ApplicationOptionsService {
@@ -16,7 +17,20 @@ export class ApplicationOptionsService {
 
   getUIConfig(): Observable<ApplicationOptionsUIConfig[]> {
     const url = `${this.uiUrl}/applications-options`;
-    return this.http.get<ApplicationOptionsUIConfig[]>(url);
+    return this.http.get<ApplicationOptionsUIConfig[]>(url).pipe(
+      map((data) => {
+        data.forEach(d => {
+          d.uiSchema.sections.forEach(s => {
+            if (s.isList && s.listDefinition?.icon) {
+              const tmp = s.listDefinition.icon.split(' ');
+              s.listDefinition.iconSet = tmp.length === 2 ? tmp[0] : 'fas';
+              s.listDefinition.iconName = tmp.length === 2 ? tmp[1] : s.listDefinition.icon;
+            }
+          });
+        });
+        return data;
+      })
+    );
   }
 
   getSettingsData(settingsType: string) {
@@ -26,10 +40,9 @@ export class ApplicationOptionsService {
 
   saveSettingsData(settingsType: string, settingsInstance) {
     const url = `${this.apiUrl}/configuration`;
-    return this.http
-      .post<string>(`${url}/${settingsType}`, settingsInstance, {
-        headers: new HttpHeaders({ 'Content-Type': 'text/plain' }),
-      });
+    return this.http.post<string>(`${url}/${settingsType}`, settingsInstance, {
+      headers: new HttpHeaders({ 'Content-Type': 'text/plain' }),
+    });
   }
 
   resetSettingsData(settingsType: string): Observable<string> {
@@ -45,17 +58,4 @@ export interface ApplicationOptionsUIConfig {
   uiSchema:        ComplexSchema;
   assemblyName:    string;
   assemblyPath:    string;
-}
-
-// prettier-ignore
-export interface ComplexSchema {
-  name: string;
-  sections: [{
-    rootProperty: string;
-    schema:       Schema;
-    isList:       boolean;
-    listItem?:    string;
-    listItemSub?: string;
-    listIcon?:    string;
-  }];
 }

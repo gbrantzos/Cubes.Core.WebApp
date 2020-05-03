@@ -1,0 +1,33 @@
+.no-data {
+  text-align: center;
+  padding: 36px 0;
+  color: gray;
+
+  .message {
+    width:100%;
+    padding: 16px;
+    margin: auto;
+    color: black;
+    text-align: center;
+  }
+}
+
+.dynamic-list-item {
+  padding-left: 16px;
+}
+
+.list-divider {
+  margin: 12px 0;
+}
+
+.selected {
+  background-color: #dbdbdb;
+}
+
+p.mat-line {
+  margin-bottom: 0 !important;
+}
+
+p.sub {
+  font-size: 0.78rem !important;
+}

@@ -1,5 +1,6 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -12,7 +13,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Lookup, LookupService } from '@shared/services/lookup.service';
-import { Schema, Validator, SchemaItem } from '@shared/services/schema.service';
+import { Schema, SchemaItem, Validator } from '@shared/services/schema.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -41,17 +42,18 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
 
   constructor(private lookupService: LookupService) {}
   ngOnInit() {
-    this.prepareFormGroup();
-    if (this.model) {
-      this.loadModel(this.model);
-    }
+    // TODO seems that the following is obsolete!
+    // this.prepareFormGroup();
+    // if (this.model) {
+    //   this.loadModel(this.model);
+    // }
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (!!changes['schema']) {
       this.prepareFormGroup();
     }
     if (!!changes['model']) {
-      this.loadModel(this.model);
+      this.setModel(this.model);
     }
   }
 
@@ -59,7 +61,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
     return this.lookupService.getLookup(key);
   }
 
-  public loadModel(model: any, leaveDirty = false) {
+  public setModel(model: any, leaveDirty = false) {
     this.form?.patchValue(model);
     if (!leaveDirty) {
       this.markAsPristine();
@@ -191,7 +193,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
 
   public refreshSelect(event: MouseEvent, item: SchemaItem) {
     event.stopPropagation();
-    this.lookupService.getLookup(item.options.lookupKey, true).subscribe(lookup => {
+    this.lookupService.getLookup(item.options.lookupKey, true).subscribe((lookup) => {
       item.options.items = lookup.items.map((i) => {
         return {
           label: i.display,
@@ -205,5 +207,5 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
 export interface DynamicForm {
   readonly currentValue: any;
   form: FormGroup;
-  loadModel(value: any): void;
+  setModel(value: any): void;
 }

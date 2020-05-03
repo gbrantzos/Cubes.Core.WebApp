@@ -12,6 +12,9 @@ import { LookupService } from '@shared/services/lookup.service';
 import { SchemaService } from '@shared/services/schema.service';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { DynamicListComponent } from './components/dynamic-list/dynamic-list.component';
+import { DynamicListEditorComponent } from './components/dynamic-list-editor/dynamic-list-editor.component';
+import { ListItemExpressionPipe } from './pipes/list-item-expression.pipe';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     DynamicFormComponent,
     DynamicTableComponent,
     PageHeaderComponent,
+    DynamicListComponent,
+    DynamicListEditorComponent,
+    ListItemExpressionPipe,
   ],
   imports: [
     CommonModule,
@@ -41,9 +47,10 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
     DynamicFormComponent,
     DynamicTableComponent,
+    DynamicListComponent,
     PageHeaderComponent,
   ],
-  entryComponents: [AlertDialogComponent, ConfirmDialogComponent],
+  entryComponents: [AlertDialogComponent, ConfirmDialogComponent, DynamicListEditorComponent],
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
