@@ -1,0 +1,51 @@
+<div class="item-list" *ngIf="model.length">
+  <mat-list>
+
+    <mat-list-item *ngFor="let m of model" (click)="selectedItem= m"
+      [ngClass]='{selected: selectedItem === m}'>
+      <mat-icon
+        matListIcon
+        [fontSet]="listDefinition.iconSet"
+        [fontIcon]="listDefinition.iconName">
+      </mat-icon>
+      <div class="dynamic-list-item">
+        <p matLine> {{m[listDefinition.item]}} </p>
+        <p *ngIf="listDefinition.itemSub && !listDefinition.itemSubExpr" matLine
+          class="sub">
+          {{ m[listDefinition.itemSub] }}
+        </p>
+        <p *ngIf="listDefinition.itemSub && listDefinition.itemSubExpr" matLine
+          class="sub">
+          {{ m | listItemExpression : listDefinition.itemSubExpr }}
+        </p>
+      </div>
+      <div class="filler"></div>
+
+      <button mat-icon-button matTooltip="Edit item" (click)="editItem(m)">
+        <mat-icon
+          fontSet="far"
+          fontIcon="fa-edit">
+        </mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Remove item" (click)="removeItem(m)">
+        <mat-icon
+          fontSet="far"
+          fontIcon="fa-trash-alt">
+        </mat-icon>
+      </button>
+    </mat-list-item>
+    <mat-divider class="list-divider"></mat-divider>
+
+    <button mat-button color="primary" (click)="addItem()"> Add new </button>
+  </mat-list>
+</div>
+
+<div class="no-data" *ngIf="!model.length">
+  <mat-icon mat-list-icon
+    [fontSet]="listDefinition.iconSet"
+    [fontIcon]="listDefinition.iconName"
+    class="fa-fw fa-3x">
+  </mat-icon>
+  <p class="message"> {{label}} list is empty! </p>
+  <a (click)="addItem()" class="link"> Add new </a>
+</div>

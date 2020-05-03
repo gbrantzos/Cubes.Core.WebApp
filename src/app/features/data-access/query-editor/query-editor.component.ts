@@ -152,7 +152,7 @@ export class QueryEditorComponent implements OnInit {
             .confirm('Query command has changed. Update command on query <strong>' + query.name + '</strong>?')
             .subscribe((resultOk) => {
               if (resultOk) {
-                this.form.loadModel({ queryCommand: result }, true);
+                this.form.setModel({ queryCommand: result }, true);
               }
             });
         }

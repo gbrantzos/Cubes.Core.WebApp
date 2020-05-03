@@ -13,6 +13,7 @@
     "sidenav",
     "smtp",
     "subsink",
+    "tabindex",
     "validators"
   ],
   "typescript.preferences.importModuleSpecifier": "non-relative",

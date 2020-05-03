@@ -1,0 +1,22 @@
+<h3 mat-dialog-title> {{label}}</h3>
+<mat-divider></mat-divider>
+
+<div class="content">
+  <cubes-dynamic-form #editor
+    [schema]="this.schema"
+    [model]="this.model"
+    (isValid)="save.disabled=!$event">
+  </cubes-dynamic-form>
+</div>
+
+<mat-dialog-actions>
+  <button
+    mat-flat-button
+    tabindex="-1"
+    [mat-dialog-close]="false"> Cancel </button>
+  <button #save
+    mat-flat-button
+    type="submit"
+    color="primary"
+    (click)="accept()"> OK </button>
+</mat-dialog-actions>

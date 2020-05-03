@@ -6,10 +6,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, shareReplay } from 'rxjs/operators';
 
 export enum CoreSchemas {
-  SettingsSMTP = 'Cubes.Core.Email.SmtpSettingsProfiles',
+  SettingsSMTP   = 'Cubes.Core.Email.SmtpSettingsProfiles',
   DataConnection = 'Cubes.Core.DataAccess.Connection',
-  DataQuery = 'Cubes.Core.DataAccess.Query',
-  StaticContent = 'Cubes.Core.Web.StaticContent.Content'
+  DataQuery      = 'Cubes.Core.DataAccess.Query',
+  StaticContent  = 'Cubes.Core.Web.StaticContent.Content',
 }
 
 interface Cache {
@@ -21,11 +21,7 @@ export class SchemaService {
   private baseUrl: string;
   private readonly cache: Cache = {};
 
-  constructor(
-    private httpClient: HttpClient,
-    private dialogService: DialogService,
-    config: ConfigurationService
-  ) {
+  constructor(private httpClient: HttpClient, private dialogService: DialogService, config: ConfigurationService) {
     this.baseUrl = `${config.uiUrl}/schema`;
   }
 
@@ -52,51 +48,71 @@ export class SchemaService {
   }
 }
 
+// prettier-ignore
 export interface Schema {
-  name: string;
+  name:   string;
   label?: string;
-  items: SchemaItem[];
+  items:  SchemaItem[];
 }
 
+// prettier-ignore
 export interface SchemaItem {
-  key: string;
-  label: string;
-  type: 'text' | 'textarea' | 'select' | 'checkbox' | 'datepicker' | 'password';
-  className?: string;
-  textareaRows?: number;
+  key:              string;
+  label:            string;
+  type:             'text' | 'textarea' | 'select' | 'checkbox' | 'datepicker' | 'password';
+  className?:       string;
+  textareaRows?:    number;
   textareaMaxRows?: number;
-  options?: Options;
-  validators?: Validator[];
+  options?:         Options;
+  validators?:      Validator[];
+  hint?:            string;
+  flex?:            string;
 }
 
+// prettier-ignore
 export interface Options {
-  dynamic?: boolean;
-  lookupKey?: string;
+  dynamic?:         boolean;
+  lookupKey?:       string;
   multipleOptions?: boolean;
-  items?: OptionItem[];
+  items?:           OptionItem[];
 }
 
+// prettier-ignore
 export interface OptionItem {
-  label: string;
-  value: string;
+  label:     string;
+  value:     string;
   disabled?: boolean;
 }
 
+// prettier-ignore
 export interface Validators {
   required?: boolean;
-  min?: number;
-  max?: number;
+  min?:      number;
+  max?:      number;
 }
 
 export interface Validator {
-  name:
-    | 'min'
-    | 'max'
-    | 'required'
-    | 'requiredTrue'
-    | 'email'
-    | 'minLength'
-    | 'maxLength'
-    | 'pattern';
+  name: 'min' | 'max' | 'required' | 'requiredTrue' | 'email' | 'minLength' | 'maxLength' | 'pattern';
   parameters?: any;
+}
+
+// prettier-ignore
+export interface ComplexSchema {
+  name: string;
+  sections: [{
+    rootProperty:    string;
+    schema:          Schema;
+    isList:          boolean;
+    listDefinition?: ListDefinition
+  }];
+}
+
+// prettier-ignore
+export interface ListDefinition {
+  item:         string;
+  itemSub?:     string;
+  itemSubExpr?: string;
+  icon?:        string;
+  iconSet?:     string;
+  iconName?:    string;
 }

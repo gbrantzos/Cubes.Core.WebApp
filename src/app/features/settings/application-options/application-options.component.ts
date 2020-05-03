@@ -1,14 +1,15 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
-  ApplicationOptionsUIConfig,
   ApplicationOptionsService,
+  ApplicationOptionsUIConfig,
 } from '@features/settings/services/application-options.service';
 import { DynamicFormComponent } from '@shared/components/dynamic-form/dynamic-form.component';
 import { DialogService } from '@shared/services/dialog.service';
 import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DynamicListComponent } from '@shared/components/dynamic-list/dynamic-list.component';
 
 @Component({
   selector: 'cubes-application-options',
@@ -21,7 +22,7 @@ export class ApplicationOptionsComponent implements OnInit {
   public current: ApplicationOptionsUIConfig;
   public selectedTab: number;
 
-  @ViewChildren('sections') sections: QueryList<ElementRef>;
+  @ViewChildren('sections') sections: QueryList<DynamicFormComponent | DynamicListComponent>;
 
   constructor(
     private appConfigService: ApplicationOptionsService,
@@ -42,7 +43,14 @@ export class ApplicationOptionsComponent implements OnInit {
         this.appConfigService.getSettingsData(this.current.optionsTypeName).subscribe((data) => {
           const sections = this.sections.toArray();
           Object.keys(data).forEach((key, index) => {
-            ((<any>sections[index]) as DynamicFormComponent).loadModel(data[key]);
+            if (<any>sections[index] instanceof DynamicFormComponent) {
+              const form = (<any>sections[index]) as DynamicFormComponent;
+              form.setModel(data[key]);
+            }
+            if (<any>sections[index] instanceof DynamicListComponent) {
+              const list = (<any>sections[index]) as DynamicListComponent;
+              list.setModel(this.clone(data[key]));
+            }
           });
         });
       }
@@ -68,11 +76,19 @@ export class ApplicationOptionsComponent implements OnInit {
 
     sections.forEach((s, i) => {
       const rootProperty = this.current.uiSchema.sections[i].rootProperty;
-      const sectionValue = ((<any>s) as DynamicFormComponent).form.value;
-
-      toReturn[rootProperty] = sectionValue;
+      if (s instanceof DynamicFormComponent) {
+        const dynamicForm = s as DynamicFormComponent;
+        const sectionValue = dynamicForm.form.value;
+        toReturn[rootProperty] = sectionValue;
+      }
+      if (s instanceof DynamicListComponent) {
+        const dynamicList = s as DynamicListComponent;
+        const sectionValue = dynamicList.model;
+        toReturn[rootProperty] = sectionValue;
+      }
     });
 
+    // console.log(toReturn);
     const call$ = this.loadingWrapper.wrap(
       this.appConfigService.saveSettingsData(this.current.optionsTypeName, toReturn)
     );
@@ -88,7 +104,11 @@ export class ApplicationOptionsComponent implements OnInit {
     );
   }
 
-  onReload() {}
+  onReload() {
+    // TODO Check for changes
+    this.load();
+  }
+
   onReset() {
     // TODO Check for changes
     const call$ = this.loadingWrapper.wrap(this.appConfigService.resetSettingsData(this.current.optionsTypeName));
@@ -103,5 +123,9 @@ export class ApplicationOptionsComponent implements OnInit {
         this.dialogService.snackError(message);
       }
     );
+  }
+
+  private clone(object: any): any {
+    return JSON.parse(JSON.stringify(object));
   }
 }
