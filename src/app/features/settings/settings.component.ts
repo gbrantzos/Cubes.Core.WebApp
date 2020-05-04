@@ -8,7 +8,6 @@ import { ContentStore } from '@features/settings/services/content.store';
 import { SettingsStore, SmtpProfile } from '@features/settings/services/settings.store';
 import { SmtpEditorComponent } from '@features/settings/smtp-editor/smtp-editor.component';
 import { DialogService } from '@shared/services/dialog.service';
-import { ApplicationOptionsService } from '@features/settings/services/application-options.service';
 import { ApplicationOptionsComponent } from '@features/settings/application-options/application-options.component';
 
 
@@ -55,6 +54,15 @@ export class SettingsComponent implements OnInit {
         return;
       }
     }
+    if (this.appOptions.pendingChanges()) {
+      const dialogResult = await this.dialogService
+        .confirm('There are unsaved changes on applications options.\nDiscard and continue?')
+        .toPromise();
+      if (!dialogResult) {
+        return;
+      }
+    }
+
     this.store.loadData();
     this.contentStore.loadData();
     this.appOptions.onReload();
@@ -106,6 +114,7 @@ export class SettingsComponent implements OnInit {
         break;
       case 2:
         this.location.replaceState('settings/applications');
+        this.appOptions.fixTabs();
         break;
       default:
         break;

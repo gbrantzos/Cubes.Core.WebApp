@@ -16,6 +16,11 @@ export class DynamicListComponent implements OnInit {
   @Input() label: string;
 
   public selectedItem: any;
+  public get dirty() {
+    return this._dirty;
+  }
+
+  private _dirty = false;
 
   constructor(private dialogService: DialogService, private matDialog: MatDialog) {}
 
@@ -24,6 +29,7 @@ export class DynamicListComponent implements OnInit {
   public setModel(model: any[], leaveDirty = false) {
     const sortKey = this.listDefinition.item;
     this.model = (model || []).sort((a, b) => a[sortKey].localeCompare(b[sortKey]));
+    this._dirty = false;
   }
 
   addItem() {
@@ -51,6 +57,7 @@ export class DynamicListComponent implements OnInit {
           this.model = [...this.model.filter((item) => item !== m), result]
             .sort((a, b) => a[sortKey].localeCompare(b[sortKey]));
           this.selectedItem = result;
+          this._dirty = true;
         }
       });
   }
@@ -63,6 +70,11 @@ export class DynamicListComponent implements OnInit {
       return;
     }
     this.model = this.model.filter((item) => item !== m);
+    this._dirty = true;
+  }
+
+  markAsPristine() {
+    this._dirty = false;
   }
 
   private clone(object: any): any {
