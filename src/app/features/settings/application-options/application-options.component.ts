@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   ApplicationOptionsService,
@@ -10,6 +10,7 @@ import { LoadingWrapperService } from '@shared/services/loading-wrapper.service'
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DynamicListComponent } from '@shared/components/dynamic-list/dynamic-list.component';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'cubes-application-options',
@@ -22,6 +23,7 @@ export class ApplicationOptionsComponent implements OnInit {
   public current: ApplicationOptionsUIConfig;
   public selectedTab: number;
 
+  @ViewChild('tabs') tabs: MatTabGroup;
   @ViewChildren('sections') sections: QueryList<DynamicFormComponent | DynamicListComponent>;
 
   constructor(
@@ -64,6 +66,7 @@ export class ApplicationOptionsComponent implements OnInit {
       map((data) => {
         if (data && data.length >= 1) {
           this.form.get('appSelector').setValue(data[0]);
+          this.markAsPristine();
         }
         return data;
       })
@@ -95,6 +98,7 @@ export class ApplicationOptionsComponent implements OnInit {
     call$.subscribe(
       (data) => {
         this.dialogService.snackSuccess(data);
+        this.markAsPristine();
       },
       (error) => {
         console.error(error);
@@ -104,13 +108,19 @@ export class ApplicationOptionsComponent implements OnInit {
     );
   }
 
-  onReload() {
-    // TODO Check for changes
+  async onReload() {
+    this.markAsPristine();
     this.load();
   }
 
-  onReset() {
-    // TODO Check for changes
+  async onReset() {
+    const dialogResult = await this.dialogService
+      .confirm('You are about to reset application options to default!\nDiscard current values and continue?')
+      .toPromise();
+    if (!dialogResult) {
+      return;
+    }
+
     const call$ = this.loadingWrapper.wrap(this.appConfigService.resetSettingsData(this.current.optionsTypeName));
     call$.subscribe(
       (data) => {
@@ -123,6 +133,44 @@ export class ApplicationOptionsComponent implements OnInit {
         this.dialogService.snackError(message);
       }
     );
+  }
+
+  fixTabs() {
+    // God knows why....
+    this.tabs.realignInkBar();
+  }
+
+  pendingChanges(): boolean {
+    // TODO Fix this
+    let result = false;
+    const sections = this.sections.toArray();
+
+    sections.forEach((s, i) => {
+      if (s instanceof DynamicFormComponent) {
+        const dynamicForm = s as DynamicFormComponent;
+        result = result || dynamicForm.dirty;
+      }
+      if (s instanceof DynamicListComponent) {
+        const dynamicList = s as DynamicListComponent;
+        result = result || dynamicList.dirty;
+      }
+    });
+    return result;
+  }
+
+  markAsPristine() {
+    const sections = this.sections.toArray();
+
+    sections.forEach((s, i) => {
+      if (s instanceof DynamicFormComponent) {
+        const dynamicForm = s as DynamicFormComponent;
+        dynamicForm.markAsPristine();
+      }
+      if (s instanceof DynamicListComponent) {
+        const dynamicList = s as DynamicListComponent;
+        dynamicList.markAsPristine();
+      }
+    });
   }
 
   private clone(object: any): any {

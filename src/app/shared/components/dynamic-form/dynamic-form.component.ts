@@ -81,6 +81,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
   public markAsPristine() {
     this.form?.markAsPristine();
     this._pristine = true;
+    this._dirty = false;
   }
 
   private prepareFormGroup() {
