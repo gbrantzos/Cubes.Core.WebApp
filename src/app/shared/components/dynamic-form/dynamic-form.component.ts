@@ -1,6 +1,5 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import {
-  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -90,7 +89,7 @@ export class DynamicFormComponent implements OnInit, OnChanges, DynamicForm {
     for (const item of this.schema.items) {
       formGroup[item.key] = new FormControl('', { validators: this.mapValidators(item.validators), updateOn: 'blur' });
       if (item.type === 'select' && item.options.dynamic) {
-        this.lookupService.getLookup(item.options.lookupKey).subscribe(lookup => {
+        this.lookupService.getLookup(item.options.lookupKey).subscribe((lookup) => {
           item.options.items = lookup.items.map((i) => {
             return {
               label: i.display,

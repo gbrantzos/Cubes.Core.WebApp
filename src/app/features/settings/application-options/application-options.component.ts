@@ -141,7 +141,6 @@ export class ApplicationOptionsComponent implements OnInit {
   }
 
   pendingChanges(): boolean {
-    // TODO Fix this
     let result = false;
     const sections = this.sections.toArray();
 
