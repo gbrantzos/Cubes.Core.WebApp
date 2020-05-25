@@ -14,7 +14,7 @@ export class CubesApiResultInterceptor implements HttpInterceptor {
             if (apiResponse.hasErrors) {
               throw new Error(apiResponse.message);
             }
-            resp = resp.clone<any>({ body: apiResponse.response });
+            resp = resp.clone<any>({ body: apiResponse.data });
           }
           return resp;
         }
@@ -30,7 +30,7 @@ export interface CubesApiResponse {
   statusCode: number;
   hasErrors:  boolean;
   message?:   string;
-  response?:  any;
+  data?:      any;
 }
 
 export function isApiResponse(r: any): r is CubesApiResponse {
