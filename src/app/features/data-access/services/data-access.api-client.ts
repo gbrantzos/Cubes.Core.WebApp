@@ -17,7 +17,7 @@ export class DataAccessApiClient {
   }
 
   loadData(): Observable<DataAccessSettings> {
-    return this.http.get<DataAccessSettings>(`${this.configUrl}/Cubes.Core.DataAccess.DataAccessSettings`).pipe(
+    return this.http.get<DataAccessSettings>(`${this.configUrl}/Cubes.Core.DataAccess.DataAccessOptions`).pipe(
       map((result) => {
         const toReturn = {
           connections: result.connections
