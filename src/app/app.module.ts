@@ -1,6 +1,5 @@
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from '@core/components/login/login.component';
@@ -36,15 +35,7 @@ import { AppComponent } from './app.component';
       provide: HTTP_INTERCEPTORS,
       useClass: CubesApiResultInterceptor,
       multi: true,
-    },
-    {
-      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
-      useValue: {
-        duration: 5000,
-        panelClass: 'snack-bar',
-        horizontalPosition: 'right',
-      },
-    },
+    }
   ],
   bootstrap: [AppComponent],
 })
