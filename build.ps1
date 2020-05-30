@@ -27,3 +27,4 @@ $archive = ".\dist\CubesManagement.zip"
 if (test-path $archive) { Remove-Item $archive -Force }
 Start-Sleep -s 2
 Create-7zip .\dist\core-webapp\* .\dist\CubesManagement.zip
+# Compress-Archive -Path .\dist\core-webapp\* -DestinationPath .\dist\CubesManagement.zip
