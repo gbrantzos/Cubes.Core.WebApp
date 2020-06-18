@@ -16,34 +16,27 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () =>
-          import('./features/home/home.module').then((m) => m.HomeModule),
+        loadChildren: () => import('./features/home/home.module').then((m) => m.HomeModule),
       },
       {
         path: 'scheduler',
-        loadChildren: () =>
-          import('./features/scheduler/scheduler.module').then(
-            (m) => m.SchedulerModule
-          ),
+        loadChildren: () => import('./features/scheduler/scheduler.module').then((m) => m.SchedulerModule),
       },
       {
         path: 'data',
-        loadChildren: () =>
-          import('./features/data-access/data-access.module').then(
-            (m) => m.DataAccessModule
-          ),
+        loadChildren: () => import('./features/data-access/data-access.module').then((m) => m.DataAccessModule),
       },
       {
         path: 'settings',
-        loadChildren: () =>
-          import('./features/settings/settings.module').then(
-            (m) => m.SettingsModule
-          ),
+        loadChildren: () => import('./features/settings/settings.module').then((m) => m.SettingsModule),
+      },
+      {
+        path: 'security',
+        loadChildren: () => import('./features/security/security.module').then((m) => m.SecurityModule),
       },
       {
         path: 'about',
-        loadChildren: () =>
-          import('./features/about/about.module').then((m) => m.AboutModule),
+        loadChildren: () => import('./features/about/about.module').then((m) => m.AboutModule),
       },
     ],
   },

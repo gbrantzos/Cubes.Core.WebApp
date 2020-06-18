@@ -1,0 +1,60 @@
+<div class="editor">
+  <div mat-subheader fxLayout="row" fxLayoutAlign="space-between center">
+    <span>Users Editor</span>
+    <div class="chip-list">
+      <mat-chip-list [hidden]="!isNew">
+        <mat-chip color="accent" selected>New User</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div *ngIf="user$ | async as user; else empty">
+    <div class="form">
+
+      <form class="form" [formGroup]="form">
+
+        <mat-form-field class="full-width">
+          <mat-label>User name</mat-label>
+          <input matInput formControlName="userName" [readonly]="!isNew">
+          <mat-error *ngIf="form.get('userName').hasError('required')">
+            Please provide a user name!
+          </mat-error>
+          <mat-error *ngIf="form.get('userName').hasError('pattern')">
+            Invalid user name, use only latin characters, numbers, dot and underscore !
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Display name</mat-label>
+          <input matInput formControlName="displayName">
+          <mat-error *ngIf="form.get('displayName').hasError('required')">
+            Please provide a display name!
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Roles</mat-label>
+          <input matInput formControlName="roles">
+          <mat-hint>Comma separated list of roles for user. Invalid roles will be ignored!</mat-hint>
+        </mat-form-field>
+
+      </form>
+
+      <div class="buttons" fxLayout="row">
+        <button [disabled]="!form.valid" mat-button color="primary" (click)="onSetPassword()"> Set Password </button>
+        <div class="filler"></div>
+        <button mat-button color="warn" (click)="onDelete()"> {{isNew ? 'Cancel' : 'Delete'}} </button>
+        <button [disabled]="!form.valid" mat-button color="primary" (click)="onSave()"> Save
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <ng-template #empty>
+    <div class="no-data">
+      <img src="assets/images/nodata.png" width="128px">
+      <p>Select a user from the list!</p>
+    </div>
+  </ng-template>
+</div>

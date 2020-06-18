@@ -1,0 +1,40 @@
+<div *ngIf="users$ | async as users">
+  <mat-list>
+    <div mat-subheader>Users List</div>
+
+    <mat-list-item
+      *ngFor="let usr of users"
+      (click)="selectUser(usr)"
+      [ngClass]="{ selected: selectedUser === usr.userName }">
+      <mat-icon
+        mat-list-icon
+        fontSet="far"
+        fontIcon="fa-user"
+        class="fa-fw">
+      </mat-icon>
+      <div mat-line>{{ usr.displayName }}</div>
+      <div mat-line>User name: {{ usr.userName }}</div>
+    </mat-list-item>
+
+    <div class="no-data" *ngIf="!users.length">
+      <mat-icon
+        mat-list-icon
+        fontSet="far"
+        fontIcon="fa-user"
+        class="fa-fw fa-3x">
+      </mat-icon>
+      <p class="message">No users found!</p>
+    </div>
+
+    <div class="new-button">
+      <button mat-button color="primary" (click)="onNew()">
+        New User
+      </button>
+    </div>
+
+    <!--
+    <p>Selected index: {{selectedIndex}}</p>
+    <pre> {{ users | json }} </pre>
+    -->
+  </mat-list>
+</div>

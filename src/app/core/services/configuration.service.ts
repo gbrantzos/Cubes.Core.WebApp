@@ -66,6 +66,11 @@ const sideNavItems = [
     link: '/settings',
   },
   {
+    label: 'Security',
+    icon: 'fa-user-lock',
+    link: '/security'
+  },
+  {
     label: 'About',
     icon: 'fa-question-circle',
     link: '/about',

@@ -1,0 +1,20 @@
+.selected {
+  background-color: #dbdbdb;
+}
+
+.no-data {
+  text-align: center;
+  padding-top: 36px;
+  color: gray;
+
+  .message {
+    width:100%;
+    padding-top: 16px;
+    color: black;
+    text-align: center;
+  }
+}
+
+.new-button {
+  padding-top: 16px;
+}

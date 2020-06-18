@@ -1,0 +1,31 @@
+<cubes-page-header (reload)="reload()"> Security </cubes-page-header>
+
+<div class="content">
+  <mat-tab-group #tabs
+    [dynamicHeight]="true"
+    [selectedIndex]="tabIndex"
+    (selectedTabChange)="tabChanged($event)">
+
+    <!-- Users -->
+    <mat-tab label="Users">
+      <div class="inner" fxLayout="row">
+        <cubes-user-list
+          fxFlex="50%"
+          (userSelected)="userSelected($event)"
+          (newUser)="newUser()">
+        </cubes-user-list>
+
+        <mat-divider class="divider" [vertical]="true"> </mat-divider>
+        <cubes-user-editor
+          #userEditor fxFlex="50%">
+        </cubes-user-editor>
+      </div>
+    </mat-tab>
+
+    <!-- Roles -->
+    <mat-tab label="Roles" [disabled]=true>
+      <div class="inner" fxLayout="row">
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
