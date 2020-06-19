@@ -1,31 +1,31 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { add } from 'date-fns';
-import { ConfigurationService } from '@core/services/configuration.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { AvatarService } from '@core/services/avatar.service';
+import { ConfigurationService } from '@core/services/configuration.service';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private readonly STORAGE_ITEM = 'userDetails';
-  private readonly hoursBeforeExpire = 10;
 
-  constructor(private configService: ConfigurationService, private avatarService: AvatarService) { }
+  constructor(
+    private configService: ConfigurationService,
+    private avatarService: AvatarService,
+    private http: HttpClient
+  ) {}
 
   get isLogged(): boolean {
     const details = this.loggedUser;
-    if (!details) { return false; }
-
-    const beforeExpiration = Date.parse(details.loginExpiration.toString()) > Date.now();
-    if (beforeExpiration) {
-      const newExpiration = add(new Date(), { hours: this.hoursBeforeExpire });
-      this.loggedUser = {
-        ...details,
-        loginExpiration: newExpiration
-      };
+    if (!details) {
+      return false;
     }
-    return beforeExpiration;
+
+    const helper = new JwtHelperService();
+    return !helper.isTokenExpired(details.token);
   }
 
   get loggedUser(): UserDetails {
@@ -36,28 +36,35 @@ export class AuthService {
   }
 
   login(user: UserCredentials): Observable<void> {
-    const subject = new BehaviorSubject<void>(null);
+    const helper = new JwtHelperService();
+    const authenticateUrl = `${this.configService.apiUrl}/Users/authenticate`;
+    return this.http
+      .post<AuthenticateUserResponse>(authenticateUrl, {
+        userName: user.userID,
+        password: user.password,
+      })
+      .pipe(
+        map((r) => {
+          const details: UserDetails = {
+            userID:   user.userID,
+            fullName: r.displayName,
+            token:    r.token,
+            avatar:   this.avatarService.getAvatarUrl(r.email),
+          };
+          if (!r.roles.includes('admin')) {
+            throw new Error('User must have administrator rights!');
+          }
 
-    const userFound = this.configService
-      .users
-      .find(u => u.userID === user.userID && u.password === user.password);
-    if (userFound) {
-      const details: UserDetails = {
-        userID:          user.userID,
-        fullName:        userFound.fullName,
-        loginExpiration: add(new Date(), { hours: this.hoursBeforeExpire }),
-        avatar:          this.avatarService.getAvatarUrl(userFound.email)
-      };
-      this.loggedUser = details;
-      setTimeout(() => {
-        subject.next();
-        subject.complete();
-      }, 2000);
-    } else {
-      subject.error('Login failure!');
-    }
-
-    return subject.asObservable();
+          console.log(`Successful login for user ${r.displayName}`);
+          console.log(`Your token expires at ${helper.getTokenExpirationDate(r.token)}`);
+          this.loggedUser = details;
+          return;
+        }),
+        catchError((error, _) => {
+          console.error(error);
+          return throwError(error.error?.message || error.message);
+        })
+      );
   }
 
   logout() {
@@ -73,8 +80,17 @@ export interface UserCredentials {
 
 // prettier-ignore
 export interface UserDetails {
-  userID:          string;
-  fullName:        string;
-  loginExpiration: Date;
-  avatar:          string;
+  userID:   string;
+  fullName: string;
+  avatar:   string;
+  token:    string;
+}
+
+// prettier-ignore
+interface AuthenticateUserResponse {
+  userName:    string;
+  displayName: string;
+  email:       string;
+  token:       string;
+  roles:       string[];
 }

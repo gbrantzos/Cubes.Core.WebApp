@@ -18,9 +18,10 @@ export class SecurityApiClient {
       map((data) =>
         data.map((d) => {
           const toReturn: User = {
-            userName: d.userName,
+            userName:    d.userName,
             displayName: d.displayName,
-            roles: d.roles ? d.roles.join(', ') : '',
+            email:       d.email,
+            roles:       d.roles ? d.roles.join(', ') : '',
           };
           return toReturn;
         })
@@ -36,9 +37,10 @@ export class SecurityApiClient {
     return this.http
       .post<boolean>(this.dataUrl, {
         userDetails: {
-          userName: user.userName,
+          userName:    user.userName,
           displayName: user.displayName,
-          roles: user.roles?.split(',').map(r => r.trim()).filter(r => !!r) || [],
+          email:       user.email,
+          roles:       user.roles?.split(',').map(r => r.trim()).filter(r => !!r) || [],
         } as UserDetailsCubes,
         password: user.changedPassword,
       })
@@ -63,7 +65,8 @@ export class SecurityApiClient {
 
 // Cubes model
 interface UserDetailsCubes {
-  userName: string;
+  userName:    string;
   displayName: string;
-  roles: string[];
+  email?:      string;
+  roles:       string[];
 }

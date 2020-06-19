@@ -29,7 +29,8 @@ export class SecurityStore {
   loadData() {
     const call$ = this.loadingWrapper.wrap(this.apiClient.loadUsers());
     call$.subscribe((data) => {
-      this.users$.next(data);
+      const tmp = data.sort((a, b) => a.userName.localeCompare(b.userName));
+      this.users$.next(tmp);
       this.selectedUser$.next(undefined);
     });
   }
@@ -79,8 +80,10 @@ export class SecurityStore {
     const usr = this.clone(user) as User;
     usr.isNew = false;
     this.selectedUser$.next(usr);
-    this.saveData();
-
+    this.apiClient.deleteUser(originalName).subscribe((r) => {
+      if (r) {
+        this.saveData();
+      }});
   }
 
   private clone = (obj: any): any => JSON.parse(JSON.stringify(obj));

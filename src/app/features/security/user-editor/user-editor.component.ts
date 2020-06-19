@@ -44,6 +44,7 @@ export class UserEditorComponent implements OnInit {
     return this.formBuilder.group({
       userName: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9._]*')]],
       displayName: ['', Validators.required],
+      email: ['', Validators.email],
       roles: [''],
       changedPassword: [''],
     });
@@ -108,11 +109,12 @@ export class UserEditorComponent implements OnInit {
   private userFromEditor(): User {
     const currentValue: any = this.form.getRawValue();
     const user = {
-      userName: currentValue.userName,
-      displayName: currentValue.displayName,
-      roles: currentValue.roles || '',
+      userName:        currentValue.userName,
+      displayName:     currentValue.displayName,
+      email:           currentValue.email,
+      roles:           currentValue.roles || '',
       changedPassword: currentValue.changedPassword,
-      isNew: false,
+      isNew:           false,
     } as User;
 
     return user;

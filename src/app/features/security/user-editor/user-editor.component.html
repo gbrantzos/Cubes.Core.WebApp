@@ -15,7 +15,7 @@
 
         <mat-form-field class="full-width">
           <mat-label>User name</mat-label>
-          <input matInput formControlName="userName" [readonly]="!isNew">
+          <input matInput formControlName="userName">
           <mat-error *ngIf="form.get('userName').hasError('required')">
             Please provide a user name!
           </mat-error>
@@ -29,6 +29,14 @@
           <input matInput formControlName="displayName">
           <mat-error *ngIf="form.get('displayName').hasError('required')">
             Please provide a display name!
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email">
+          <mat-error *ngIf="form.get('email').hasError('email')">
+            Please provide a valid e-mail address!
           </mat-error>
         </mat-form-field>
 
