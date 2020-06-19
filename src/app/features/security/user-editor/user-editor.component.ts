@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from '@features/security/services/security.model';
 import { SecurityStore } from '@features/security/services/security.store';
 import { UserPasswordComponent } from '@features/security/user-password/user-password.component';
 import { DialogService } from '@shared/services/dialog.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, pairwise } from 'rxjs/operators';
 
 @Component({
   selector: 'cubes-user-editor',
@@ -41,13 +41,27 @@ export class UserEditorComponent implements OnInit {
   }
 
   buildForm(): FormGroup {
-    return this.formBuilder.group({
-      userName: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9._]*')]],
+    const form = this.formBuilder.group({
+      userName: new FormControl('', {
+        validators: [Validators.required, Validators.pattern('[a-zA-Z0-9._]*')],
+        updateOn: 'blur'
+      }),
       displayName: ['', Validators.required],
       email: ['', Validators.email],
       roles: [''],
       changedPassword: [''],
     });
+    form.get('userName')
+      .valueChanges
+      .pipe(pairwise())
+      .subscribe(([prev, next]) => {
+        const display = form.get('displayName').value;
+        if (display === prev) {
+          form.get('displayName').setValue(next);
+        }
+      });
+
+    return form;
   }
 
   pendingChanges(): boolean {
@@ -95,7 +109,7 @@ export class UserEditorComponent implements OnInit {
         hasBackdrop: true,
         disableClose: true,
         data: {
-          user: this.store.currentUserSnapshot.displayName,
+          user: this.form.get('displayName').value,
         },
       })
       .afterClosed()
@@ -109,12 +123,12 @@ export class UserEditorComponent implements OnInit {
   private userFromEditor(): User {
     const currentValue: any = this.form.getRawValue();
     const user = {
-      userName:        currentValue.userName,
-      displayName:     currentValue.displayName,
-      email:           currentValue.email,
-      roles:           currentValue.roles || '',
+      userName: currentValue.userName,
+      displayName: currentValue.displayName,
+      email: currentValue.email,
+      roles: currentValue.roles || '',
       changedPassword: currentValue.changedPassword,
-      isNew:           false,
+      isNew: false,
     } as User;
 
     return user;
