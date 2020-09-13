@@ -40,8 +40,10 @@ export class ApplicationOptionsService {
 
   saveSettingsData(settingsType: string, settingsInstance) {
     const url = `${this.apiUrl}/configuration`;
-    return this.http.post<string>(`${url}/${settingsType}`, settingsInstance, {
+    return this.http.post(`${url}/${settingsType}`, settingsInstance, {
       headers: new HttpHeaders({ 'Content-Type': 'text/plain' }),
+      observe: 'body',
+      responseType: 'text'
     });
   }
 

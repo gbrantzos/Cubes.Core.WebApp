@@ -44,13 +44,14 @@ export class ApplicationOptionsComponent implements OnInit {
 
         this.appConfigService.getSettingsData(this.current.optionsTypeName).subscribe((data) => {
           const sections = this.sections.toArray();
-          Object.keys(data).forEach((key, index) => {
-            if (<any>sections[index] instanceof DynamicFormComponent) {
-              const form = (<any>sections[index]) as DynamicFormComponent;
-              form.setModel(data[key]);
+          sections.map((s, i) => {
+            if (s instanceof DynamicFormComponent) {
+              const form = s as DynamicFormComponent;
+              form.setModel(data[form.schema.name]);
             }
-            if (<any>sections[index] instanceof DynamicListComponent) {
-              const list = (<any>sections[index]) as DynamicListComponent;
+            if (s instanceof DynamicListComponent) {
+              const list = s as DynamicListComponent;
+              const key = Object.keys(data)[i];
               list.setModel(this.clone(data[key]));
             }
           });
