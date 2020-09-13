@@ -36,8 +36,8 @@ export interface CubesApiResponse {
 export function isApiResponse(r: any): r is CubesApiResponse {
   return r
     && typeof r === 'object'
+    && ('requestID' in r)
     && ('version' in r)
     && ('createdAt' in r)
-    && ('hasErrors' in r)
     && ('statusCode' in r);
 }
