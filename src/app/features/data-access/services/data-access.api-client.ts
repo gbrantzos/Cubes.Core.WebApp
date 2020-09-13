@@ -49,7 +49,7 @@ export class DataAccessApiClient {
   saveData(data: DataAccessSettings): Observable<string> {
     // This specific endpoint of cubes accepts plain text (string)!
     return this.http
-      .post<string>(`${this.configUrl}/Cubes.Core.DataAccess.DataAccessSettings`, data, {
+      .post<string>(`${this.configUrl}/Cubes.Core.DataAccess.DataAccessOptions`, data, {
         headers: new HttpHeaders({ 'Content-Type': 'text/plain' }),
       })
       .pipe(
@@ -62,7 +62,10 @@ export class DataAccessApiClient {
 
   testConnection(connection: Connection): Observable<string> {
     const url = `${this.dataUrl}/connections/test`;
-    return this.http.post<string>(url, connection);
+    return this.http.post(url, connection, {
+      observe: 'body',
+      responseType: 'text',
+    });
   }
 
   executeQuery(query: Query, connectionName: string, params?: any[]): Observable<any> {
