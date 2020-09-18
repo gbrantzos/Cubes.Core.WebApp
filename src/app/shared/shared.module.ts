@@ -55,7 +55,7 @@ import { ListItemExpressionPipe } from './pipes/list-item-expression.pipe';
   entryComponents: [AlertDialogComponent, ConfirmDialogComponent, DynamicListEditorComponent],
 })
 export class SharedModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
       providers: [

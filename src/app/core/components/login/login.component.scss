@@ -3,25 +3,25 @@ $admin-background: #9fa5c7;
 $border-radius: 6px;
 
 .login-page {
-	height: 100%;
+  height: 100%;
 
   background-color: #333333;
-	background-image: url("~/assets/images/login-background.jpg");
-	background-repeat: no-repeat;
+  background-image: url('^assets/images/login-background.jpg');
+  background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .login-wrapper {
-	width: 400px;
+  width: 400px;
   background-color: rgba(255, 255, 255, 0.96);
   border-radius: $border-radius;
 
-	display: flex;
+  display: flex;
   flex-direction: column;
 }
 
@@ -49,13 +49,13 @@ $border-radius: 6px;
 }
 
 .login-admin {
-	height: 64px;
-	color: $admin-color;
+  height: 64px;
+  color: $admin-color;
   background-color: $admin-background;
   font-size: 14px;
 
   display: flex;
-	align-items: center;
+  align-items: center;
   justify-content: center;
 
   border-radius: 0 0 $border-radius $border-radius;
@@ -68,13 +68,12 @@ $border-radius: 6px;
 }
 
 .login-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
 
-    .title {
-      font-size: 1.3em;
-      font-weight: bold;
-    }
+  .title {
+    font-size: 1.3em;
+    font-weight: bold;
+  }
 }
-

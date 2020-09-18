@@ -20,7 +20,7 @@ export const GitVersion = {
 Write-Output $fileContent | Out-File 'src/environments/versions.ts' -Encoding ascii
 
 # Build
-ng build --prod --base-href /admin/
+ng build --prod --base-href /admin/ --deployUrl /admin/
 
 # Create archive
 $archive = ".\dist\CubesManagement.zip"
