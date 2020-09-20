@@ -91,7 +91,7 @@ export class DataAccessComponent implements OnInit {
       (error) => {
         console.error(error);
         this.uiManager.emit(UiEventType.HideSpinner);
-        this.dialogService.snackError(error.error.message + '.');
+        this.dialogService.snackError((error.error || error.message) + '.');
       }
     );
   }

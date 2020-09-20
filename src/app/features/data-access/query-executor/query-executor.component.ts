@@ -95,7 +95,7 @@ export class QueryExecutorComponent implements OnInit {
       (error) => {
         this.uiManager.emit(UiEventType.HideSpinner);
         console.error(error);
-        this.dialogService.alert(`Query execution failed!\n${error.error.message}`);
+        this.dialogService.alert(`Query execution failed!\n${(error.error || error.message)}`);
       }
     );
   }
