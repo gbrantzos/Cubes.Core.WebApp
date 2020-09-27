@@ -41,7 +41,7 @@ export class ContentApiClient {
     return settings$;
   }
 
-  saveData(data: StaticContent[]): Observable<any> {
+  saveData(data: StaticContent[]): Observable<string> {
     const staticContent = data.map((d) => {
       const contentTypes: { [type: string]: string } = {};
 
@@ -70,6 +70,8 @@ export class ContentApiClient {
         { content: staticContent },
         {
           headers: new HttpHeaders({ 'Content-Type': 'text/plain' }),
+          observe: 'body',
+          responseType: 'text'
         }
       )
       .pipe(
