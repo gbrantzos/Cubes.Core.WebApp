@@ -156,13 +156,14 @@ export class JobEditorComponent implements OnInit {
     this.client.runSchedulerJob(this.originalName).subscribe((data) => {
       this.dialogService.snackInfo('Job was triggered!');
     }, (error) => {
-      this.dialogService.snackError(`Failed to execute job!\n${error.error}`);
+      this.dialogService.snackError(`Failed to execute job!\n${error.message}`);
     });
   }
 
   cronHelp() {
     this.matDialog.open(CronHelpComponent, {
       maxHeight: '600px',
+      maxWidth: '820px'
     });
   }
 

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConfigurationService } from '@core/services/configuration.service';
 import {
@@ -51,12 +51,11 @@ export class SchedulerApiClient {
       .pipe(map((response) => this.processCubesResponse(response)));
   }
 
-  public runSchedulerJob(jobName: string): Observable<any> {
-    return this.http.post(this.baseUrl + '/execute/' + jobName, {}).pipe(
-      map((res) => {
-        return typeof res === 'string' ? res : 'Job execution triggered!';
-      })
-    );
+  public runSchedulerJob(jobName: string): Observable<string> {
+    return this.http.post(this.baseUrl + '/execute/' + jobName, {}, {
+      observe: 'body',
+      responseType: 'text',
+    });
   }
 
   public getSample(provider: string): Observable<string> {
