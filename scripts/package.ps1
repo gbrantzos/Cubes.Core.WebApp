@@ -22,7 +22,7 @@ param(
 # ------------------------------------------------------------------------------
 # Variables
 
-# Location 
+# Location
 $originalPath = Get-Location
 $workingPath  = ($PSScriptRoot)
 $rootPath     = (Get-Item $workingPath).Parent
@@ -56,17 +56,17 @@ function Prepare-Version {
         if (!$tag) {
             Write-Host "No Git TAG defined!"
             exit 1
-        }         
+        }
         $tmp=$tag
         $source="Git"
     } else {
         $tmp=$version
         $source="parameters"
     }
-    
+
     # Sanitize version, remove extra v
     if ($tmp.StartsWith("v")) { $tmp=$tmp.SubString(1) }
-    
+
     # Check version format
     $re=[regex]"([0-9]\.[0-9]\.[0-9])(\-){0,1}((.)*)"
     $m=$re.Match($tmp)
@@ -74,24 +74,24 @@ function Prepare-Version {
         Write-Host "Invalid version format! $tmp"
         exit 2
     }
-    
+
     $script:version = $m.Groups[1].Value
     $info = $m.Groups[3].Value
     if ($info -eq "") {
         $script:versionInfo="$script:version"
     } else {
-        
+
         $script:versionInfo="$script:version-$info"
     }
-    
+
     Write-Host "Version $script:version, full version $script:versionInfo (from $source)..."
     Write-Host "Git commit $gitHash, branch $gitBranch"
-}    
+}
 
 # Check for GIT pending changes
 function Pending-Changes {
     if ($allowDirty) { return }
-    
+
     $st = (git status -su)
     if (![string]::ISNullOrEmpty($st)) {
         Write-Host "`n`nGit repository has pending changes!`nAborting..."
@@ -119,18 +119,18 @@ function Clear-Folder {
 function Initialize-Banner {
     $script:banner = "
 
-   ___      _                                             
-  / __\   _| |__   ___  ___                               
- / / | | | | '_ \ / _ \/ __|                              
-/ /__| |_| | |_) |  __/\__ \                              
-\____/\__,_|_.__/ \___||___/                              
-                                                          
-   ___               __    __     _       _               
-  / __\___  _ __ ___/ / /\ \ \___| |__   /_\  _ __  _ __  
- / /  / _ \| '__/ _ \ \/  \/ / _ \ '_ \ //_\\| '_ \| '_ \ 
+   ___      _
+  / __\   _| |__   ___  ___
+ / / | | | | '_ \ / _ \/ __|
+/ /__| |_| | |_) |  __/\__ \
+\____/\__,_|_.__/ \___||___/
+
+   ___               __    __     _       _
+  / __\___  _ __ ___/ / /\ \ \___| |__   /_\  _ __  _ __
+ / /  / _ \| '__/ _ \ \/  \/ / _ \ '_ \ //_\\| '_ \| '_ \
 / /__| (_) | | |  __/\  /\  /  __/ |_) /  _  \ |_) | |_) |
-\____/\___/|_|  \___(_)/  \/ \___|_.__/\_/ \_/ .__/| .__/ 
-                                             |_|   |_|    
+\____/\___/|_|  \___(_)/  \/ \___|_.__/\_/ \_/ .__/| .__/
+                                             |_|   |_|
 
 "
 }
@@ -139,7 +139,7 @@ function Initialize-Banner {
 function Display-Banner { Write-Host $banner }
 
 # Build
-function Build-Project {    
+function Build-Project {
     & ng build --prod --base-href /admin/
     Copy-Item -Path "$rootPath/dist/core-webapp/*" -Destination $outputFolder -Recurse -Force
 }
@@ -147,7 +147,7 @@ function Build-Project {
 # Build information file
 function Write-BuildInformation {
     param ([string] $path)
-    $buildInfo = "$banner`nGit commit $gitHash, branch $gitBranch`nBuild at $(Get-Date)"
+    $buildInfo = "$banner`nGit commit $gitHash, branch $gitBranch`nBuild at $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
     $filePath = Join-Path $outputFolder -ChildPath "BuildInformation.txt"
     $buildInfo | Out-File -Path $filePath
 }
@@ -157,7 +157,7 @@ function Create-Package {
     if (!(Test-Path $packageFolder)) {
         New-Item -ItemType Directory -Force -Path $packageFolder | Out-Null
     }
-    
+
     Compress-Archive `
         -Path "$outputFolder\*" `
         -Destination "$packageFolder\$project-v$versionInfo.zip" `
