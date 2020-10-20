@@ -48,7 +48,7 @@ export class SchedulerStore {
       },
       (error) => {
         console.error(error);
-        this.dialog.snackError(`Saving of scheduler data failed!\n${error.error}`);
+        this.dialog.snackError(`Saving of scheduler data failed!\n${error.message}`);
       }
     );
   }

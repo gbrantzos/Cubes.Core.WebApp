@@ -37,3 +37,8 @@
   font-weight: bold;
   font-size: 0.78em;
 }
+
+.list {
+  max-height: 580px;
+  overflow-y: auto;
+}

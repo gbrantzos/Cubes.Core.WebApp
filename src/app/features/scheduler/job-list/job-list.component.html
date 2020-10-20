@@ -2,40 +2,52 @@
   <mat-list>
     <div mat-subheader>Scheduler Jobs List</div>
 
-    <mat-list-item
-      *ngFor="let job of status.jobs"
-      (click)="onSelect(job)"
-      [ngClass]="{ selected: selectedJob === job.name }">
-      <mat-icon *ngIf="job.active" mat-list-icon fontSet="far"
-        fontIcon="fa-calendar-check" class="fa-fw"> </mat-icon>
-      <mat-icon *ngIf="!job.active" mat-list-icon fontSet="far"
-        fontIcon="fa-calendar-times" class="fa-fw job-disabled">
-      </mat-icon>
-      <div mat-line>{{ job.name }} <span *ngIf="!job.active"
-          class="inactive-job"> [Disabled] </span></div>
-      <div mat-line class="job-details">{{ job | jobDetails }}</div>
+    <div class="list">
+      <mat-list-item
+        *ngFor="let job of status.jobs"
+        (click)="onSelect(job)"
+        [ngClass]="{ selected: selectedJob === job.name }">
+        <mat-icon
+          *ngIf="job.active"
+          mat-list-icon fontSet="far"
+          fontIcon="fa-calendar-check" class="fa-fw">
+        </mat-icon>
+        <mat-icon
+          *ngIf="!job.active"
+          mat-list-icon fontSet="far"
+          fontIcon="fa-calendar-times"
+          class="fa-fw job-disabled">
+        </mat-icon>
 
-      <mat-icon
-        *ngIf="!job.lastExecutionFailed && !!job.lastExecutionMessage"
-        fontSet="far"
-        fontIcon="fa-check-circle"
-        class="fa-fw icon-success"
-        matTooltip="Last scheduled execution at {{ job.lastExecutionAt ? (job.lastExecutionAt | date: 'dd/MM/yyyy HH:mm:ss') : '--never--' }} &#013;&#010; {{ job.lastExecutionMessage }}"
-        matTooltipClass="line-broken-tooltip">
-      </mat-icon>
-      <mat-icon
-        *ngIf="job.lastExecutionFailed && job.lastExecutionMessage"
-        fontSet="far"
-        fontIcon="fa-times-circle"
-        class="fa-fw icon-failure"
-        matTooltip="Last execution failed!"
-        (click)="showError(job)">
-      </mat-icon>
-    </mat-list-item>
+        <div mat-line>
+          {{ job.name }} <span *ngIf="!job.active" class="inactive-job"> [Disabled] </span>
+        </div>
+        <div mat-line class="job-details">{{ job | jobDetails }}</div>
 
+        <mat-icon
+          *ngIf="!job.lastExecutionFailed && !!job.lastExecutionMessage"
+          fontSet="far"
+          fontIcon="fa-check-circle"
+          class="fa-fw icon-success"
+          matTooltip="Last scheduled execution at {{ job.lastExecutionAt ? (job.lastExecutionAt | date: 'dd/MM/yyyy HH:mm:ss') : '--never--' }} &#013;&#010; {{ job.lastExecutionMessage }}"
+          matTooltipClass="line-broken-tooltip">
+        </mat-icon>
+        <mat-icon
+          *ngIf="job.lastExecutionFailed && job.lastExecutionMessage"
+          fontSet="far"
+          fontIcon="fa-times-circle"
+          class="fa-fw icon-failure"
+          matTooltip="Last execution failed!"
+          (click)="showError(job)">
+        </mat-icon>
+      </mat-list-item>
+    </div>
     <div class="no-data" *ngIf="!status.jobs.length">
-      <mat-icon mat-list-icon fontSet="far" fontIcon="fa-calendar-check"
-        class="fa-fw fa-3x"> </mat-icon>
+      <mat-icon
+        mat-list-icon fontSet="far"
+        fontIcon="fa-calendar-check"
+        class="fa-fw fa-3x">
+      </mat-icon>
       <p class="message">No scheduler jobs found!</p>
     </div>
 
