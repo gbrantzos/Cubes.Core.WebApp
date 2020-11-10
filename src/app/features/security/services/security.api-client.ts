@@ -43,13 +43,7 @@ export class SecurityApiClient {
           roles:       user.roles?.split(',').map(r => r.trim()).filter(r => !!r) || [],
         } as UserDetailsCubes,
         password: user.changedPassword,
-      })
-      .pipe(
-        catchError((error, _) => {
-          this.dialog.snackError(`Failed to save user details!\n\n${error.error}`);
-          return of(false);
-        })
-      );
+      });
   }
 
   deleteUser(userName: string): Observable<boolean> {

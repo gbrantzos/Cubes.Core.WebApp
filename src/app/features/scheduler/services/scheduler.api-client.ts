@@ -52,7 +52,7 @@ export class SchedulerApiClient {
   }
 
   public runSchedulerJob(jobName: string): Observable<string> {
-    return this.http.post(this.baseUrl + '/execute/' + jobName, {}, {
+    return this.http.post(this.baseUrl + '/execute/' + encodeURIComponent(jobName), {}, {
       observe: 'body',
       responseType: 'text',
     });

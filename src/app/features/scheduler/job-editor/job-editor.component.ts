@@ -156,7 +156,8 @@ export class JobEditorComponent implements OnInit {
     this.client.runSchedulerJob(this.originalName).subscribe((data) => {
       this.dialogService.snackInfo('Job was triggered!');
     }, (error) => {
-      this.dialogService.snackError(`Failed to execute job!\n${error.message}`);
+      console.error(error);
+      this.dialogService.snackError(`Failed to execute job!\n${error.error}`);
     });
   }
 

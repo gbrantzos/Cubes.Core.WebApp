@@ -37,7 +37,13 @@ export class SecurityStore {
 
   saveData() {
     const call$ = this.loadingWrapper.wrap(this.apiClient.saveUser(this.selectedUser$.value));
-    call$.subscribe((_) => this.dialog.snackSuccess('User details saved!')); /* and roles */
+    call$.subscribe(
+      (_) => this.dialog.snackSuccess('User details saved!'),
+      (error) => {
+        console.error(error);
+        this.dialog.snackError(`Saving of user data failed!\n${error.message}`);
+      }
+      ); /* and roles */
   }
 
   selectUser(userName: string) {
@@ -50,6 +56,7 @@ export class SecurityStore {
     const user: User = {
       userName: userName,
       displayName: userName,
+      email: '',
       roles: '',
       isNew: true,
     };
