@@ -109,10 +109,12 @@ export interface ComplexSchema {
 
 // prettier-ignore
 export interface ListDefinition {
-  item:         string;
-  itemSub?:     string;
-  itemSubExpr?: string;
-  icon?:        string;
-  iconSet?:     string;
-  iconName?:    string;
+  item:           string;
+  itemSub?:       string;
+  itemSubExpr?:   string;
+  icon?:          string;
+  iconSet?:       string;
+  iconName?:      string;
+  disableDelete?: string;
+  saveButton?:    boolean;
 }

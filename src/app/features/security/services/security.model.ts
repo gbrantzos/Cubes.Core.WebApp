@@ -6,3 +6,9 @@ export interface User {
   isNew?:           boolean;
   changedPassword?: string;
 }
+
+export interface Role {
+  code:        string;
+  description: string;
+  isSystem:    boolean;
+}

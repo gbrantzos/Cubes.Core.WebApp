@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DynamicListEditorComponent } from '@shared/components/dynamic-list-editor/dynamic-list-editor.component';
 import { DialogService } from '@shared/services/dialog.service';
@@ -14,6 +14,7 @@ export class DynamicListComponent implements OnInit {
   @Input() model: any[] = [];
   @Input() listDefinition: ListDefinition;
   @Input() label: string;
+  @Output() save = new EventEmitter<any[]>();
 
   public selectedItem: any;
   public get dirty() {
@@ -77,6 +78,9 @@ export class DynamicListComponent implements OnInit {
     this._dirty = false;
   }
 
+  onSave() {
+    this.save.emit(this.model);
+  }
   private clone(object: any): any {
     return JSON.parse(JSON.stringify(object));
   }

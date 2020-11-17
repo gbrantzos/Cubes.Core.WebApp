@@ -27,7 +27,9 @@
           fontIcon="fa-edit">
         </mat-icon>
       </button>
-      <button mat-icon-button matTooltip="Remove item" (click)="removeItem(m)">
+      <button mat-icon-button matTooltip="Remove item"
+        (click)="removeItem(m)"
+        [disabled]="!!m[listDefinition.disableDelete]">
         <mat-icon
           fontSet="far"
           fontIcon="fa-trash-alt">
@@ -36,7 +38,11 @@
     </mat-list-item>
     <mat-divider class="list-divider"></mat-divider>
 
-    <button mat-button color="primary" (click)="addItem()"> Add new </button>
+    <div fxLayout="row">
+      <button mat-button color="primary" (click)="addItem()"> Add new </button>
+      <div fxFlex="space"></div>
+      <button mat-button color="primary" *ngIf="!!listDefinition.saveButton" (click)="onSave()"> Save </button>
+    </div>
   </mat-list>
 </div>
 

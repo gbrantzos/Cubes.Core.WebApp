@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { SecurityApiClient } from '@features/security/services/security.api-client';
-import { User } from '@features/security/services/security.model';
+import { Role, User } from '@features/security/services/security.model';
 import { DialogService } from '@shared/services/dialog.service';
 import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, forkJoin } from 'rxjs';
 
 @Injectable()
 export class SecurityStore {
+  private readonly roles$ = new BehaviorSubject<Role[]>([]);
   private readonly users$ = new BehaviorSubject<User[]>([]);
   private readonly selectedUser$ = new BehaviorSubject<User>(undefined);
 
+  readonly roles = this.roles$.asObservable();
   readonly users = this.users$.asObservable();
   readonly selectedUser = this.selectedUser$.asObservable();
 
@@ -27,11 +29,13 @@ export class SecurityStore {
   ) {}
 
   loadData() {
-    const call$ = this.loadingWrapper.wrap(this.apiClient.loadUsers());
-    call$.subscribe((data) => {
-      const tmp = data.sort((a, b) => a.userName.localeCompare(b.userName));
+    const call$ = this.loadingWrapper.wrap(forkJoin([this.apiClient.loadUsers(), this.apiClient.loadRoles()]));
+    call$.subscribe(([users, roles]) => {
+      const tmp = users.sort((a, b) => a.userName.localeCompare(b.userName));
       this.users$.next(tmp);
       this.selectedUser$.next(undefined);
+
+      this.roles$.next(roles.sort((a, b) => a.description.localeCompare(b.description)));
     });
   }
 
@@ -43,7 +47,21 @@ export class SecurityStore {
         console.error(error);
         this.dialog.snackError(`Saving of user data failed!\n${error.message}`);
       }
-      ); /* and roles */
+    );
+  }
+
+  saveRoles(roles: Role[]) {
+    const call$ = this.loadingWrapper.wrap(this.apiClient.saveRoles(roles));
+    call$.subscribe(
+      (_) => {
+        this.dialog.snackSuccess('User roles saved!');
+        this.roles$.next(roles);
+      },
+      (error) => {
+        console.error(error);
+        this.dialog.snackError(`Saving of user roles failed!\n${error.error.data}`);
+      }
+    );
   }
 
   selectUser(userName: string) {
@@ -90,7 +108,8 @@ export class SecurityStore {
     this.apiClient.deleteUser(originalName).subscribe((r) => {
       if (r) {
         this.saveData();
-      }});
+      }
+    });
   }
 
   private clone = (obj: any): any => JSON.parse(JSON.stringify(obj));
