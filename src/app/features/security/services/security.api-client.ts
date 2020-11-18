@@ -24,6 +24,7 @@ export class SecurityApiClient {
             displayName: d.displayName,
             email: d.email,
             roles: d.roles ? d.roles.join(', ') : '',
+            changedPassword: ''
           };
           return toReturn;
         })

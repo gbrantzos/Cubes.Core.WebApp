@@ -39,17 +39,6 @@ export class SecurityStore {
     });
   }
 
-  saveData() {
-    const call$ = this.loadingWrapper.wrap(this.apiClient.saveUser(this.selectedUser$.value));
-    call$.subscribe(
-      (_) => this.dialog.snackSuccess('User details saved!'),
-      (error) => {
-        console.error(error);
-        this.dialog.snackError(`Saving of user data failed!\n${error.message}`);
-      }
-    );
-  }
-
   saveRoles(roles: Role[]) {
     const call$ = this.loadingWrapper.wrap(this.apiClient.saveRoles(roles));
     call$.subscribe(
@@ -98,18 +87,22 @@ export class SecurityStore {
   }
 
   saveUser(originalName: string, user: User) {
-    const temp = this.usersSnapshot.filter((u) => u.userName !== originalName);
-    const newUserArray = [...temp, user].sort((a, b) => a.userName.localeCompare(b.userName));
-    this.users$.next(newUserArray);
-
-    const usr = this.clone(user) as User;
-    usr.isNew = false;
-    this.selectedUser$.next(usr);
-    this.apiClient.deleteUser(originalName).subscribe((r) => {
-      if (r) {
-        this.saveData();
+    const call$ = this.loadingWrapper.wrap(this.apiClient.saveUser(user));
+    call$.subscribe(
+      (_) => {
+        this.dialog.snackSuccess('User details saved!');
+        user.changedPassword = '';
+        user.isNew = false;
+        const temp = this.usersSnapshot.filter((u) => u.userName !== originalName);
+        const newUserArray = [...temp, user].sort((a, b) => a.userName.localeCompare(b.userName));
+        this.users$.next(newUserArray);
+        this.selectedUser$.next(user);
+      },
+      (error) => {
+        console.error(error);
+        this.dialog.snackError(`Saving of user data failed!\n${error.message}`);
       }
-    });
+    );
   }
 
   private clone = (obj: any): any => JSON.parse(JSON.stringify(obj));
