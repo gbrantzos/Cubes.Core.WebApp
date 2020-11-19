@@ -42,10 +42,14 @@
 
         <mat-form-field class="full-width">
           <mat-label>Roles</mat-label>
-          <input matInput formControlName="roles">
-          <mat-hint>Comma separated list of roles for user. Invalid roles will be ignored!</mat-hint>
-        </mat-form-field>
+          <mat-chip-list [multiple]="true">
+            <mat-chip *ngFor="let role of roles" [selected]="role.selected"
+            (click)="roleToggle(role)"  color="accent">
+            {{role.description}}
+            </mat-chip>
+          </mat-chip-list>
 
+        </mat-form-field>
       </form>
 
       <div class="buttons" fxLayout="row">

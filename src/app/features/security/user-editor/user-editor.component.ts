@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { User } from '@features/security/services/security.model';
+import { Role, User } from '@features/security/services/security.model';
 import { SecurityStore } from '@features/security/services/security.store';
 import { UserPasswordComponent } from '@features/security/user-password/user-password.component';
 import { DialogService } from '@shared/services/dialog.service';
@@ -19,6 +19,7 @@ export class UserEditorComponent implements OnInit {
   public form: FormGroup;
   public isNew = false;
   private originalName: string;
+  public roles = [];
   constructor(
     private store: SecurityStore,
     private formBuilder: FormBuilder,
@@ -32,6 +33,16 @@ export class UserEditorComponent implements OnInit {
         this.originalName = user?.userName;
         this.isNew = user?.isNew ?? false;
         if (user) {
+          const userRoles = user.roles?.split(',').map(t => t.trim());
+          this.roles = this
+            .store
+            .rolesSnapshot.map(r => {
+              return {
+                'code': r.code,
+                'description': r.description,
+                'selected': userRoles.includes(r.code)
+              };
+            });
           this.form.patchValue(user);
         }
         return user;
@@ -44,16 +55,16 @@ export class UserEditorComponent implements OnInit {
     const form = this.formBuilder.group({
       userName: new FormControl('', {
         validators: [Validators.required, Validators.pattern('[a-zA-Z0-9._]*')],
-        updateOn: 'blur'
+        updateOn: 'blur',
       }),
       displayName: ['', Validators.required],
       email: ['', Validators.email],
       roles: [''],
       changedPassword: [''],
     });
-    form.get('userName')
-      .valueChanges
-      .pipe(pairwise())
+    form
+      .get('userName')
+      .valueChanges.pipe(pairwise())
       .subscribe(([prev, next]) => {
         const display = form.get('displayName').value;
         if (display === prev) {
@@ -122,15 +133,20 @@ export class UserEditorComponent implements OnInit {
 
   private userFromEditor(): User {
     const currentValue: any = this.form.getRawValue();
+    const selectedRoles = this.roles.filter(r => !!r.selected).map(r => r.code) ?? [];
     const user = {
       userName: currentValue.userName,
       displayName: currentValue.displayName,
       email: currentValue.email,
-      roles: currentValue.roles || '',
+      roles: selectedRoles.join(','),
       changedPassword: currentValue.changedPassword,
       isNew: false,
     } as User;
 
     return user;
+  }
+
+  roleToggle(role) {
+    role.selected = !role.selected;
   }
 }

@@ -21,6 +21,9 @@ export class SecurityStore {
   get currentUserSnapshot() {
     return this.selectedUser$.value;
   }
+  get rolesSnapshot() {
+    return this.roles$.value;
+  }
 
   constructor(
     private apiClient: SecurityApiClient,
