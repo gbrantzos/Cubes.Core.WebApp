@@ -25,7 +25,7 @@
         <div mat-line class="job-details">{{ job | jobDetails }}</div>
 
         <mat-icon
-          *ngIf="!job.lastExecutionFailed && !!job.lastExecutionMessage"
+          *ngIf="!job.lastExecutionFailed && !!job.lastExecutionMessage && job.lastExecutionAt"
           fontSet="far"
           fontIcon="fa-check-circle"
           class="fa-fw icon-success"
