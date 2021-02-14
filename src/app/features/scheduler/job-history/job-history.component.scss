@@ -1,0 +1,46 @@
+.wrapper {
+  height: 460px;
+  overflow:hidden;
+}
+
+table {
+  width: 100%;
+}
+
+.icon-success {
+  color: #28a745;
+}
+
+.icon-failure {
+  color: #bf0000;
+}
+
+.details {
+  text-align: right;
+}
+
+.icon-details {
+  cursor: pointer;
+}
+
+.mat-row {
+  height: auto;
+}
+
+.mat-cell, .mat-header-cell {
+  padding: 6px 2px 6px 12px;
+}
+
+.no-data {
+  text-align: center;
+  padding-top: 72px;
+  color: gray;
+
+  .message {
+    width: 100%;
+    padding-top: 16px;
+    color: black;
+    text-align: center;
+  }
+}
+

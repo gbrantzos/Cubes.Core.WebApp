@@ -1,7 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, JsonpClientBackend } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConfigurationService } from '@core/services/configuration.service';
 import {
+  JobExecutionHistory,
   JobParameters,
   SchedulerJob,
   SchedulerStateEnum,
@@ -56,6 +57,26 @@ export class SchedulerApiClient {
       observe: 'body',
       responseType: 'text',
     });
+  }
+
+  public getJobHistory(jobName: string): Observable<JobExecutionHistory[]> {
+    return this.http
+      .get<JobExecutionHistory[]>(`${this.baseUrl}/${encodeURIComponent(jobName)}/history` )
+      .pipe(map((response) => {
+        return (response as any[])
+          .map((r) => {
+            return {
+              failed:          r.executionFailed,
+              executedAt:      r.executedAt,
+              scheduledAt:     r.scheduledAt,
+              onDemand:        r.executionOnDemand,
+              message:         r.executionMessage,
+              jobInstance:     JSON.parse(r.jobInstance),
+              exceptionThrown: JSON.parse(r.exceptionThrown)
+            } as JobExecutionHistory;
+          })
+          .sort((a, b) => (a.executedAt > b.executedAt) ? -1 : 1);
+      }));
   }
 
   public getSample(provider: string): Observable<string> {

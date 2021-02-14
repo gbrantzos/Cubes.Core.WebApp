@@ -11,6 +11,8 @@ import { SharedModule } from '@shared/shared.module';
 import { JobEditorComponent } from './job-editor/job-editor.component';
 import { JobListComponent } from './job-list/job-list.component';
 import { CronHelpComponent } from '@features/scheduler/cron-help/cron-help.component';
+import { JobHistoryComponent } from './job-history/job-history.component';
+import { ExecutionDetailsComponent } from './execution-details/execution-details.component';
 
 @NgModule({
   declarations: [
@@ -20,9 +22,15 @@ import { CronHelpComponent } from '@features/scheduler/cron-help/cron-help.compo
     JobDetails,
     ExecuteRequestEditorComponent,
     DefaultEditorComponent,
+    JobHistoryComponent,
+    ExecutionDetailsComponent,
   ],
   imports: [CommonModule, SchedulerRoutingModule, SharedModule],
   providers: [SchedulerStore, SchedulerApiClient],
-  entryComponents: [CronHelpComponent]
+  entryComponents: [
+    CronHelpComponent,
+    JobHistoryComponent,
+    ExecutionDetailsComponent
+  ]
 })
 export class SchedulerModule {}

@@ -82,6 +82,12 @@
             (click)="onExecute()" matTooltip="Save changed parameters before executing!">
             Execute now
           </button>
+          <button *ngIf="!job.isNew"
+            mat-button
+            (click)="onHistory()">
+            History
+          </button>
+
           <div class="filler"></div>
           <button #delete mat-button color="warn" (click)="onDelete()"> {{ isNew
             ? 'Cancel' : 'Delete' }} </button>

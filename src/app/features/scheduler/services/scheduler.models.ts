@@ -40,3 +40,14 @@ export const EmptyStatus: SchedulerStatus = {
   jobs:           [],
   isEmpty:        true,
 };
+
+// prettier-ignore
+export interface JobExecutionHistory {
+  failed:          boolean;
+  executedAt:      Date;
+  scheduledAt:     Date;
+  onDemand:        boolean;
+  message:         string;
+  jobInstance:     any;
+  exceptionThrown: any;
+}

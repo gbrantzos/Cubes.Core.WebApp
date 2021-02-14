@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SchedulerApiClient } from '@features/scheduler/services/scheduler.api-client';
-import { EmptyStatus, SchedulerJob, SchedulerStatus } from '@features/scheduler/services/scheduler.models';
+import { EmptyStatus, JobExecutionHistory, SchedulerJob, SchedulerStatus } from '@features/scheduler/services/scheduler.models';
 import { DialogService } from '@shared/services/dialog.service';
 import { LoadingWrapperService } from '@shared/services/loading-wrapper.service';
 import cronstrue from 'cronstrue';
@@ -17,6 +17,12 @@ export class SchedulerStore {
   public get snapshot() {
     return this.schedulerStatus$.value;
   }
+  public get currentJob() {
+    return this.selectedJob$.value;
+  }
+
+  private readonly executionHistory$ = new BehaviorSubject<JobExecutionHistory[]>([]);
+  public readonly executionHistory = this.executionHistory$.asObservable();
 
   constructor(
     private client: SchedulerApiClient,
@@ -53,6 +59,19 @@ export class SchedulerStore {
     );
   }
 
+  loadExecutionHistory = () => {
+    const call$ = this.loadingWrapper.wrap(this.client.getJobHistory(this.currentJob.name));
+    call$.subscribe(
+      (data) => {
+        this.executionHistory$.next(data);
+      },
+      (error) => {
+        console.error(error);
+        this.executionHistory$.next([]);
+        this.dialog.snackError(`Retrieving of scheduler execution history failed!\n${error.message}`);
+      }
+    );
+  }
   sendCommand(command: string): Observable<string> {
     const message = command === 'start' ? 'started' : 'stopped';
     const call$ = this.client.schedulerCommand(command).pipe(

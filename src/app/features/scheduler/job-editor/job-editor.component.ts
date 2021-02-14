@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomValidators } from '@core/helpers/custom-validators';
 import { CronHelpComponent } from '@features/scheduler/cron-help/cron-help.component';
+import { JobHistoryComponent } from '@features/scheduler/job-history/job-history.component';
 import { ParametersEditor } from '@features/scheduler/params-editors/execution-params-editors';
 import { SchedulerApiClient } from '@features/scheduler/services/scheduler.api-client';
 import { JobParameters, SchedulerJob } from '@features/scheduler/services/scheduler.models';
@@ -158,6 +159,13 @@ export class JobEditorComponent implements OnInit {
     }, (error) => {
       console.error(error);
       this.dialogService.snackError(`Failed to execute job!\n${error.error}`);
+    });
+  }
+
+  onHistory() {
+    this.matDialog.open(JobHistoryComponent, {
+      minHeight: '520px',
+      minWidth: '760px'
     });
   }
 
