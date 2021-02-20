@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { QueryExecutorComponent } from '@features/data-access/query-executor/query-executor.component';
 import { DataAccessStore, Query } from '@features/data-access/services/data-access.store';
@@ -8,6 +8,8 @@ import { DialogService } from '@shared/services/dialog.service';
 import { CoreSchemas, Schema, SchemaService } from '@shared/services/schema.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { load } from 'js-yaml';
+import { CustomValidators } from '@core/helpers/custom-validators';
 
 @Component({
   selector: 'cubes-query-editor',
@@ -22,11 +24,15 @@ export class QueryEditorComponent implements OnInit {
   public formSchema$: Observable<Schema>;
   public isNew = false;
   public parametersForm: FormGroup;
+  public metadataForm: FormGroup;
   public queryParameters: any[];
   public dbType = DbType;
   public selectedIndex = 0;
   public get parameters() {
     return this.parametersForm.get('params') as FormArray;
+  }
+  public get metadata() {
+    return this.metadataForm.get('metadataRaw') as FormControl;
   }
 
   private originalName: string;
@@ -55,6 +61,9 @@ export class QueryEditorComponent implements OnInit {
           if (qry.parameters) {
             qry.parameters.forEach((r) => this.addParameter({ ...r }));
           }
+          if (qry.metadataRaw) {
+            this.metadata.setValue(qry.metadataRaw);
+          }
         }
         this.selectedIndex = 0;
         return qry;
@@ -63,6 +72,9 @@ export class QueryEditorComponent implements OnInit {
     this.formSchema$ = this.schemaService.getSchema(CoreSchemas.DataQuery);
     this.parametersForm = this.fb.group({
       params: this.fb.array([]),
+    });
+    this.metadataForm = this.fb.group({
+      metadataRaw: this.fb.control('', [Validators.required, CustomValidators.isYaml])
     });
   }
 
@@ -90,7 +102,7 @@ export class QueryEditorComponent implements OnInit {
   }
 
   pendingChanges(): boolean {
-    return this.form ? !this.form.pristine || !this.parametersForm.pristine : false;
+    return this.form ? !this.form.pristine || !this.parametersForm.pristine || !this.metadataForm.pristine : false;
   }
 
   onDelete() {
@@ -122,9 +134,11 @@ export class QueryEditorComponent implements OnInit {
       }
       this.originalName = query.name;
     }
+    query.metadata = load(this.metadata.value);
     this.store.saveQuery(this.originalName, query);
     this.form.markAsPristine();
     this.parametersForm.markAsPristine();
+    this.metadataForm.markAsPristine();
     this.isNew = false;
   }
 

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, JsonpClientBackend } from '@angular/common/http';
+import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConfigurationService } from '@core/services/configuration.service';
 import {

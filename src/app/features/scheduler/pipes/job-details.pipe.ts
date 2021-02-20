@@ -1,6 +1,6 @@
 import { PipeTransform, Pipe } from '@angular/core';
 import { SchedulerJob } from '@features/scheduler/services/scheduler.models';
-import { isTomorrow, format } from 'date-fns';
+import { format, isToday } from 'date-fns';
 
 @Pipe({ name: 'jobDetails' })
 export class JobDetails implements PipeTransform {
@@ -11,10 +11,10 @@ export class JobDetails implements PipeTransform {
     if (!job.nextExecutionAt) {
       details += ', not scheduled';
     } else {
-      if (isTomorrow(job.nextExecutionAt)) {
-        details += ', next run at ' + format(job.nextExecutionAt, 'dd/MM/yyyy HH:mm:ss');
-      } else {
+      if (isToday(job.nextExecutionAt)) {
         details += ', next run at ' + format(job.nextExecutionAt, 'HH:mm:ss');
+      } else {
+        details += ', next run at ' + format(job.nextExecutionAt, 'E dd/MM/yyyy HH:mm:ss');
       }
     }
     if (details.endsWith(':00')) { details = details.substr(0, details.length - 3); }

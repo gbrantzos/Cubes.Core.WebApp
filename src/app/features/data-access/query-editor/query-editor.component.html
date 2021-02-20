@@ -11,15 +11,15 @@
   <div *ngIf="formSchema$ | async as formSchema; else empty">
     <div *ngIf="query$ | async as query; else empty">
       <div class="form">
-        <mat-tab-group #tabs [dynamicHeight]="true" [(selectedIndex)]="selectedIndex">
+        <mat-tab-group #tabs [dynamicHeight]="true"
+          [(selectedIndex)]="selectedIndex">
           <!-- Basic info -->
           <mat-tab label="Basic">
             <cubes-dynamic-form
               #f
               [schema]="formSchema"
               [model]="query"
-              (isValid)="save.disabled = !$event"
-            ></cubes-dynamic-form>
+              (isValid)="save.disabled= !$event"></cubes-dynamic-form>
           </mat-tab>
 
           <!-- Parameters -->
@@ -35,17 +35,15 @@
                   fontIcon="fa-plus-circle"
                   matTooltip="Add parameter"
                   class="fa-fw add-button"
-                  (click)="addParameter(undefined)"
-                ></mat-icon>
+                  (click)="addParameter(undefined)"></mat-icon>
               </div>
               <div formArrayName="params">
                 <div
-                  *ngFor="let prm of queryParameters; let i = index"
+                  *ngFor="let prm of queryParameters; let i= index"
                   fxLayout="row"
                   fxLayoutGap="6px"
-                  fxLayoutAlign=" center"
-                  [formGroupName]="i"
-                >
+                  fxLayoutAlign="center"
+                  [formGroupName]="i">
                   <!-- Name -->
                   <mat-form-field fxFlex="1 0 40px">
                     <mat-label>Name</mat-label>
@@ -56,7 +54,8 @@
                   <mat-form-field fxFlex="1 0 40px">
                     <mat-label>Database Type</mat-label>
                     <mat-select formControlName="dbType">
-                      <mat-option *ngFor="let t of dbType" value="{{ t }}">{{ t }}</mat-option>
+                      <mat-option *ngFor="let t of dbType" value="{{ t }}">{{ t
+                        }}</mat-option>
                     </mat-select>
                   </mat-form-field>
 
@@ -73,8 +72,7 @@
                     fontIcon="fa-trash-alt"
                     matTooltip="Remove parameter"
                     class="fa-fw action-button"
-                    (click)="removeParameter(i, prm)"
-                  ></mat-icon>
+                    (click)="removeParameter(i, prm)"></mat-icon>
                 </div>
                 <div class="no-parameters" *ngIf="!queryParameters.length">
                   <i class="far fa-question-circle fa-3x"></i>
@@ -87,13 +85,42 @@
             </form>
             <mat-divider class="parameters-divider"></mat-divider>
           </mat-tab>
+
+          <!-- Metadata -->
+          <mat-tab label="Metadata">
+            <form [formGroup]="metadataForm">
+              <mat-form-field class="full">
+                <textarea
+                  class="code"
+                  spellcheck="false"
+                  placeholder="Query Metadata"
+                  formControlName="metadataRaw"
+                  matInput
+                  matTextareaAutosize
+                  rows="12"
+                  matAutosizeMinRows="12"
+                  matAutosizeMaxRows="26">
+                </textarea>
+                <mat-error *ngIf="metadata.errors?.invalidYaml">
+                  Query metadata is not a valid YAML object!
+                </mat-error>
+                <mat-error *ngIf="metadata.errors?.required">Query metadata is
+                  required!</mat-error>
+              </mat-form-field>
+            </form>
+          </mat-tab>
         </mat-tab-group>
 
         <div class="buttons" fxLayout="row">
           <button mat-button color="primary" (click)="onExecute()">Execute Query</button>
           <div class="filler"></div>
-          <button #delete mat-button color="warn" (click)="onDelete()">{{ isNew ? 'Cancel' : 'Delete' }}</button>
-          <button #save mat-button color="primary" (click)="onSave()">Save</button>
+          <button #delete mat-button color="warn" (click)="onDelete()">{{ isNew
+            ? 'Cancel' : 'Delete' }}</button>
+          <button #save
+            mat-button
+            color="primary" (click)="onSave()">
+            Save
+          </button>
         </div>
       </div>
     </div>

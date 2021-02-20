@@ -185,24 +185,39 @@ export class DataAccessStore {
 }
 
 export interface Connection {
-  id?: number;
-  name: string;
-  comments?: string;
+  id?:              number;
+  name:             string;
+  comments?:        string;
   connectionString: string;
-  dbProvider: string;
-  isNew?: boolean;
+  dbProvider:       string;
+  isNew?:           boolean;
 }
 
 export interface Query {
-  id?: number;
-  name: string;
-  comments?: string;
+  id?:          number;
+  name:         string;
+  comments?:    string;
   queryCommand: string;
-  parameters?: any[];
-  isNew?: boolean;
+  parameters?:  any[];
+  isNew?:       boolean;
+  metadata:     QueryMetadata;
+  metadataRaw:  string;
+}
+
+export interface QueryMetadata {
+  fixedColumns: number;
+  totalsLabel:  string;
+  columns:      QueryMetadataColumn[];
+}
+
+export interface QueryMetadataColumn {
+  name:      string;
+  label:     string;
+  format:    string;
+  hasTotals: boolean;
 }
 
 export interface DataAccessSettings {
   connections: Connection[];
-  queries: Query[];
+  queries:     Query[];
 }

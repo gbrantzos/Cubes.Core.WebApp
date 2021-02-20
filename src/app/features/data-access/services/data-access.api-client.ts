@@ -5,6 +5,7 @@ import { Connection, DataAccessSettings, Query } from '@features/data-access/ser
 import { DialogService } from '@shared/services/dialog.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { dump } from 'js-yaml';
 
 @Injectable()
 export class DataAccessApiClient {
@@ -30,6 +31,7 @@ export class DataAccessApiClient {
             .sort((a, b) => a.name.localeCompare(b.name))
             .map((query, index) => {
               query.id = index + 1;
+              query.metadataRaw = dump(query.metadata);
               return query;
             }),
         } as DataAccessSettings;
