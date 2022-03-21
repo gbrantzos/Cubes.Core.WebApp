@@ -1,16 +1,17 @@
 // cSpell:words autofill, deeppurple, theming, scrollbar, fontawesome
+@use '@angular/material' as mat;
 // ----------------------------------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------------------------------
 // Custom typography
 @import '~assets/css/cairo.css';
-@import '~@angular/material/theming';
-$custom-typography: mat-typography-config(
+@import '@angular/material/theming';
+$custom-typography: mat.define-typography-config(
   $font-family: 'Cairo, sans-serif, monospace',
-  $headline: mat-typography-level(32px, 48px, 700),
-  $body-1: mat-typography-level(14px, 24px, 500),
+  $headline: mat.define-typography-level(32px, 48px, 700),
+  $body-1: mat.define-typography-level(14px, 24px, 500),
 );
-@include angular-material-typography($custom-typography);
+@include mat.all-component-typographies($custom-typography);
 // ----------------------------------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------------------------------
@@ -20,7 +21,7 @@ $custom-typography: mat-typography-config(
 @import '~assets/css/solid.css';
 @import '~assets/css/regular.css';
 @import '~assets/css/brands.css';
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 // ----------------------------------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------------------------------

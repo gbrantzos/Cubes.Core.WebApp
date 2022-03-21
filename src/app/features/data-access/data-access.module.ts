@@ -15,29 +15,24 @@ import { QueryExecutorParamsComponent } from './query-executor-params/query-exec
 import { DefaultQueriesComponent } from './default-queries/default-queries.component';
 
 @NgModule({
-  declarations: [
-    DataAccessComponent,
-    ConnectionListComponent,
-    ConnectionEditorComponent,
-    QueryListComponent,
-    QueryEditorComponent,
-    QueryExecutorComponent,
-    QueryExecutorParamsComponent,
-    DefaultQueriesComponent
-  ],
-  imports: [
-    CommonModule,
-    DataAccessRoutingModule,
-    SharedModule
-  ],
-  entryComponents: [
-    QueryExecutorComponent,
-    QueryExecutorParamsComponent,
-    DefaultQueriesComponent
-  ],
-  providers: [
-    DataAccessStore,
-    DataAccessApiClient
-  ]
+    declarations: [
+        DataAccessComponent,
+        ConnectionListComponent,
+        ConnectionEditorComponent,
+        QueryListComponent,
+        QueryEditorComponent,
+        QueryExecutorComponent,
+        QueryExecutorParamsComponent,
+        DefaultQueriesComponent
+    ],
+    imports: [
+        CommonModule,
+        DataAccessRoutingModule,
+        SharedModule
+    ],
+    providers: [
+        DataAccessStore,
+        DataAccessApiClient
+    ]
 })
 export class DataAccessModule { }

@@ -15,22 +15,17 @@ import { JobHistoryComponent } from './job-history/job-history.component';
 import { ExecutionDetailsComponent } from './execution-details/execution-details.component';
 
 @NgModule({
-  declarations: [
-    SchedulerComponent,
-    JobListComponent,
-    JobEditorComponent,
-    JobDetails,
-    ExecuteRequestEditorComponent,
-    DefaultEditorComponent,
-    JobHistoryComponent,
-    ExecutionDetailsComponent,
-  ],
-  imports: [CommonModule, SchedulerRoutingModule, SharedModule],
-  providers: [SchedulerStore, SchedulerApiClient],
-  entryComponents: [
-    CronHelpComponent,
-    JobHistoryComponent,
-    ExecutionDetailsComponent
-  ]
+    declarations: [
+        SchedulerComponent,
+        JobListComponent,
+        JobEditorComponent,
+        JobDetails,
+        ExecuteRequestEditorComponent,
+        DefaultEditorComponent,
+        JobHistoryComponent,
+        ExecutionDetailsComponent,
+    ],
+    imports: [CommonModule, SchedulerRoutingModule, SharedModule],
+    providers: [SchedulerStore, SchedulerApiClient]
 })
 export class SchedulerModule {}

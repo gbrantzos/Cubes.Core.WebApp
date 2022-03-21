@@ -11,9 +11,8 @@ import { UserPasswordComponent } from './user-password/user-password.component';
 import { RoleListComponent } from './role-list/role-list.component';
 
 @NgModule({
-  declarations: [SecurityComponent, UserListComponent, UserEditorComponent, UserPasswordComponent, RoleListComponent],
-  imports: [CommonModule, SharedModule, SecurityRoutingModule],
-  providers: [SecurityStore, SecurityApiClient],
-  entryComponents: [UserPasswordComponent]
+    declarations: [SecurityComponent, UserListComponent, UserEditorComponent, UserPasswordComponent, RoleListComponent],
+    imports: [CommonModule, SharedModule, SecurityRoutingModule],
+    providers: [SecurityStore, SecurityApiClient]
 })
 export class SecurityModule {}

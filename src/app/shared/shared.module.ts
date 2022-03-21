@@ -19,40 +19,37 @@ import { DynamicListComponent } from './components/dynamic-list/dynamic-list.com
 import { ListItemExpressionPipe } from './pipes/list-item-expression.pipe';
 
 @NgModule({
-  declarations: [
-    AlertDialogComponent,
-    ConfirmDialogComponent,
-    DynamicFormComponent,
-    DynamicTableComponent,
-    PageHeaderComponent,
-    DynamicListComponent,
-    DynamicListEditorComponent,
-    ListItemExpressionPipe,
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    FlexLayoutModule,
-
-    NgxSpinnerModule,
-    NgxJsonViewerModule,
-  ],
-  exports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    FlexLayoutModule,
-    NgxJsonViewerModule,
-    NgxSpinnerModule,
-
-    DynamicFormComponent,
-    DynamicTableComponent,
-    DynamicListComponent,
-    PageHeaderComponent,
-  ],
-  entryComponents: [AlertDialogComponent, ConfirmDialogComponent, DynamicListEditorComponent],
+    declarations: [
+        AlertDialogComponent,
+        ConfirmDialogComponent,
+        DynamicFormComponent,
+        DynamicTableComponent,
+        PageHeaderComponent,
+        DynamicListComponent,
+        DynamicListEditorComponent,
+        ListItemExpressionPipe,
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        FlexLayoutModule,
+        NgxSpinnerModule,
+        NgxJsonViewerModule,
+    ],
+    exports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        FlexLayoutModule,
+        NgxJsonViewerModule,
+        NgxSpinnerModule,
+        DynamicFormComponent,
+        DynamicTableComponent,
+        DynamicListComponent,
+        PageHeaderComponent,
+    ]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {
