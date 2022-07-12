@@ -155,7 +155,7 @@ function Build-Project {
     "
     Write-Output $fileContent | Out-File 'src/environments/versions.ts' -Encoding ascii
 
-    & ng build --prod --base-href /admin/
+    & ng build --configuration production --base-href /admin/
     Copy-Item -Path "$rootPath/dist/core-webapp/*" -Destination $outputFolder -Recurse -Force
 }
 
