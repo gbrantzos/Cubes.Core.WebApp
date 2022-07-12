@@ -37,7 +37,7 @@ export class QueryExecutorParamsComponent implements OnInit {
       prm.value = lastValue ? lastValue['value'] : prm.default;
       prm.isNull = false;
 
-      const row = this.fb.group({
+      const row = this.fb.control({
         name: prm.name,
         value: [prm.value, Validators.required],
       });
