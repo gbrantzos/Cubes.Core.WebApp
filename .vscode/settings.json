@@ -23,7 +23,8 @@
     "statusBar.foreground": "#e7e7e7",
     "sash.hoverBorder": "#8e2427",
     "statusBarItem.remoteBackground": "#651a1c",
-    "statusBarItem.remoteForeground": "#e7e7e7"
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "tab.activeBorder": "#8e2427"
   },
   "peacock.color": "#651a1c",
   "cSpell.dictionaries": [
