@@ -2,9 +2,9 @@
   <div mat-subheader fxLayout="row" fxLayoutAlign="space-between center">
     <span>SMTP Profiles Editor</span>
     <div class="chip-list">
-      <mat-chip-list [hidden]="!isNew">
-        <mat-chip color="accent" selected>New Profile</mat-chip>
-      </mat-chip-list>
+      <mat-chip-listbox [hidden]="!isNew">
+        <mat-chip-option color="accent" selected>New Profile</mat-chip-option>
+      </mat-chip-listbox>
     </div>
   </div>
 

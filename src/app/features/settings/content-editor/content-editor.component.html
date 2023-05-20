@@ -2,9 +2,9 @@
   <div mat-subheader fxLayout="row" fxLayoutAlign="space-between center">
     <span>Static Content Editor</span>
     <div class="chip-list">
-      <mat-chip-list [hidden]="!isNew">
-        <mat-chip color="accent" selected>New Static Content</mat-chip>
-      </mat-chip-list>
+      <mat-chip-listbox [hidden]="!isNew">
+        <mat-chip-option color="accent" selected>New Static Content</mat-chip-option>
+      </mat-chip-listbox>
     </div>
   </div>
 

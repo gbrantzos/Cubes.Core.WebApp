@@ -2,9 +2,9 @@
   <div mat-subheader fxLayout="row" fxLayoutAlign="space-between center">
     <span>Users Editor</span>
     <div class="chip-list">
-      <mat-chip-list [hidden]="!isNew">
-        <mat-chip color="accent" selected>New User</mat-chip>
-      </mat-chip-list>
+      <mat-chip-listbox [hidden]="!isNew">
+        <mat-chip-option color="accent" selected>New User</mat-chip-option>
+      </mat-chip-listbox>
     </div>
   </div>
 
@@ -42,12 +42,12 @@
 
         <mat-form-field class="full-width">
           <mat-label>Roles</mat-label>
-          <mat-chip-list [multiple]="true">
-            <mat-chip *ngFor="let role of roles" [selected]="role.selected"
+          <mat-chip-listbox [multiple]="true">
+            <mat-chip-option *ngFor="let role of roles" [selected]="role.selected"
             (click)="roleToggle(role)"  color="accent">
             {{role.description}}
-            </mat-chip>
-          </mat-chip-list>
+            </mat-chip-option>
+          </mat-chip-listbox>
 
         </mat-form-field>
       </form>

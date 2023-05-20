@@ -18,11 +18,11 @@
   flex-direction: column;
 }
 
-.mat-list-item {
+.mat-mdc-list-item {
   color: #c3c3c3;
   box-sizing: border-box;
 }
-.mat-list-item:hover {
+.mat-mdc-list-item:hover {
   color: #fff;
 }
 
@@ -43,7 +43,7 @@
   font-size: 32px;
 }
 
-.mat-list-item {
+.mat-mdc-list-item {
   height: 82px !important;
   margin-bottom: 6px;
   cursor: pointer;
@@ -55,7 +55,7 @@
   background: linear-gradient(133deg, rgba(233, 119, 81, 1) 24%, rgba(218, 83, 16, 1) 87%);
 }
 
-.mat-list {
+.mat-mdc-list {
   padding-top: 0px !important;
 }
 

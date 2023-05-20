@@ -8,7 +8,7 @@
 @import '@angular/material/theming';
 $custom-typography: mat.define-typography-config(
   $font-family: 'Cairo, sans-serif, monospace',
-  $headline: mat.define-typography-level(32px, 48px, 700),
+  $headline-1: mat.define-typography-level(32px, 48px, 700),
   $body-1: mat.define-typography-level(14px, 24px, 500),
 );
 @include mat.all-component-typographies($custom-typography);
@@ -64,7 +64,7 @@ body {
   padding: 0 8px !important;
 }
 
-.mat-snack-bar-container {
+.mat-mdc-snack-bar-container {
   max-width: 680px !important;
 }
 
@@ -76,7 +76,8 @@ h2.title {
   margin-bottom: 4px !important;
 }
 
-mat-tooltip-component > .mat-tooltip {
+/* TODO(mdc-migration): The following rule targets internal classes of tooltip that may no longer apply for the MDC version.*/
+mat-tooltip-component > .mat-mdc-tooltip {
   white-space: pre;
   font-size: 13px !important;
 }
@@ -135,7 +136,7 @@ input:-webkit-autofill:active {
 
 // ----------------------------------------------------------------------------------------------------
 // Full width dialogs
-.full-width-dialog .mat-dialog-container {
+.full-width-dialog .mat-mdc-dialog-container {
   max-width: 100vw !important;
   background-color: #fafafa;
 }
